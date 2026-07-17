@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <% const av = typeof assetVersion !== 'undefined' ? assetVersion : '20260325perf1'; %>
+  <% const asset = (url) => `${url}${url.includes('?') ? '&' : '?'}v=${encodeURIComponent(av)}`; %>
+  <% const shouldPreloadGameLogo = typeof sessionCode !== 'undefined' && String(sessionCode || '').trim().length > 0; %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'Mở Hộp Quà' %></title>
+  <meta name="description" content="<%= typeof seo !== 'undefined' && seo.metaDescription ? seo.metaDescription : 'Mở hộp quà may mắn và nhận phần thưởng hấp dẫn.' %>">
+  <meta name="keywords" content="<%= typeof seo !== 'undefined' && seo.keywords ? seo.keywords : 'hộp quà, trúng thưởng, may mắn' %>">
+  <meta property="og:title" content="<%= typeof title !== 'undefined' ? title : 'Mở Hộp Quà' %>">
+  <meta property="og:description" content="<%= typeof seo !== 'undefined' && seo.metaDescription ? seo.metaDescription : 'Mở hộp quà may mắn và nhận phần thưởng hấp dẫn.' %>">
+  <% if (typeof seo !== 'undefined' && seo.ogImage) { %><meta property="og:image" content="<%= seo.ogImage %>"><% } %>
+  <% if (typeof seo !== 'undefined' && seo.favicon) { %><link rel="icon" href="<%= seo.favicon %>"><% } %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&display=swap" onload="this.onload=void 0;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&display=swap"></noscript>
+  <link rel="preload" as="style" href="<%= asset('/css/lucky-mystery-box-v2.css') %>" onload="this.onload=void 0;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="<%= asset('/css/lucky-mystery-box-v2.css') %>"></noscript>
+  <% if (shouldPreloadGameLogo) { %>
+  <link rel="preload" as="image" href="/images/logo-160.webp" imagesrcset="/images/logo-64.webp 64w, /images/logo-96.webp 96w, /images/logo-128.webp 128w, /images/logo-160.webp 160w" imagesizes="(max-width: 768px) 96px, 154px" fetchpriority="high">
+  <% } %>
+</head>
+<body>
+  <%- include('./partials/lucky-v2/background') %>
+  <%- include('./partials/lucky-v2/login-screen') %>
+  <%- include('./partials/lucky-v2/game-screen') %>
+
+  <div
+    id="lmbBootstrapData"
+    hidden
+    data-session-code="<%= typeof sessionCode !== 'undefined' ? sessionCode : '' %>"
+    data-auto-load-choose-box="<%= (typeof autoLoadChooseBox !== 'undefined' && autoLoadChooseBox) ? '1' : '0' %>"
+    data-show-thank-you="<%= (typeof showThankYou !== 'undefined' && showThankYou) ? '1' : '0' %>"
+    data-default-homepage-theme="<%= (typeof appearance !== 'undefined' && appearance && appearance.homepageTheme) ? appearance.homepageTheme : 'new_homepage.html' %>"
+    data-has-inventory="<%= (typeof session !== 'undefined' && session && session.player_selected_box != null) ? '1' : '0' %>"
+    data-player-name="<%= (typeof session !== 'undefined' && session && session.player_name) ? session.player_name : '' %>"
+  ></div>
+
+  <script>
+    window.LMB_DISABLE_SSE = <%= typeof disableSse !== 'undefined' ? disableSse : 'false' %>;
+    (function initBootstrapData() {
+      var dataEl = document.getElementById('lmbBootstrapData');
+      window.LMB_BOOTSTRAP = {
+        sessionCode: dataEl ? String(dataEl.dataset.sessionCode || '') : '',
+        autoLoadChooseBox: dataEl ? dataEl.dataset.autoLoadChooseBox === '1' : false,
+        showThankYou: dataEl ? dataEl.dataset.showThankYou === '1' : false,
+        defaultHomepageTheme: dataEl ? String(dataEl.dataset.defaultHomepageTheme || 'new_homepage.html') : 'new_homepage.html'
+      };
+    })();
+  </script>
+
+  <div id="lazyChatModule" class="lmb-lazy-slot" data-lazy-fragment="chat"></div>
+
+  <!-- Polyfills for Android 5-7 WebView -->
+  <script nomodule src="<%= asset('/build-legacy/polyfills/core-js-bundle.min.js') %>"></script>
+  <script nomodule src="<%= asset('/build-legacy/polyfills/fetch.min.js') %>"></script>
+  <script nomodule src="<%= asset('/build-legacy/polyfills/abortcontroller.min.js') %>"></script>
+  <script nomodule src="<%= asset('/build-legacy/polyfills.js') %>"></script>
+
+  <!-- Build detector: logs which JS build (ES5/ES6+) is loaded on this device -->
+  <script type="module" src="<%= asset('/build-modern/build-detector.js') %>"></script>
+  <script nomodule src="<%= asset('/build-legacy/build-detector.js') %>"></script>
+
+  <script type="module" src="<%= asset('/build-modern/eventQueue.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/eventQueue.js') %>" defer></script>
+  <script type="module" src="<%= asset('/build-modern/scheduler.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/scheduler.js') %>" defer></script>
+  <script type="module" src="<%= asset('/build-modern/stateManager.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/stateManager.js') %>" defer></script>
+  <script type="module" src="<%= asset('/build-modern/chat.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/chat.js') %>" defer></script>
+  <script type="module" src="<%= asset('/build-modern/notificationSound.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/notificationSound.js') %>" defer></script>
+  <script type="module" src="<%= asset('/build-modern/sseClient.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/sseClient.js') %>" defer></script>
+  <script type="module" src="<%= asset('/build-modern/core.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/core.js') %>" defer></script>
+  <script type="module" src="<%= asset('/build-modern/lmb-lazy-modules.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/lmb-lazy-modules.js') %>" defer></script>
+  <script type="module" src="<%= asset('/build-modern/modules/module-loader.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/modules/module-loader.js') %>" defer></script>
+  <script type="module" src="<%= asset('/build-modern/lucky-mystery-box-v2.js') %>" defer></script>
+  <script nomodule src="<%= asset('/build-legacy/lucky-mystery-box-v2.js') %>" defer></script>
+  <script>
+    (function loadNonCriticalScripts() {
+      var queue = [
+        '<%= asset("/js/modules/lmb-celebration-fx.js") %>',
+        '<%= asset("/js/modules/lmb-floating-feed.js") %>',
+        '<%= asset("/js/lucky-box-manager.js") %>',
+        '<%= asset("/js/browser-fingerprint.js") %>',
+        '<%= asset("/js/tabNotification.js") %>',
+        '<%= asset("/js/core/event-bus.js") %>',
+        '<%= asset("/js/core/update-scheduler.js") %>',
+        '<%= asset("/js/core/perf-monitor.js") %>'
+      ];
+      var _isModern = 'noModule' in HTMLScriptElement.prototype;
+      queue = queue.map(function(u) {
+        var base = _isModern ? '/build-modern/' : '/build-legacy/';
+        return u.replace('/js/', base);
+      }); /* @dual-build-patched */
+
+      function loadSequentially(list) {
+        if (!list.length) return;
+        var src = list.shift();
+        var s = document.createElement('script');
+        s.src = src;
+        s.defer = true;
+        s.onload = function() { loadSequentially(list); };
+        s.onerror = function() { loadSequentially(list); };
+        document.body.appendChild(s);
+      }
+
+      var start = function() { loadSequentially(queue.slice()); };
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(start, { timeout: 1800 });
+      } else {
+        setTimeout(start, 900);
+      }
+    })();
+  </script>
+  <script>
+    // Unlock audio + request notification permission on first user interaction
+    (function() {
+      var done = false;
+      document.addEventListener('click', function _initChatNotif() {
+        if (done) return; done = true;
+        document.removeEventListener('click', _initChatNotif);
+        if (window.notificationSound) notificationSound.setAudioReady();
+        if ('Notification' in window && Notification.permission === 'default') {
+          Notification.requestPermission();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+﻿
+  <div class="tab-panel" id="panel-conversions">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;">
+      <h1 style="font-size:18px;font-weight:700;margin:0">Duyệt quy đổi tiền</h1>
+      <div style="flex:1;"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-info"><div class="stat-label">Tổng yêu cầu</div><div class="stat-value"><%= stats.conversions || 0 %></div></div><div class="stat-icon-wrap cyan"><i class="fas fa-right-left"></i></div></div>
+      <div class="stat-card"><div class="stat-info"><div class="stat-label">Chờ duyệt</div><div class="stat-value" style="color:var(--yellow)"><%= stats.pendingConversions || 0 %></div></div><div class="stat-icon-wrap yellow"><i class="fas fa-hourglass-half"></i></div></div>
+      <div class="stat-card"><div class="stat-info"><div class="stat-label">Đã duyệt</div><div class="stat-value" style="color:var(--green)"><%= stats.approvedConversions || 0 %></div></div><div class="stat-icon-wrap green"><i class="fas fa-check-circle"></i></div></div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+      <input class="gifts-search" id="conversionsSearchInput" placeholder="Tìm mã phiên, tên quà..." style="flex:1;min-width:250px;">
+      <select class="gifts-select" id="conversionsFilterStatus" style="min-width:180px;">
+        <option value="all">Tất cả trạng thái</option>
+        <option value="pending">Chờ duyệt</option>
+        <option value="approved">Đã duyệt</option>
+        <option value="rejected">Từ chối</option>
+      </select>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <% if (conversionsList && conversionsList.length > 0) { %>
+      <div class="grid grid-cols-3" style="gap: var(--space-4);" id="conversionsCardsContainer">
+        <% conversionsList.forEach(function(c) { %>
+        <% const conversionRequesterName = c.player_name || c.requested_by || 'Người chơi'; %>
+        <div class="card conversion-card-item"
+             data-conversion-id="<%= c.id %>"
+             data-status="<%= c.status %>"
+             data-session="<%= c.session_code || '' %>"
+             data-prize="<%= c.prize_name || '' %>"
+             data-box-number="<%= c.box_number || '' %>"
+             data-amount="<%= Number(c.amount || 0) %>"
+             data-requested-by="<%= conversionRequesterName || '' %>"
+             data-requested-at="<%= c.requested_at || c.createdAt || c.created_at || '' %>"
+             data-approved-by="<%= c.approved_by || '' %>"
+             data-approved-at="<%= c.approved_at || '' %>"
+             data-rejection-reason="<%= c.rejection_reason || '' %>"
+             data-notes="<%= c.notes || '' %>">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-3); gap: 10px;">
+            <div>
+              <div style="font-size: 12px; color: var(--text3); margin-bottom: 4px;">Mã phiên</div>
+              <div style="font-size: 16px; font-weight: 700; color: var(--text);"><%= c.session_code || 'N/A' %></div>
+            </div>
+            <span style="display:inline-block;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;
+              <% if (c.status === 'approved') { %>
+              background:rgba(34,197,94,0.1);color:var(--green);
+              <% } else if (c.status === 'pending') { %>
+              background:rgba(250,204,21,0.1);color:var(--yellow);
+              <% } else { %>
+              background:rgba(239,68,68,0.1);color:var(--red);
+              <% } %>
+            ">
+              <%= c.status === 'approved' ? 'Đã duyệt' : (c.status === 'pending' ? 'Chờ duyệt' : 'Từ chối') %>
+            </span>
+          </div>
+
+          <div style="font-size: 22px; font-weight: 800; color: var(--green); margin-bottom: var(--space-3);">
+            <%= Number(c.amount || 0).toLocaleString('vi-VN') %> VNĐ
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-2); font-size: 12px;">
+            <div><strong>Hộp:</strong> #<%= c.box_number || '-' %></div>
+            <div><strong>Phần thưởng:</strong> <%= c.prize_name || 'Quà tặng' %></div>
+            <div><strong>Người gửi:</strong> <%= conversionRequesterName %></div>
+            <div><strong>Tạo lúc:</strong> <%= new Date(c.requested_at || c.createdAt || c.created_at).toLocaleString('vi-VN') %></div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-4);">
+            <div style="display: flex; gap: var(--space-2);">
+              <button class="btn btn-secondary btn-small" style="flex: 1;" onclick="viewConversionDetail('<%= c.id %>')"><i class="fas fa-eye"></i> Chi tiết</button>
+              <button class="btn btn-secondary btn-small" onclick="deleteConversionRequest('<%= c.id %>')"><i class="fas fa-trash"></i></button>
+            </div>
+            <% if (c.status === 'pending') { %>
+            <div style="display: flex; gap: var(--space-2);">
+              <button class="btn btn-success btn-small" style="flex:1;" onclick="approveConversionRequest('<%= c.id %>')"><i class="fas fa-check"></i> Duyệt</button>
+              <button class="btn btn-danger btn-small" style="flex:1;" onclick="rejectConversionRequest('<%= c.id %>')"><i class="fas fa-times"></i> Từ chối</button>
+            </div>
+            <% } %>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+      <div class="pagination-wrap" id="conversionsPagination" style="margin-top: var(--space-6);"></div>
+      <% } else { %>
+      <div class="empty-state" style="padding:60px 20px;text-align:center;">
+        <i class="fas fa-inbox" style="font-size:48px;color:var(--text3);margin-bottom:12px;display:block;"></i>
+        <h3 style="margin:0 0 8px 0;color:var(--text);">Không có yêu cầu quy đổi</h3>
+        <p style="margin:0;color:var(--text3);font-size:13px;">Hiện chưa có yêu cầu quy đổi tiền nào</p>
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+  
+

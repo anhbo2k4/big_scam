@@ -1,0 +1,62 @@
+<!-- Admin Payment QR Generator Page -->
+<div id="page-admin-qr" class="page" style="display: none;">
+  <div class="page-content">
+    <button class="back-btn" onclick="goBack()">← Quay lại</button>
+    <div class="page-title-row">
+      <h1 style="font-size: 28px; font-weight: 800; background: linear-gradient(135deg, #6366f1, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">💳 Tạo Mã QR Thanh Toán</h1>
+    </div>
+
+    <%- include('./payment-qr.ejs') %>
+  </div>
+</div>
+
+<!-- Navigation Button -->
+<style>
+  .admin-qr-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+
+  .admin-qr-nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  }
+</style>
+
+<script>
+// Add QR button to admin navigation if not already present
+function initAdminQRNav() {
+  var navContainer = document.querySelector('.admin-top-nav') || document.querySelector('nav');
+  if (!navContainer || document.getElementById('admin-qr-nav-btn')) return;
+
+  var btn = document.createElement('button');
+  btn.id = 'admin-qr-nav-btn';
+  btn.className = 'admin-qr-nav-btn';
+  btn.innerHTML = '💳 Tạo QR';
+  btn.onclick = function () {
+    var qrPage = document.getElementById('page-admin-qr');
+    var mainPages = document.querySelectorAll('.page');
+    mainPages.forEach(function (p) {return p.style.display = 'none';});
+    qrPage.style.display = 'block';
+    window.scrollTo(0, 0);
+  };
+
+  navContainer.appendChild(btn);
+}
+
+// Initialize on page load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAdminQRNav);
+} else {
+  initAdminQRNav();
+}</script>

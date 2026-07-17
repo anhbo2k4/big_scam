@@ -1,0 +1,92 @@
+<div id="approvalWaitScreen" class="aws-screen" style="display:none">
+  <div class="aws-bg-base"></div>
+  <div class="aws-orb aws-orb1"></div>
+  <div class="aws-orb aws-orb2"></div>
+  <div class="aws-orb aws-orb3"></div>
+  <div class="aws-grid"></div>
+  <div class="aws-noise"></div>
+
+  <div class="aws-wrap">
+    <div class="aws-card" id="awCard">
+      <div class="aws-header">
+        <div class="aws-spin-wrap">
+          <svg class="aws-spinner-svg" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="awArcGrad" x1="0" y1="0" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#a78bfa"/>
+                <stop offset="100%" stop-color="rgba(167,139,250,0)"/>
+              </linearGradient>
+            </defs>
+            <circle cx="23" cy="23" r="20" class="aws-spinner-bg" stroke-width="1.5"/>
+            <circle cx="23" cy="23" r="20" class="aws-spinner-arc" stroke-width="1.5" stroke-dasharray="28 100" stroke-linecap="round"/>
+          </svg>
+          <div class="aws-center-dot"></div>
+        </div>
+        <div class="aws-htext">
+          <div class="aws-slabel" id="approvalProcessingLabel" data-i18n="approvalProcessing">Đang xử lý</div>
+          <div class="aws-title" id="awTitle" data-i18n="approvalTitle">Chờ admin phê duyệt</div>
+        </div>
+        <div class="aws-sess-badge" id="awSessionBadge">--</div>
+      </div>
+
+      <div class="aws-time" id="awCountdownWrap">
+        <div class="aws-time-left">
+          <div class="aws-tlabel" id="approvalTimeLeftLabel" data-i18n="approvalTimeLeft">⏱ Thời gian còn lại</div>
+          <div class="aws-tsub" id="approvalTimeHint" data-i18n="approvalKeepOpen">Giữ trang mở để nhận thông báo</div>
+        </div>
+        <div class="aws-countdown" id="awCountdown">01:59:59</div>
+      </div>
+
+      <div class="aws-prize">
+        <div class="aws-thumb" id="awPrizeIcon">🎁</div>
+        <div class="aws-pinfo">
+          <div class="aws-ptag" id="approvalPrizeTag">Phần thưởng VIP</div>
+          <div class="aws-pname" id="awPrizeName">Phần thưởng</div>
+          <div class="aws-pbadge" id="awBadge">⭐ PHẦN THƯỞNG ĐẶC BIỆT</div>
+        </div>
+      </div>
+
+      <div class="aws-prog" id="awProgressWrap">
+        <div class="aws-prog-row">
+          <span class="aws-prog-lbl" id="approvalProgressLabel">Tiến trình xử lý</span>
+          <span class="aws-prog-pct" id="awPct">36%</span>
+        </div>
+        <div class="aws-prog-track">
+          <div class="aws-prog-fill" id="awProgressBar"></div>
+        </div>
+      </div>
+
+      <div class="aws-assistant">
+        <div class="aws-bot-avatar">🤖<div class="aws-bot-online"></div></div>
+        <div class="aws-bubble">
+          <div class="aws-bubble-meta">
+            <span class="aws-bot-name" id="approvalBotName">AI Nhắc nhở</span>
+            <span class="aws-bot-tag" id="approvalReminderTag">NHẮC NHỞ</span>
+          </div>
+          <div class="aws-typing-text" id="awRobotReminder">Mình đang theo dõi trạng thái duyệt cho bạn theo thời gian thực.</div>
+        </div>
+      </div>
+
+      <div class="aws-msg-list" id="awMessages">
+        <div class="aws-msg">🎁 <span><strong>Phần thưởng đặc biệt</strong> của bạn đang được admin xem xét</span></div>
+        <div class="aws-msg">⚡ Vui lòng <span class="aws-hl">không tắt trang</span> và chờ thông báo</div>
+        <div class="aws-msg">✨ Bạn sẽ sớm nhận được kết quả!</div>
+      </div>
+
+      <div class="aws-conn-row" id="awConnRow">
+        <span class="aws-dot-green"></span>
+        <span id="approvalConnText">Kết nối thành công · Đang chờ phản hồi từ admin</span>
+        <button id="awSupportButton" class="aws-support-inline" type="button" onclick="contactSupportFromApprovalTimeout()">
+          💬 Liên hệ CSKH
+        </button>
+      </div>
+
+      <div id="awActionButtons" class="aws-actions" style="display:none;">
+        <button class="aws-btn aws-btn-accept" id="approvalAcceptBtn" onclick="acceptSpecialPrize()">💰 Quy đổi tiền</button>
+        <button class="aws-btn aws-btn-decline" id="approvalDeclineBtn" onclick="declineSpecialPrize()">❌ Từ chối</button>
+      </div>
+
+      <div class="aws-footer-note" id="awNote">Đang chờ phản hồi từ admin... (thường &lt; 5 phút) · Kết quả minh bạch · Không lưu thông tin cá nhân</div>
+    </div>
+  </div>
+</div>

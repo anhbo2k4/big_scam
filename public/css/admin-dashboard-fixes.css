@@ -1,0 +1,1047 @@
+/* ============================================================================
+   ADMIN DASHBOARD - SaaS 2026 PRODUCTION FIXES
+   Mobile-first responsive design with comprehensive system refactor
+   ============================================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+:root {
+  /* Spacing System - 8px base scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Shadows - Dark theme optimized */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.7);
+
+  /* Transitions */
+  --trans-fast: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --trans-base: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --trans-slow: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================================
+   HEADER - Fixed alignment and responsive wrapping
+   ============================================================================ */
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.auto-refresh-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.btn-refresh,
+.btn-change-pass,
+.btn-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--space-10);
+  transition: var(--trans-fast);
+}
+
+@media (max-width: 576px) {
+  .header-controls {
+    width: 100%;
+    gap: var(--space-2);
+  }
+
+  .auto-refresh-group {
+    font-size: 12px;
+  }
+
+  .btn-refresh,
+  .btn-change-pass,
+  .btn-logout {
+    min-width: var(--space-10);
+    min-height: var(--space-10);
+    padding: var(--space-1);
+  }
+}
+
+/* ============================================================================
+   MODAL - Responsive grid and scroll handling
+   ============================================================================ */
+
+.modal-wrap {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 32px);
+  max-width: 600px;
+  max-height: 90vh;
+  background: var(--bg3, #1a2235);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+  z-index: 2001;
+  overflow: hidden;
+  overflow-y: auto;
+  display: none;
+  flex-direction: column;
+}
+
+.modal-wrap.show,
+.modal-wrap.open {
+  display: flex !important;
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Template Grid */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.template-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  cursor: pointer;
+  transition: var(--trans-base);
+}
+
+.template-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.template-card.active {
+  border-color: var(--blue);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.template-name {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+  color: var(--text);
+}
+
+/* Box Order Grid */
+.box-order-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.box-order-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  font-size: 13px;
+}
+
+/* Prize Boxes Grid - Responsive auto-fit */
+.prize-boxes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.prize-box-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.prize-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+.prize-box-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.prize-level-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 11px;
+  font-weight: 600;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+}
+
+.prize-level-badge.vip {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--blue);
+}
+
+.prize-level-badge.normal {
+  background: rgba(100, 116, 139, 0.15);
+  color: #cbd5e1;
+}
+
+.prize-level-badge.unlucky {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+}
+
+.prize-box-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Modal Fields - Full width responsive */
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.modal-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  display: block;
+}
+
+.modal-input,
+.modal-select,
+.modal-textarea {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: var(--space-3) var(--space-3);
+  font-size: 13px;
+  font-family: inherit;
+  width: 100%;
+  min-height: var(--space-10);
+  transition: var(--trans-fast);
+}
+
+.modal-input:focus,
+.modal-select:focus,
+.modal-textarea:focus {
+  border-color: var(--blue);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.modal-input::placeholder,
+.modal-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.modal-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.modal-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23cbd5e1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--space-2) center;
+  background-size: 16px 12px;
+  padding-right: var(--space-8);
+  cursor: pointer;
+}
+
+/* Icon Grid - Auto-fill responsive */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: var(--space-2);
+  max-height: 120px;
+  overflow-y: auto;
+  padding: var(--space-2);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+}
+
+.icon-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.icon-grid::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.icon-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+.icon-btn {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--trans-fast);
+  min-height: 40px;
+}
+
+.icon-btn:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: var(--blue);
+  transform: scale(1.05);
+}
+
+.icon-btn.active {
+  background: rgba(59, 130, 246, 0.3);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Select Wrapper */
+.select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-icon {
+  position: absolute;
+  left: var(--space-3);
+  font-size: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.select-wrap .modal-select {
+  padding-left: var(--space-8);
+}
+
+/* Toggle Field */
+.toggle-field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+.toggle-track {
+  width: 44px;
+  height: 24px;
+  background: var(--blue);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: var(--trans-fast);
+  flex-shrink: 0;
+}
+
+.toggle-track.off {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.toggle-track.small {
+  width: 40px;
+  height: 22px;
+}
+
+.toggle-thumb {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 23px;
+  transition: left 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+}
+
+.toggle-track.off .toggle-thumb {
+  left: 3px;
+}
+
+/* Radio Group */
+.radio-group {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.radio-label input[type="radio"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--blue);
+}
+
+/* Code Input Wrap */
+.code-input-wrap {
+  display: flex;
+  gap: var(--space-2);
+  align-items: stretch;
+}
+
+.code-input-wrap .modal-input {
+  flex: 1;
+}
+
+.btn-gen-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-height: var(--space-10);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  color: var(--text2);
+  cursor: pointer;
+  transition: var(--trans-fast);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.btn-gen-code:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* Modal Row 2 */
+.modal-row-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+.activate-field {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.toggle-label-text {
+  font-size: 13px;
+  color: var(--text2);
+}
+
+/* Modal Section */
+.modal-section {
+  margin-bottom: var(--space-6);
+}
+
+.modal-section-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.box-order-hint {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: var(--space-2);
+  padding: var(--space-3);
+  background: rgba(100, 116, 139, 0.08);
+  border-radius: var(--radius-sm);
+}
+
+/* Box Buttons */
+.box-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  color: var(--text2);
+  cursor: pointer;
+  transition: var(--trans-fast);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.box-btn:hover:not(:disabled) {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+
+.box-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================================================
+   GIFT BOX SYSTEM - Equal height cards with proper spacing
+   ============================================================================ */
+
+.gift-box-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+}
+
+.gift-box-item input {
+  width: 100%;
+}
+
+/* Reward Card Fixes */
+.reward-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  transition: var(--trans-base);
+}
+
+.reward-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.reward-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.reward-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+  min-width: 0;
+}
+
+.reward-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 600;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.reward-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.reward-description {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.reward-meta {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.reward-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.reward-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  flex: 1;
+  min-height: 32px;
+  padding: var(--space-1) var(--space-2);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--trans-fast);
+  border: 1px solid;
+}
+
+/* ============================================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================================ */
+
+/* Tablet: 768px and below */
+@media (max-width: 768px) {
+  .prize-boxes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .template-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .modal-body {
+    max-height: calc(90vh - 140px);
+  }
+
+  .icon-grid {
+    max-height: 100px;
+  }
+}
+
+/* Mobile: 576px and below */
+@media (max-width: 576px) {
+  :root {
+    --space-4: 14px;
+    --space-6: 20px;
+    --space-8: 24px;
+  }
+
+  .modal-wrap {
+    width: calc(100% - 16px);
+    max-width: 95%;
+    max-height: 95vh;
+  }
+
+  .prize-boxes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .template-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .box-order-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-row-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-body {
+    max-height: calc(85vh - 120px);
+  }
+
+  .icon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+    max-height: 90px;
+  }
+
+  .icon-btn {
+    min-height: 36px;
+    font-size: 16px;
+  }
+
+  .modal-input,
+  .modal-select,
+  .modal-textarea {
+    font-size: 16px;
+  }
+
+  .header-controls {
+    gap: var(--space-2);
+  }
+}
+
+/* Extra Small: 320px and below */
+@media (max-width: 320px) {
+  .prize-box-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .modal-textarea {
+    min-height: 80px;
+  }
+
+  .icon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+  }
+
+  .icon-btn {
+    min-height: 32px;
+    font-size: 14px;
+  }
+}
+
+/* Large Desktop: 1400px+ */
+@media (min-width: 1400px) {
+  .prize-boxes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .template-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .icon-grid {
+    max-height: 150px;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .icon-btn,
+  .template-card,
+  .reward-btn,
+  .btn-gen-code {
+    min-height: 44px;
+  }
+
+  .modal-input,
+  .modal-select,
+  .modal-textarea {
+    font-size: 16px;
+    min-height: 44px;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark Mode Preference */
+@media (prefers-color-scheme: dark) {
+  body {
+    color-scheme: dark;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .modal-header,
+  .modal-footer,
+  .header-controls,
+  .btn-gen-code,
+  .reward-actions {
+    display: none;
+  }
+
+  .modal-wrap {
+    max-height: none;
+  }
+
+  .prize-boxes-grid {
+    page-break-inside: avoid;
+  }
+}
+
+/* ============================================================================
+   SESSIONS FILTER PANEL (fpv2) — MOBILE RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .filter-panel-v2 {
+    border-radius: 10px;
+  }
+
+  .fpv2-filter-row {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .fpv2-selects {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .fpv2-select {
+    min-width: 0;
+    width: 100%;
+    font-size: 14px; /* prevent iOS zoom */
+    height: 44px;
+  }
+
+  .fpv2-actions {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .btn-apply,
+  .btn-reset {
+    flex: 1;
+    justify-content: center;
+    height: 44px;
+    font-size: 14px;
+  }
+
+  .fpv2-search-input {
+    font-size: 14px; /* prevent iOS zoom */
+    height: 44px;
+  }
+
+  .fpv2-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .fpv2-footer-right {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .fpv2-total-badge {
+    flex: 1;
+  }
+
+  .btn-delete-all {
+    height: 36px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fpv2-header {
+    padding: 10px 12px;
+  }
+
+  .fpv2-body {
+    padding: 10px 12px;
+  }
+
+  .fpv2-actions {
+    width: 100%;
+  }
+}
+
+/* ============================================================================
+   ADMIN HEADER — MOBILE CONTROLS WRAPPING
+   ============================================================================ */
+
+@media (max-width: 900px) {
+  .header-controls {
+    gap: 6px;
+  }
+
+  /* Hide text labels on smaller screens, keep buttons */
+  .btn-change-pass span,
+  .btn-change-pass .btn-label {
+    display: none;
+  }
+
+  .admin-lang-label {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Stack header top row */
+  .header-top {
+    gap: 8px;
+  }
+
+  .header-controls {
+    justify-content: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Auto-refresh toggle group — compact */
+  .auto-refresh-group {
+    gap: 5px;
+    font-size: 12px;
+  }
+
+  /* Notification bell — shorter label */
+  .notif-bell-label {
+    display: none;
+  }
+}
+
+/* ============================================================================
+   SESSION CARDS — MOBILE LAYOUT
+   ============================================================================ */
+
+@media (max-width: 600px) {
+  .session-card-top {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .session-meta {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .prize-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .session-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 12px;
+  }
+
+  .session-actions button {
+    flex: 1;
+    min-width: 100px;
+    font-size: 12px;
+  }
+}
+
+/* ============================================================================
+   TAB NAV — body scroll lock when menu open (mobile)
+   ============================================================================ */
+
+body.tab-menu-open {
+  overflow: hidden;
+}
+
+/* ============================================================================
+   PANEL HEADER — responsive wrap on mobile
+   ============================================================================ */
+
+@media (max-width: 600px) {
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .panel-header > button,
+  .panel-header .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============================================================================
+   STATS GRID — responsive columns
+   ============================================================================ */
+
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

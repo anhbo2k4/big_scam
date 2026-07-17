@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NEXUS // ACCESS TERMINAL</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;}
+    body{background:#00040a;overflow:hidden;}
+
+    /* ── #root ── */
+    #root{height:100%;}
+
+    /* ── Viewport ── */
+    .min-h-screen{
+      min-height:100vh; position:relative; overflow:hidden;
+      display:flex; align-items:center; justify-content:center; padding:1rem;
+    }
+
+    /* ── Base gradient — indigo-950/80 via violet-950/60 to slate-950/90 ── */
+    .overlay-gradient{
+      position:absolute; inset:0;
+      background-image:linear-gradient(to top right,var(--tw-gradient-stops));
+      --tw-gradient-from:rgb(30 27 75/.8);
+      --tw-gradient-via:rgb(46 16 101/.6);
+      --tw-gradient-to:rgb(2 6 23/.9);
+      --tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-via),var(--tw-gradient-to);
+    }
+
+    /* ── Ambient orbs ── */
+    .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.25;pointer-events:none;
+      animation:orb-drift var(--dur) ease-in-out infinite alternate;animation-delay:var(--delay,0s);}
+    .orb1{width:520px;height:520px;background:radial-gradient(circle,#6d28d9,transparent 70%);top:-140px;left:-100px;--dur:14s;}
+    .orb2{width:400px;height:400px;background:radial-gradient(circle,#4f46e5,transparent 70%);bottom:-80px;right:40px;--dur:18s;--delay:-6s;}
+    .orb3{width:260px;height:260px;background:radial-gradient(circle,#0e7490,transparent 70%);top:40%;right:15%;--dur:11s;--delay:-4s;}
+
+    /* ── Blobs ── */
+    .blobs{position:absolute;inset:0;pointer-events:none;}
+    .blob{position:absolute;border-radius:50%;pointer-events:none;
+      animation:blob-float var(--bd) ease-in-out infinite alternate;animation-delay:var(--bdelay,0s);}
+
+    /* ── Subtle grid ── */
+    .grid-lines{position:absolute;inset:0;pointer-events:none;
+      background-image:linear-gradient(rgba(34,211,238,.04) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(34,211,238,.04) 1px,transparent 1px);
+      background-size:48px 48px;}
+
+    /* ── Stars ── */
+    .stars{position:absolute;inset:0;pointer-events:none;}
+    .star{position:absolute;border-radius:50%;background:#fff;
+      animation:twinkle var(--d) ease-in-out infinite alternate;animation-delay:var(--sd,0s);opacity:var(--o);}
+
+    /* ── Shapes ── */
+    .shapes{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+    .shape{position:absolute;
+      animation:shape-float var(--sf-dur) ease-in-out infinite alternate;
+      animation-delay:var(--s-delay,0s);opacity:var(--s-op,.55);
+      filter:drop-shadow(0 0 5px var(--s-color,rgba(34,211,238,.5)));}
+
+    /* ── Noise ── */
+    .noise{position:absolute;inset:0;pointer-events:none;opacity:.12;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");}
+
+    /* ════════════════════════════════
+       SCI-FI CARD
+    ════════════════════════════════ */
+    :root{
+      --cy:#22d3ee; --cy2:#06b6d4; --cy-dim:rgba(34,211,238,.15);
+      --bc:rgba(34,211,238,.2);
+    }
+
+    .card-wrapper{
+      position:relative;z-index:10;
+      width:100%;max-width:32rem;
+      animation:boot-in 1.1s cubic-bezier(.16,1,.3,1) both;
+      font-family:'Courier New',monospace;
+    }
+    @keyframes boot-in{
+      0%  {opacity:0;transform:scaleY(.82) translateY(28px);}
+      45% {opacity:1;}
+      100%{transform:scaleY(1) translateY(0);}
+    }
+    @keyframes fade-in{from{opacity:0}to{opacity:1}}
+    @keyframes scan-down{0%{top:-2px;opacity:.7}100%{top:calc(100% + 2px);opacity:0}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    @keyframes hud-blink{0%,100%{opacity:1}50%{opacity:.15}}
+
+    /* Corner brackets */
+    .card-wrapper::before,.card-wrapper::after{
+      content:'';position:absolute;width:18px;height:18px;
+      border-color:var(--cy);border-style:solid;pointer-events:none;z-index:20;
+      opacity:.4;transition:opacity .4s;
+    }
+    .card-wrapper::before{top:-5px;left:-5px;border-width:2px 0 0 2px;}
+    .card-wrapper::after {bottom:-5px;right:-5px;border-width:0 2px 2px 0;}
+    .card-wrapper:hover::before,.card-wrapper:hover::after{opacity:.9;}
+
+    /* Card shell */
+    .card{
+      background:linear-gradient(175deg,rgba(0,18,28,.98) 0%,rgba(0,8,16,.99) 100%);
+      border:1px solid var(--bc);
+      border-radius:4px;overflow:hidden;position:relative;
+      box-shadow:
+        0 0 0 1px rgba(34,211,238,.05),
+        0 24px 64px rgba(0,0,0,.9),
+        0 0 60px rgba(34,211,238,.07),
+        inset 0 0 60px rgba(0,5,12,.6);
+      transition:border-color .4s,box-shadow .4s;
+    }
+    .card:hover{
+      border-color:rgba(34,211,238,.38);
+      box-shadow:0 0 0 1px rgba(34,211,238,.08),0 28px 72px rgba(0,0,0,.92),0 0 80px rgba(34,211,238,.11),inset 0 0 60px rgba(0,5,12,.5);
+    }
+
+    /* Scan line */
+    .scan-line{
+      position:absolute;left:0;right:0;height:1px;z-index:10;pointer-events:none;
+      background:linear-gradient(90deg,transparent,rgba(34,211,238,.6),transparent);
+      animation:scan-down 5s linear infinite;
+    }
+
+    /* HUD bar */
+    .hud-bar{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:7px 16px;background:rgba(34,211,238,.03);
+      border-bottom:1px solid rgba(34,211,238,.1);
+    }
+    .hud-id{font-size:9px;letter-spacing:.2em;color:rgba(34,211,238,.4);}
+    .hud-status{display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.15em;color:rgba(34,211,238,.65);}
+    .hud-dot{width:5px;height:5px;border-radius:50%;background:var(--cy);box-shadow:0 0 8px var(--cy);animation:hud-blink 1.4s ease-in-out infinite;}
+    .hud-ver{font-size:9px;letter-spacing:.18em;color:rgba(34,211,238,.28);}
+
+    /* Header */
+    .card-header{
+      padding:30px 28px 24px;text-align:center;
+      position:relative;border-bottom:1px solid rgba(34,211,238,.07);
+    }
+    .card-header::before{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background-image:linear-gradient(rgba(34,211,238,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,.025) 1px,transparent 1px);
+      background-size:22px 22px;
+    }
+
+    /* Hex icon */
+    .hex-wrap{display:inline-flex;align-items:center;justify-content:center;position:relative;width:80px;height:80px;margin-bottom:18px;}
+    .hex-ring{position:absolute;inset:0;animation:hex-spin 14s linear infinite;}
+    @keyframes hex-spin{to{transform:rotate(360deg)}}
+    .hex-core{
+      width:56px;height:56px;
+      background:radial-gradient(circle at 35% 30%,rgba(34,211,238,.1),rgba(0,15,25,.95));
+      border:1px solid rgba(34,211,238,.35);
+      clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+      display:flex;align-items:center;justify-content:center;
+      position:relative;z-index:2;
+      box-shadow:0 0 20px rgba(34,211,238,.18),inset 0 0 14px rgba(34,211,238,.06);
+      transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;
+    }
+    .hex-wrap:hover .hex-core{transform:scale(1.1);box-shadow:0 0 32px rgba(34,211,238,.35),inset 0 0 20px rgba(34,211,238,.1);}
+    .hex-core svg{width:24px;height:24px;color:var(--cy);}
+
+    .sys-label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(34,211,238,.35);margin-bottom:7px;}
+    .card-title{
+      font-family:'Courier New',monospace;
+      font-size:clamp(1.25rem,3.5vw,1.65rem);font-weight:700;letter-spacing:.07em;
+      color:#e0f7ff;margin-bottom:8px;
+      text-shadow:0 0 20px rgba(34,211,238,.45),0 0 40px rgba(34,211,238,.15);
+      position:relative;
+    }
+    .card-title::after{content:'_';color:var(--cy);animation:blink .9s step-end infinite;}
+    .card-subtitle{
+      font-family:Inter,sans-serif;font-size:12px;font-weight:400;
+      color:rgba(34,211,238,.38);line-height:1.8;letter-spacing:.03em;
+    }
+    .sci-divider{
+      display:flex;align-items:center;gap:8px;margin:16px 0 0;
+      font-size:9px;letter-spacing:.2em;color:rgba(34,211,238,.2);
+    }
+    .sci-divider::before,.sci-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(34,211,238,.18),transparent);}
+
+    /* Body */
+    .card-body{padding:22px 28px 26px;}
+
+    /* Input */
+    .input-label{
+      display:flex;align-items:center;gap:6px;margin-bottom:8px;
+      font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(34,211,238,.45);
+    }
+    .input-label svg{width:10px;height:10px;}
+    .input-group{position:relative;margin-bottom:14px;}
+    .input-glow{position:absolute;inset:-1px;border-radius:3px;
+      background:linear-gradient(90deg,rgba(34,211,238,.18),rgba(6,182,212,.25),rgba(34,211,238,.18));
+      opacity:0;transition:opacity .3s;pointer-events:none;filter:blur(4px);}
+    .input-group:focus-within .input-glow{opacity:1;}
+    /* Corner accents */
+    .ic{position:absolute;width:7px;height:7px;border-color:var(--cy);border-style:solid;opacity:.4;z-index:2;transition:opacity .3s;}
+    .input-group:focus-within .ic{opacity:1;}
+    .ic-tl{top:0;left:0;border-width:1px 0 0 1px;}
+    .ic-tr{top:0;right:0;border-width:1px 1px 0 0;}
+    .ic-bl{bottom:0;left:0;border-width:0 0 1px 1px;}
+    .ic-br{bottom:0;right:0;border-width:0 1px 1px 0;}
+    .card-input{
+      width:100%;height:52px;
+      background:rgba(0,12,22,.92);
+      border:1px solid rgba(34,211,238,.22);border-radius:3px;
+      font-size:22px;font-weight:700;font-family:'Courier New',monospace;
+      letter-spacing:.35em;text-transform:uppercase;
+      color:var(--cy);text-align:center;padding:0 16px;outline:none;
+      transition:border-color .3s,box-shadow .3s;
+      position:relative;z-index:1;caret-color:var(--cy);
+    }
+    .card-input::placeholder{color:rgba(34,211,238,.18);font-size:13px;letter-spacing:.1em;}
+    .card-input:focus{
+      border-color:rgba(34,211,238,.55);
+      box-shadow:0 0 0 2px rgba(34,211,238,.08),0 0 16px rgba(34,211,238,.08),inset 0 0 8px rgba(34,211,238,.03);
+    }
+
+    /* Button */
+    .card-btn{
+      width:100%;height:46px;
+      background:transparent;
+      border:1px solid rgba(34,211,238,.3);border-radius:3px;
+      color:var(--cy);font-family:'Courier New',monospace;
+      font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+      cursor:pointer;position:relative;overflow:hidden;
+      transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px;
+    }
+    .card-btn::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(90deg,transparent,rgba(34,211,238,.08),transparent);
+      transform:translateX(-100%);transition:transform .55s;
+    }
+    .card-btn:hover::before{transform:translateX(100%);}
+    .card-btn:hover{
+      background:rgba(34,211,238,.05);border-color:rgba(34,211,238,.65);
+      box-shadow:0 0 24px rgba(34,211,238,.14),inset 0 0 20px rgba(34,211,238,.04);
+      color:#fff;text-shadow:0 0 10px var(--cy);
+    }
+    .card-btn:active{transform:scale(.99);}
+    .card-btn:disabled{opacity:.2;cursor:not-allowed;box-shadow:none;text-shadow:none;color:rgba(34,211,238,.4);}
+    .btn-chevron{transition:transform .3s;}
+    .card-btn:hover .btn-chevron{transform:translateX(5px);}
+
+    /* Stat grid */
+    .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px;}
+    .stat-cell{
+      padding:11px 6px;border:1px solid rgba(34,211,238,.08);border-radius:3px;
+      background:rgba(34,211,238,.02);text-align:center;position:relative;overflow:hidden;
+      transition:border-color .25s,background .25s;
+    }
+    .stat-cell::after{
+      content:'';position:absolute;top:0;left:0;right:0;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(34,211,238,.28),transparent);
+      opacity:0;transition:opacity .3s;
+    }
+    .stat-cell:hover{border-color:rgba(34,211,238,.22);background:rgba(34,211,238,.04);}
+    .stat-cell:hover::after{opacity:1;}
+    .stat-icon{font-size:17px;margin-bottom:4px;display:block;filter:drop-shadow(0 0 4px rgba(34,211,238,.35));}
+    .stat-code{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(34,211,238,.45);display:block;}
+    .stat-val{font-size:8px;letter-spacing:.08em;color:rgba(34,211,238,.22);margin-top:2px;display:block;}
+
+    /* Footer strip */
+    .card-footer{text-align:center;margin-top:14px;animation:fade-in .8s .8s ease-out both;}
+    .footer-strip{
+      display:inline-flex;align-items:center;gap:10px;
+      border:1px solid rgba(34,211,238,.1);border-radius:2px;
+      padding:7px 16px;background:rgba(0,8,14,.75);
+    }
+    .footer-led{width:4px;height:4px;border-radius:50%;background:var(--cy);box-shadow:0 0 6px var(--cy);animation:hud-blink 2.2s ease-in-out infinite;}
+    .footer-text{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(34,211,238,.3);}
+
+    /* ── Background animations ── */
+    @keyframes orb-drift{from{transform:translate(0,0) scale(1)}to{transform:translate(38px,26px) scale(1.1)}}
+    @keyframes blob-float{from{transform:translate(0,0)}to{transform:translate(var(--bx,20px),var(--by,-30px))}}
+    @keyframes twinkle{from{opacity:var(--o);transform:scale(1)}to{opacity:calc(var(--o)*.2);transform:scale(.5)}}
+    @keyframes shape-float{0%{transform:translateY(0) rotate(var(--r0,0deg))}100%{transform:translateY(var(--float-y,-24px)) rotate(var(--r1,15deg))}}
+  </style>
+</head>
+<body>
+<div id="root">
+  <div class="min-h-screen">
+
+    <!-- Background layers -->
+    <div class="overlay-gradient"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="blobs" id="blobs"></div>
+    <div class="grid-lines"></div>
+    <div class="stars" id="stars"></div>
+    <div class="shapes" id="shapes"></div>
+    <div class="noise"></div>
+
+    <!-- ✅ div.max-w-lg.w-full.relative.z-10.animate-scale-in-smooth -->
+    <div class="card-wrapper">
+
+      <div class="card">
+        <div class="scan-line"></div>
+
+        <!-- HUD bar -->
+        <div class="hud-bar">
+          <span class="hud-id">SYS://NEXUS-7 &nbsp; SESSION-PORTAL</span>
+          <span class="hud-status"><span class="hud-dot"></span>ONLINE</span>
+          <span class="hud-ver">v3.0.1</span>
+        </div>
+
+        <!-- Header -->
+        <div class="card-header">
+          <!-- Hex icon -->
+          <div style="display:flex;justify-content:center;">
+            <div class="hex-wrap">
+              <!-- Rotating ring SVG -->
+              <svg class="hex-ring" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;">
+                <circle cx="40" cy="40" r="36" fill="none" stroke="rgba(34,211,238,.18)" stroke-width="1" stroke-dasharray="4 8"/>
+                <circle cx="40" cy="4" r="2.5" fill="#22d3ee" opacity=".8"/>
+              </svg>
+              <div class="hex-core">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <path d="M2 17l10 5 10-5"/>
+                  <path d="M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="sys-label">// NEXUS ACCESS TERMINAL //</div>
+          <div class="card-title">NHẬP PHIÊN TRUY CẬP</div>
+          <div class="card-subtitle">
+            Xác thực danh tính để kết nối vào hệ thống.<br>
+            Mỗi mã chỉ có hiệu lực trong một phiên duy nhất.
+          </div>
+          <div class="sci-divider"><span>[ AUTHENTICATE ]</span></div>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+          <div class="input-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            ACCESS KEY
+          </div>
+          <div class="input-group">
+            <div class="input-glow"></div>
+            <span class="ic ic-tl"></span>
+            <span class="ic ic-tr"></span>
+            <span class="ic ic-bl"></span>
+            <span class="ic ic-br"></span>
+            <input class="card-input" id="sessionCode" type="text"
+              placeholder="· · · · · · · ·"
+              maxlength="8" autocomplete="off" spellcheck="false"/>
+          </div>
+
+          <button class="card-btn" id="startBtn" type="button" disabled onclick="handleStart()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            KHỞI ĐỘNG PHIÊN
+            <svg class="btn-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+
+          <!-- Stat grid -->
+          <div class="stat-grid">
+            <div class="stat-cell">
+              <span class="stat-icon">🏆</span>
+              <span class="stat-code">LEGEND</span>
+              <span class="stat-val">Cấp tối thượng</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-icon">💠</span>
+              <span class="stat-code">RARE</span>
+              <span class="stat-val">Xác suất thấp</span>
+            </div>
+            <div class="stat-cell">
+              <span class="stat-icon">🌀</span>
+              <span class="stat-code">COMMON</span>
+              <span class="stat-val">Thử lại sau</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="card-footer">
+        <div class="footer-strip">
+          <div class="footer-led"></div>
+          <span class="footer-text">Kết nối được mã hóa — phiên an toàn</span>
+          <div class="footer-led"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* Stars */
+(function () {
+  var c = document.getElementById('stars');
+  for (var i = 0; i < 80; i++) {
+    var el = document.createElement('div');el.className = 'star';
+    var sz = (Math.random() * 1.8 + 0.3).toFixed(1);
+    var o = (Math.random() * .4 + .08).toFixed(2);
+    el.style.cssText = "width:".concat(sz, "px;height:").concat(sz, "px;top:").concat((Math.random() * 100).toFixed(2), "%;left:").concat((Math.random() * 100).toFixed(2), "%;--o:").concat(o, ";--d:").concat((Math.random() * 5 + 2).toFixed(1), "s;--sd:").concat((Math.random() * 8).toFixed(1), "s;");
+    c.appendChild(el);
+  }
+})();
+
+/* Blobs */
+(function () {
+  var c = document.getElementById('blobs');
+  [{ w: 120, h: 44, top: 21, left: 41, blur: 18, color: 'rgba(34,211,238,0.1)', bd: 8, bx: '15px', by: '-20px' },
+  { w: 90, h: 34, top: 44, left: 31, blur: 14, color: 'rgba(99,102,241,0.18)', bd: 11, bx: '-10px', by: '-25px' },
+  { w: 180, h: 65, top: 66, left: 24, blur: 22, color: 'rgba(34,211,238,0.08)', bd: 13, bx: '-18px', by: '-28px' },
+  { w: 140, h: 52, top: 72, left: 46, blur: 18, color: 'rgba(6,182,212,0.1)', bd: 10, bx: '12px', by: '-22px' },
+  { w: 200, h: 72, top: 63, left: 58, blur: 24, color: 'rgba(99,102,241,0.12)', bd: 14, bx: '18px', by: '-28px' }].
+  forEach(function (cfg, i) {
+    var el = document.createElement('div');el.className = 'blob';
+    el.style.cssText = "width:".concat(cfg.w, "px;height:").concat(cfg.h, "px;top:").concat(cfg.top, "%;left:").concat(cfg.left, "%;background:").concat(cfg.color, ";filter:blur(").concat(cfg.blur, "px);--bd:").concat(cfg.bd, "s;--bdelay:").concat(-(i * 1.4).toFixed(1), "s;--bx:").concat(cfg.bx, ";--by:").concat(cfg.by, ";");
+    c.appendChild(el);
+  });
+})();
+
+/* Shapes — sci-fi themed */
+(function () {
+  var container = document.getElementById('shapes');
+  var colors = ['#22d3ee', '#06b6d4', '#67e8f9', '#818cf8', '#a5b4fc', '#38bdf8', '#7dd3fc'];
+
+  var defs = {
+    diamond: function diamond(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"20,2 38,20 20,38 2,20\" fill=\"none\" stroke=\"".concat(c, "\" stroke-width=\"1.2\"/><polygon points=\"20,9 31,20 20,31 9,20\" fill=\"").concat(c, "\" fill-opacity=\".1\" stroke=\"").concat(c, "\" stroke-width=\".6\"/><line x1=\"2\" y1=\"20\" x2=\"38\" y2=\"20\" stroke=\"").concat(c, "\" stroke-width=\".4\" opacity=\".4\"/><line x1=\"20\" y1=\"2\" x2=\"20\" y2=\"38\" stroke=\"").concat(c, "\" stroke-width=\".4\" opacity=\".4\"/></svg>");},
+    hexagon: function hexagon(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"20,2 35,11 35,29 20,38 5,29 5,11\" fill=\"none\" stroke=\"".concat(c, "\" stroke-width=\"1.2\"/><polygon points=\"20,9 29,14 29,26 20,31 11,26 11,14\" fill=\"").concat(c, "\" fill-opacity=\".08\" stroke=\"").concat(c, "\" stroke-width=\".5\"/></svg>");},
+    cross: function cross(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M20 4L20 36M4 20L36 20\" stroke=\"".concat(c, "\" stroke-width=\"1.2\" stroke-linecap=\"round\"/><path d=\"M9 9L31 31M31 9L9 31\" stroke=\"").concat(c, "\" stroke-width=\".5\" stroke-linecap=\"round\" opacity=\".35\"/><circle cx=\"20\" cy=\"20\" r=\"2.5\" fill=\"").concat(c, "\" opacity=\".5\"/></svg>");},
+    ring: function ring(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"20\" cy=\"20\" r=\"17\" fill=\"none\" stroke=\"".concat(c, "\" stroke-width=\"1.2\"/><circle cx=\"20\" cy=\"20\" r=\"11\" fill=\"none\" stroke=\"").concat(c, "\" stroke-width=\".5\" opacity=\".4\" stroke-dasharray=\"3 5\"/><circle cx=\"20\" cy=\"20\" r=\"2.5\" fill=\"").concat(c, "\" opacity=\".5\"/></svg>");},
+    triangle: function triangle(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"20,3 37,35 3,35\" fill=\"".concat(c, "\" fill-opacity=\".1\" stroke=\"").concat(c, "\" stroke-width=\"1.2\" stroke-linejoin=\"round\"/><line x1=\"20\" y1=\"3\" x2=\"20\" y2=\"35\" stroke=\"").concat(c, "\" stroke-width=\".5\" opacity=\".3\"/></svg>");},
+    star: function star(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"20,2 24,15 38,15 27,23 31,37 20,29 9,37 13,23 2,15 16,15\" fill=\"".concat(c, "\" fill-opacity=\".12\" stroke=\"").concat(c, "\" stroke-width=\"1\" stroke-linejoin=\"round\"/></svg>");},
+    gift: function gift(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"6\" y=\"18\" width=\"28\" height=\"18\" rx=\"1\" fill=\"".concat(c, "\" fill-opacity=\".12\" stroke=\"").concat(c, "\" stroke-width=\"1.2\"/><rect x=\"4\" y=\"13\" width=\"32\" height=\"7\" rx=\"1\" fill=\"").concat(c, "\" fill-opacity=\".18\" stroke=\"").concat(c, "\" stroke-width=\"1.2\"/><rect x=\"18\" y=\"13\" width=\"4\" height=\"23\" fill=\"").concat(c, "\" fill-opacity=\".35\"/><rect x=\"4\" y=\"15.5\" width=\"32\" height=\"2\" fill=\"").concat(c, "\" fill-opacity=\".35\"/><path d=\"M20 13 Q14 6 10 10 Q8 14 14 14 Z\" fill=\"").concat(c, "\" fill-opacity=\".4\" stroke=\"").concat(c, "\" stroke-width=\".8\"/><path d=\"M20 13 Q26 6 30 10 Q32 14 26 14 Z\" fill=\"").concat(c, "\" fill-opacity=\".4\" stroke=\"").concat(c, "\" stroke-width=\".8\"/></svg>");},
+    human: function human(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"20\" cy=\"8\" r=\"5\" fill=\"".concat(c, "\" fill-opacity=\".18\" stroke=\"").concat(c, "\" stroke-width=\"1.2\"/><path d=\"M12 30 Q12 20 20 18 Q28 20 28 30\" fill=\"").concat(c, "\" fill-opacity=\".12\" stroke=\"").concat(c, "\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"20\" y1=\"18\" x2=\"20\" y2=\"28\" stroke=\"").concat(c, "\" stroke-width=\"1\"/><line x1=\"12\" y1=\"22\" x2=\"28\" y2=\"22\" stroke=\"").concat(c, "\" stroke-width=\"1\"/><line x1=\"15\" y1=\"28\" x2=\"13\" y2=\"36\" stroke=\"").concat(c, "\" stroke-width=\"1.1\" stroke-linecap=\"round\"/><line x1=\"25\" y1=\"28\" x2=\"27\" y2=\"36\" stroke=\"").concat(c, "\" stroke-width=\"1.1\" stroke-linecap=\"round\"/></svg>");},
+    tree: function tree(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"20,3 33,18 26,18 31,28 24,28 24,37 16,37 16,28 9,28 14,18 7,18\" fill=\"".concat(c, "\" fill-opacity=\".12\" stroke=\"").concat(c, "\" stroke-width=\"1.2\" stroke-linejoin=\"round\"/></svg>");},
+    puppy: function puppy(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><ellipse cx=\"20\" cy=\"26\" rx=\"11\" ry=\"8\" fill=\"".concat(c, "\" fill-opacity=\".12\" stroke=\"").concat(c, "\" stroke-width=\"1.1\"/><circle cx=\"20\" cy=\"14\" r=\"7\" fill=\"").concat(c, "\" fill-opacity=\".14\" stroke=\"").concat(c, "\" stroke-width=\"1.1\"/><ellipse cx=\"13\" cy=\"10\" rx=\"3.5\" ry=\"5\" fill=\"").concat(c, "\" fill-opacity=\".2\" stroke=\"").concat(c, "\" stroke-width=\".9\" transform=\"rotate(-15 13 10)\"/><ellipse cx=\"27\" cy=\"10\" rx=\"3.5\" ry=\"5\" fill=\"").concat(c, "\" fill-opacity=\".2\" stroke=\"").concat(c, "\" stroke-width=\".9\" transform=\"rotate(15 27 10)\"/><circle cx=\"17\" cy=\"13\" r=\"1.2\" fill=\"").concat(c, "\" opacity=\".7\"/><circle cx=\"23\" cy=\"13\" r=\"1.2\" fill=\"").concat(c, "\" opacity=\".7\"/><path d=\"M31 24 Q38 18 36 26\" fill=\"none\" stroke=\"").concat(c, "\" stroke-width=\"1.2\" stroke-linecap=\"round\"/></svg>");},
+    kitty: function kitty(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\"><ellipse cx=\"20\" cy=\"27\" rx=\"10\" ry=\"8\" fill=\"".concat(c, "\" fill-opacity=\".12\" stroke=\"").concat(c, "\" stroke-width=\"1.1\"/><circle cx=\"20\" cy=\"14\" r=\"7\" fill=\"").concat(c, "\" fill-opacity=\".14\" stroke=\"").concat(c, "\" stroke-width=\"1.1\"/><polygon points=\"13,9 10,2 16,7\" fill=\"").concat(c, "\" fill-opacity=\".28\" stroke=\"").concat(c, "\" stroke-width=\".9\"/><polygon points=\"27,9 30,2 24,7\" fill=\"").concat(c, "\" fill-opacity=\".28\" stroke=\"").concat(c, "\" stroke-width=\".9\"/><ellipse cx=\"17\" cy=\"13\" rx=\"1.8\" ry=\"1.2\" fill=\"").concat(c, "\" opacity=\".75\"/><ellipse cx=\"23\" cy=\"13\" rx=\"1.8\" ry=\"1.2\" fill=\"").concat(c, "\" opacity=\".75\"/><path d=\"M30 27 Q38 20 36 30 Q34 36 30 34\" fill=\"none\" stroke=\"").concat(c, "\" stroke-width=\"1.2\" stroke-linecap=\"round\"/></svg>");}
+  };
+
+  var keys = Object.keys(defs);
+  var pool = [];
+  keys.forEach(function (k) {var n = k === 'gift' ? 5 : 3;for (var i = 0; i < n; i++) pool.push(k);});
+  for (var i = pool.length - 1; i > 0; i--) {var j = Math.floor(Math.random() * (i + 1));var _ref = [pool[j], pool[i]];pool[i] = _ref[0];pool[j] = _ref[1];}
+
+  pool.forEach(function (key, i) {
+    var wrap = document.createElement('div');wrap.className = 'shape';
+    var scale = (Math.random() * .8 + .7).toFixed(2);
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    var size = Math.round(scale * 40);
+    var top = (Math.random() * 88 + 2).toFixed(2);
+    var left = (Math.random() * 94 + 1).toFixed(2);
+    wrap.style.cssText = "top:".concat(top, "%;left:").concat(left, "%;width:").concat(size, "px;height:").concat(size, "px;--float-y:").concat((-(Math.random() * 28 + 10)).toFixed(0), "px;--r0:").concat((Math.random() * 30 - 15).toFixed(0), "deg;--r1:").concat((Math.random() * 30 - 15).toFixed(0), "deg;--sf-dur:").concat((Math.random() * 6 + 5).toFixed(1), "s;--s-delay:").concat((-(Math.random() * 14)).toFixed(1), "s;--s-op:").concat((Math.random() * .35 + .45).toFixed(2), ";--s-color:").concat(color, ";");
+    wrap.innerHTML = defs[key](color);
+    container.appendChild(wrap);
+  });
+})();
+
+/* Input → button */
+var inp = document.getElementById('sessionCode');
+var btn = document.getElementById('startBtn');
+inp.addEventListener('input', function () {btn.disabled = inp.value.trim().length < 1;});
+
+function handleStart() {
+  var code = inp.value.trim();if (!code) return;
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> ĐANG XÁC THỰC...';
+  setTimeout(function () {
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ĐÃ XÁC THỰC — ĐANG VÀO...';
+  }, 1800);
+}</script>
+</body>
+</html>

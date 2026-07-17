@@ -1,0 +1,55 @@
+<!-- WALLET PAGE -->
+<div id="page-wallet" class="page">
+  <div class="page-content">
+    <button class="back-btn" onclick="goBack()">← Quay lại</button>
+    <div class="page-title-row">
+      <h1 style="font-size:28px;font-weight:800;background:linear-gradient(135deg,#a855f7,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Ví phiên này</h1>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-label">Mã phiên</div>
+      <div class="info-card-value" id="walletSessionCode">Mời nhập phiên chơi ở trang chủ</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Số dư hiện tại</div>
+        <div class="stat-value" id="walletBalance">0 đ</div>
+        <button class="btn-withdraw" onclick="openWithdrawModal()">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Rút tiền
+        </button>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-label">Tổng đã rút</div>
+        <div class="stat-value" id="walletWithdrawn">0 đ</div>
+        <div class="stat-sub red-text">↘ Rút về tài khoản</div>
+      </div>
+    </div>
+
+    <div class="section-title">Lịch sử giao dịch</div>
+    <div style="margin:10px 0 14px;padding:10px 12px;border:1px solid rgba(251,191,36,.35);border-radius:10px;background:rgba(251,191,36,.08)">
+      <div style="font-size:12px;color:var(--text-dim)">Đang chờ duyệt quy đổi vào ví</div>
+      <div id="walletPendingConversion" style="font-size:18px;font-weight:800;color:#fbbf24">0 đ</div>
+    </div>
+    <div class="tx-tabs">
+      <button class="tx-tab active" onclick="filterTx('all',this)">Tất cả</button>
+      <button class="tx-tab" onclick="filterTx('win',this)">Thắng</button>
+      <button class="tx-tab" onclick="filterTx('exchange',this)">Đổi quà</button>
+      <button class="tx-tab" onclick="filterTx('withdraw',this)">Rút tiền</button>
+    </div>
+
+    <div class="tx-list" id="txList">
+      <div class="empty-state" style="padding:40px 0">
+        <div class="empty-state-title" style="font-size:15px">Chưa có giao dịch nào</div>
+        <div class="empty-state-desc">Mở hộp quà để bắt đầu!</div>
+      </div>
+    </div>
+    <div id="txPagination" style="display:flex;justify-content:center;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap;"></div>
+
+  </div>
+</div>
+
+<!-- Withdrawal Banks Script -->
+<script type="module" src="/build-modern/withdrawal-banks.js"></script>
+<script nomodule src="/build-legacy/withdrawal-banks.js"></script>

@@ -1,0 +1,25 @@
+<!-- RESULT OVERLAY (WIN) -->
+<div class="result-overlay" id="resultWinOverlay">
+  <div class="confetti-container" id="confettiContainer"></div>
+  <div class="result-card">
+    <h2 class="result-title">🎉 Chúc Mừng!</h2>
+    <p class="result-subtitle">Bạn đã nhận được</p>
+    <div class="result-media" id="resultMedia">
+      <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=500&h=300&fit=crop" class="result-img" id="resultImg" alt="Prize" />
+      <div class="result-icon-fallback" id="resultIconFallback" aria-hidden="true"></div>
+    </div>
+    <div class="result-item-name" id="resultItemName">Sony WH-1000XM5</div>
+    <div class="result-item-desc" id="resultItemDesc">Premium Sony WH-1000XM5 - Hàng chính hãng</div>
+    <div class="result-value-badge">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="2"/></svg>
+      Giá trị: <span id="resultValue">7.000.000 đ</span>
+    </div>
+    <div class="result-actions">
+      <button class="btn-claim" onclick="claimItem()">🎁 Nhận vật phẩm</button>
+      <button class="btn-convert" onclick="convertToMoney()">
+        💰 Đổi sang tiền<br>
+        <small id="convertAmount" style="font-weight:500;opacity:.9">4.900.000 đ</small>
+      </button>
+    </div>
+  </div>
+</div>

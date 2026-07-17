@@ -1,0 +1,77 @@
+﻿<!-- SESSIONS TAB -->
+  <div class="tab-panel active" id="panel-sessions">
+    <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4); margin-bottom: var(--space-6);">
+      <div style="flex: 1; min-width: 200px;">
+        <h1 style="font-size: 20px; font-weight: 700; margin-bottom: var(--space-1);">Quản lý phiên chơi</h1>
+        <p style="font-size: 13px; color: var(--color-text-secondary);">Tạo và quản lý các phiên chơi của bạn</p>
+      </div>
+      <button class="btn btn-primary" onclick="openModal()" style="flex-shrink: 0;"><i class="fas fa-plus"></i> Tạo phiên mới</button>
+    </div>
+
+    <!-- Filter V2 -->
+    <div class="filter-panel-v2">
+      <div class="fpv2-header" onclick="toggleFilter()">
+        <div class="fpv2-header-left">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+          <span>Bộ lọc &amp; Tìm kiếm</span>
+        </div>
+        <button class="fpv2-toggle-btn" onclick="event.stopPropagation(); toggleFilter()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="filterChevron"><path d="m18 15-6-6-6 6"></path></svg>
+        </button>
+      </div>
+      <div class="fpv2-body" id="filterBody">
+        <div class="fpv2-search-wrap">
+          <div class="fpv2-search-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          </div>
+          <input class="fpv2-search-input" id="sessionCodeFilterInput" placeholder="🔍 Tìm kiếm theo mã phiên...">
+        </div>
+        <div class="fpv2-filter-row">
+          <div class="fpv2-selects">
+            <select class="fpv2-select" id="sessionStatusFilter">
+              <option value="">🌐 Tất cả</option>
+              <option value="active">🟢 Hoạt động</option>
+              <option value="paused">⏸️ Tạm dừng</option>
+            </select>
+            <select class="fpv2-select" id="sessionPlayersFilter">
+              <option value="">👥 Tất cả</option>
+              <option value="joined">Đã có người chơi</option>
+              <option value="empty">Chưa có người chơi</option>
+            </select>
+          </div>
+          <div class="fpv2-actions">
+            <button class="btn-apply"><i class="fas fa-search"></i> Tìm kiếm</button>
+            <button class="btn-reset"><i class="fas fa-redo"></i> Đặt lại</button>
+          </div>
+        </div>
+      </div>
+      <div class="fpv2-footer">
+        <div class="fpv2-footer-left">
+          <div class="fpv2-dot"></div>
+          <span>Hiển thị <strong class="fpv2-count-blue"><span id="resultCount">0</span></strong> / <strong><%= stats.sessions %></strong> phiên chơi</span>
+        </div>
+        <div class="fpv2-footer-right">
+          <span class="fpv2-total-badge">📊 Tổng cộng <%= stats.sessions %> kết quả</span>
+          <button class="btn-delete-all"><i class="fas fa-trash"></i> Xóa tất cả (<%= stats.sessions %>)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session Cards -->
+    <div class="grid grid-auto-fit" id="sessionsContainer" style="gap: var(--space-4);">
+      <!-- Loaded via JavaScript -->
+      <div class="card" style="text-align: center; padding: var(--space-8); grid-column: 1 / -1;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: var(--color-text-secondary); margin-bottom: var(--space-4);"></i>
+        <p style="color: var(--color-text-secondary);">Đang tải...</p>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-wrap" id="paginationContainer" style="margin-top: var(--space-6);">
+      <!-- Loaded via JavaScript -->
+    </div>
+
+  </div>
+
+  
+

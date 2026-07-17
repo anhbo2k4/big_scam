@@ -1,0 +1,194 @@
+<!-- CHOOSE BOX PAGE -->
+<div id="page-choose" class="page">
+  <div class="choose-header">
+    <h1 class="choose-title">Chọn Hộp Quà Của Bạn</h1>
+    <p class="choose-subtitle">Mỗi hộp chứa một phần quà bí mật. Chọn một và khám phá điều bất ngờ!</p>
+    
+    <!-- Session Info Bar -->
+    <div style="display: flex; gap: 20px; justify-content: center; margin: 20px 0; padding: 15px; background: rgba(168, 85, 247, 0.1); border-radius: 12px; border-left: 4px solid #a855f7;">
+      <div style="text-align: center;">
+        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-bottom: 4px;">📦 Mở được</div>
+        <div style="font-size: 20px; font-weight: bold; color: #a855f7;" id="boxOpenedCount">0/3</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-bottom: 4px;">⏱️ Thời gian còn lại</div>
+        <div style="font-size: 18px; font-weight: bold; color: #3b82f6;" id="sessionCountdown">--:--</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-bottom: 4px;">🎁 Còn lại</div>
+        <div style="font-size: 20px; font-weight: bold; color: #10b981;" id="boxRemainingCount">3</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-bottom: 4px;">🛡️ Tín nhiệm</div>
+        <button
+          type="button"
+          id="chooseTrustScoreToggle"
+          onclick="toggleChooseTrustScoreMask()"
+          title="Hiện điểm tín nhiệm"
+          style="font-size:18px;font-weight:700;color:#f59e0b;background:transparent;border:none;cursor:pointer;line-height:1;padding:0;margin:0;"
+        >🙈</button>
+        <div style="font-size: 20px; font-weight: bold; color: #f59e0b; display:none;" id="chooseTrustScore">--</div>
+      </div>
+    </div>
+
+    <div class="choose-warning">⚠️ Chú ý: Bắt buộc mở theo thứ tự 1 → 2 → 3. Mỗi hộp phải hoàn tất nhận quà/rút tiền rồi mới mở hộp tiếp theo.</div>
+  </div>
+
+  <div class="boxes-grid">
+    <div class="box-card" onclick="openBox(1)" id="boxCard1">
+      <div class="box-sparkle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="currentColor"/><circle cx="5" cy="5" r="1" fill="currentColor" opacity=".5"/><circle cx="19" cy="19" r="1" fill="currentColor" opacity=".5"/></svg>
+      </div>
+      <span class="box-gift-icon">🎁</span>
+      <div class="box-label">Hộp #1</div>
+      <div class="box-sparkle-bl">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="currentColor"/></svg>
+      </div>
+      <div class="box-status" style="font-size: 11px; margin-top: 8px; opacity: 0.7;"></div>
+    </div>
+
+    <div class="box-card" onclick="openBox(2)" id="boxCard2">
+      <div class="box-sparkle dim">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="currentColor"/><circle cx="5" cy="5" r="1" fill="currentColor" opacity=".5"/></svg>
+      </div>
+      <span class="box-gift-icon">🎀</span>
+      <div class="box-label">Hộp #2</div>
+      <div class="box-sparkle-bl">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="currentColor"/></svg>
+      </div>
+      <div class="box-status" style="font-size: 11px; margin-top: 8px; opacity: 0.7;"></div>
+    </div>
+
+    <div class="box-card" onclick="openBox(3)" id="boxCard3">
+      <div class="box-sparkle dimmer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="currentColor"/></svg>
+      </div>
+      <span class="box-gift-icon">🎁</span>
+      <div class="box-label">Hộp #3</div>
+      <div class="box-sparkle-bl">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="currentColor"/></svg>
+      </div>
+      <div class="box-status" style="font-size: 11px; margin-top: 8px; opacity: 0.7;"></div>
+    </div>
+  </div>
+
+  <p class="choose-tip">💡 Mẹo: Các phần quà sẽ được hiển thị sau khi bạn mở hộp.Tiền bạn nhận được sẽ vào ví trong phiên nhớ vào đó rút nhé!</p>
+
+  <div class="choose-quick-links" aria-label="Điều hướng nhanh">
+    <button class="choose-quick-link" type="button" onclick="showPage('inventory')">
+      <span class="choose-quick-icon">🎒</span>
+      <span>Kho vật phẩm</span>
+    </button>
+    <button class="choose-quick-link" type="button" onclick="showPage('wallet')">
+      <span class="choose-quick-icon">💰</span>
+      <span>Ví tiền</span>
+    </button>
+    <button class="choose-quick-link" type="button" onclick="showPage('exchange')">
+      <span class="choose-quick-icon">🎁</span>
+      <span>Đổi quà</span>
+    </button>
+  </div>
+
+  <!-- Opened Prizes Display with Exchange Options -->
+  <div id="openedPrizesContainer" style="display: none; margin-top: 40px; width: 100%; max-width: 1000px; margin-left: auto; margin-right: auto; padding: 30px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(34, 211, 238, 0.1)); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 16px;">
+  </div>
+
+  <!-- Session Timer Update Script -->
+  <script>
+function toggleChooseTrustScoreMask() {
+  var scoreEl = document.getElementById('chooseTrustScore');
+  var toggleEl = document.getElementById('chooseTrustScoreToggle');
+  if (!scoreEl || !toggleEl) return;
+
+  var isHidden = scoreEl.style.display === 'none';
+  if (isHidden) {
+    scoreEl.style.display = 'block';
+    // Show number only after click; hide icon completely.
+    toggleEl.style.display = 'none';
+  } else {
+    scoreEl.style.display = 'none';
+    toggleEl.style.display = 'inline-block';
+    toggleEl.title = 'Hiện điểm tín nhiệm';
+  }
+}
+
+function updateSessionDisplay() {
+  if (typeof lmbManager === 'undefined') return;
+
+  var info = lmbManager.getSessionInfo();
+  var confirmationPending = lmbManager.isPendingConfirmation();
+  var openedEl = document.getElementById('boxOpenedCount');
+  var remainingEl = document.getElementById('boxRemainingCount');
+  var countdownEl = document.getElementById('sessionCountdown');
+
+  if (openedEl) openedEl.textContent = info.openedCount + '/3';
+  if (remainingEl) remainingEl.textContent = info.remainingCount;
+
+  // Format countdown
+  var hours = Math.floor(info.expiresIn / 3600000);
+  var minutes = Math.floor(info.expiresIn % 3600000 / 60000);
+  var seconds = Math.floor(info.expiresIn % 60000 / 1000);
+
+  if (countdownEl) {
+    countdownEl.textContent = "".concat(String(hours).padStart(2, '0'), ":").concat(String(minutes).padStart(2, '0'), ":").concat(String(seconds).padStart(2, '0'));
+  }
+
+  // Update box card status
+  var openedBoxes = info.openedBoxes;
+  var nextBox = typeof info.nextBox === 'number' ? info.nextBox : openedBoxes.length >= 3 ? null : openedBoxes.length + 1;
+  var pendingBox = typeof lmbManager !== 'undefined' ? lmbManager.getCurrentBoxNumber() : null;
+  for (var i = 1; i <= 3; i++) {
+    var card = document.getElementById('boxCard' + i);
+    if (!card) continue;
+    var status = card.querySelector('.box-status');
+    if (!status) continue;
+
+    if (openedBoxes.includes(i)) {
+      card.classList.add('is-opened');
+      card.classList.remove('is-pending');
+      status.textContent = '✅ Đã mở';
+      continue;
+    }
+
+    if (confirmationPending) {
+      card.classList.add('is-pending');
+      card.classList.remove('is-opened');
+      if (pendingBox && i === pendingBox) {
+        status.textContent = '⏳ Hoàn tất nhận quà/rút tiền';
+      } else {
+        status.textContent = '🔒 Chờ xử lý hộp hiện tại';
+      }
+      continue;
+    }
+
+    if (nextBox && i !== nextBox) {
+      card.classList.remove('is-opened', 'is-pending');
+      status.textContent = '🔒 Mở theo thứ tự';
+      continue;
+    }
+
+    card.classList.remove('is-opened', 'is-pending');
+    status.textContent = nextBox === i ? '👉 Mở hộp này tiếp theo' : '';
+  }
+
+  // Warn if session expiring soon
+  if (info.expiresIn < 60000 && info.expiresIn > 0) {
+    if (countdownEl) {
+      countdownEl.style.color = '#ef4444';
+      countdownEl.style.animation = 'pulse 1s infinite';
+    }
+  }
+}
+
+// Update display on page load
+document.addEventListener('DOMContentLoaded', function () {
+  updateSessionDisplay();
+  setInterval(updateSessionDisplay, 1000);
+});</script>
+  <style>
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+  </style>
+</div>

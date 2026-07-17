@@ -1,0 +1,136 @@
+﻿<!-- TOOLS TAB -->
+  <div class="tab-panel" id="panel-tools">
+    <h1 style="font-size:18px;font-weight:700;margin-bottom:20px">Công cụ hệ thống</h1>
+    
+    <!-- Cleanup config -->
+    <div class="tool-card">
+      <div class="tool-title"><i class="fas fa-trash-alt" style="color:var(--text2)"></i> Tự động xóa phiên chơi cũ</div>
+      <div class="tool-status-bar">
+        <div class="status-dot"></div>
+        <div class="status-text">
+          <strong>Đang hoạt động</strong>
+          <span>Tự động xóa phiên sau 15 ngày</span>
+        </div>
+        <button type="button" class="status-toggle-btn">BẬT</button>
+      </div>
+      <div class="tool-config-row">
+        <div class="config-label">
+          <i class="fas fa-toggle-on" style="color:var(--blue)"></i>
+          <div>Bật tự động xóa <span>Tự động xóa các phiên chơi cũ theo lịch trình</span></div>
+        </div>
+        <div class="toggle-track" style="flex-shrink:0"><div class="toggle-thumb"></div></div>
+      </div>
+      <div class="tool-config-row">
+        <div class="config-label">
+          <i class="fas fa-calendar-day" style="color:var(--blue)"></i>
+          <div>Số ngày giữ lại</div>
+        </div>
+        <div class="config-input-row">
+          <input id="autoDeleteInput" class="config-input" value="15" type="number" min="1">
+          <span class="config-unit">ngày</span>
+          <button type="button" class="btn-save-sm" onclick="saveAutoDeleteDays()">Lưu</button>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--text3);padding:10px 0 14px;border-bottom:1px solid var(--border)">Phiên chơi sẽ bị xóa sau 15 ngày kể từ ngày tạo</div>
+      <div class="tool-schedule">
+        <div class="schedule-item">
+          <i class="fas fa-clock"></i>
+          <div><div class="schedule-label">Lần cuối chạy:</div><div class="schedule-val">15 giờ trước</div></div>
+        </div>
+        <div class="schedule-item">
+          <i class="fas fa-calendar-check"></i>
+          <div><div class="schedule-label">Lần tiếp theo:</div><div class="schedule-val">Trong 8 giờ</div></div>
+        </div>
+      </div>
+      <div class="tool-manual">
+        <div class="tool-manual-info">
+          <strong>Chạy cleanup thủ công</strong>
+          <span>Xóa ngay các phiên chơi cũ theo cấu hình hiện tại</span>
+        </div>
+        <button type="button" class="btn-run" onclick="runManualCleanup()"><i class="fas fa-play"></i> Chạy ngay</button>
+      </div>
+      <div class="tool-info-box">
+        <i class="fas fa-triangle-exclamation"></i>
+        <p><strong>Cách thức hoạt động:</strong><br>Tự động xóa <strong>TẤT CẢ</strong> phiên chơi có ngày tạo cũ hơn số ngày được cấu hình, bất kể trạng thái (đang hoạt động, đã hoàn thành, có người chơi hay chưa).</p>
+      </div>
+    </div>
+
+    <!-- Backup & Restore -->
+    <div class="tool-card" style="margin-top:20px;">
+      <div class="tool-title"><i class="fas fa-database" style="color:var(--text2)"></i> Sao lưu và khôi phục</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">
+        <div style="background:var(--bg4);padding:16px;border-radius:8px;border:1px solid var(--border);">
+          <h4 style="margin:0 0 8px 0;font-size:14px;font-weight:600;"><i class="fas fa-download"></i> Tải sao lưu</h4>
+          <p style="margin:0 0 12px 0;font-size:13px;color:var(--text2);">Tải xuống tệp sao lưu chứa cấu hình hiện tại</p>
+          <button type="button" class="btn-save" onclick="downloadBackup()" style="width:100%;"><i class="fas fa-download"></i> Tải xuống</button>
+        </div>
+        <div style="background:var(--bg4);padding:16px;border-radius:8px;border:1px solid var(--border);">
+          <h4 style="margin:0 0 8px 0;font-size:14px;font-weight:600;"><i class="fas fa-upload"></i> Khôi phục</h4>
+          <p style="margin:0 0 12px 0;font-size:13px;color:var(--text2);">Tải lên tệp sao lưu để khôi phục cấu hình</p>
+          <button type="button" onclick="document.getElementById('restoreFileInput').click()" class="btn-save" style="width:100%;"><i class="fas fa-upload"></i> Chọn tệp</button>
+          <input type="file" id="restoreFileInput" accept=".json" style="display:none;">
+        </div>
+      </div>
+      <div class="tool-info-box" style="margin-top:16px;">
+        <i class="fas fa-info-circle"></i>
+        <p><strong>Lưu ý:</strong> Sao lưu sẽ chứa tất cả cấu hình (logo, nội dung, chức năng). Khôi phục sẽ ghi đè cấu hình hiện tại.</p>
+      </div>
+    </div>
+
+    <div class="tool-card" style="margin-top:20px;">
+      <div class="tool-title"><i class="fas fa-book-open" style="color:var(--text2)"></i> Hướng dẫn sử dụng toàn hệ thống</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">Tài liệu dành cho admin mới: tập trung vào tạo phiên, quản lý tiền tệ, cơ chế phiên chơi và thao tác CSKH.</p>
+      <div class="dev-guide-grid">
+        <details class="dev-guide-item" open>
+          <summary>1) Cách tạo phiên chơi từ đầu</summary>
+          <ul>
+            <li>Vào tab Phiên chơi, bấm tạo phiên mới hoặc clone phiên mẫu gần nhất.</li>
+            <li>Điền đủ thông tin phiên: mã phiên, trạng thái, thứ tự hộp, dữ liệu phần thưởng.</li>
+            <li>Kiểm tra nhanh trước khi lưu: mã phiên không trùng, giá trị quà đúng, trạng thái mở hộp chuẩn.</li>
+            <li>Sau khi lưu, mở lại phiên vừa tạo để test thao tác mở hộp thử và kiểm tra log.</li>
+          </ul>
+        </details>
+        <details class="dev-guide-item" open>
+          <summary>2) Cách dùng các loại tiền tệ</summary>
+          <ul>
+            <li>Hệ thống hỗ trợ nhiều loại tiền (ví dụ VND, USD, NDT) theo cấu hình phiên.</li>
+            <li>Khi tạo phiên, chọn đúng tiền tệ mục tiêu để đồng bộ hiển thị ví và lịch sử giao dịch.</li>
+            <li>Luồng rút tiền và quy đổi phải đối chiếu đúng loại tiền để tránh duyệt sai số.</li>
+            <li>Nếu đổi tiền tệ sau khi đang chạy phiên, cần kiểm tra lại toàn bộ giá trị phần thưởng.</li>
+          </ul>
+        </details>
+        <details class="dev-guide-item" open>
+          <summary>3) Cách hoạt động của phiên chơi</summary>
+          <ul>
+            <li>Người chơi mở hộp theo thứ tự được kích hoạt trong phiên.</li>
+            <li>Nếu trúng quà tiền, hệ thống có thể yêu cầu hoàn tất bước duyệt/rút trước khi mở tiếp.</li>
+            <li>Trạng thái hộp chuyển theo luồng: chưa mở - đang mở - đã mở - chờ xử lý (nếu có).</li>
+            <li>Backend luôn là nguồn kiểm tra cuối cùng để tránh bypass điều kiện mở hộp.</li>
+          </ul>
+        </details>
+        <details class="dev-guide-item" open>
+          <summary>4) Thao tác CSKH cho admin mới</summary>
+          <ul>
+            <li>Ưu tiên trả lời hội thoại waiting/unread trước.</li>
+            <li>Dùng menu ba chấm trên từng hội thoại để mark-read, ưu tiên, lưu trữ, đóng, xóa.</li>
+            <li>Dùng ghi chú nội bộ để bàn giao ca, tránh ghi thông tin nhạy cảm trong chat công khai.</li>
+            <li>Khi xử lý xong: mark-resolved, lưu note, kiểm tra lại trạng thái conversation.</li>
+          </ul>
+        </details>
+      </div>
+    </div>
+
+  </div>
+
+  <style>
+    #panel-tools .dev-guide-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    #panel-tools .dev-guide-item { border:1px solid var(--border); background:var(--bg4); border-radius:10px; padding:10px 12px; }
+    #panel-tools .dev-guide-item summary { cursor:pointer; font-size:13px; font-weight:700; color:var(--text); }
+    #panel-tools .dev-guide-item ul { margin:10px 0 0 18px; color:var(--text2); font-size:12.5px; line-height:1.5; }
+    @media (max-width: 1200px) {
+      #panel-tools .dev-guide-grid { grid-template-columns:1fr; }
+    }
+  </style>
+
+  
+

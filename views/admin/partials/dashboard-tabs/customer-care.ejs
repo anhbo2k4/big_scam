@@ -1,0 +1,471 @@
+<div class="tab-panel" id="panel-customer-care">
+  <link rel="stylesheet" href="/css/admin-customer-care.css?v=20260528perf1">
+
+  <div class="cc-root">
+    <div class="cc-title-row">
+      <div class="cc-title">💬 Chăm sóc khách hàng</div>
+      <div class="cc-title-actions">
+        <button class="cc-btn cc-btn-outline" id="ccExportCsvBtn" type="button" title="Xuất lịch sử chat CSV">⬇️ Export CSV</button>
+        <button class="cc-pane-toggle-btn" id="ccToggleConversationsBtn" type="button" aria-pressed="false" title="Ẩn/hiện cột cuộc hội thoại">
+          <span>🗂 Cuộc hội thoại</span>
+          <span class="cc-pane-toggle-badge" id="ccToggleConversationsCount">0</span>
+        </button>
+        <button class="cc-pane-toggle-btn" id="ccToggleInfoBtn" type="button" aria-pressed="false" title="Ẩn/hiện cột thông tin khách hàng">
+          <span>👤 Thông tin KH</span>
+        </button>
+        <div class="cc-stat-pill" id="ccStatOnline" data-tip="Số khách đang online realtime"><span class="cc-stat-dot online"></span> <span id="ccOnlineCount">0</span> Online</div>
+        <div class="cc-stat-pill" id="ccStatWaiting" data-tip="Số hội thoại cần phản hồi ưu tiên">🔔 <span id="ccWaitingCount">0</span> Đang chờ</div>
+        <div class="cc-stat-pill" id="ccStatUnread" data-tip="Tổng tin nhắn chưa đọc trong tab CSKH">📩 <span id="ccUnreadCount">0</span> Chưa đọc</div>
+      </div>
+    </div>
+
+    <!-- Admin presence strip -->
+    <div class="cc-admin-presence-bar" id="ccAdminPresenceBar"></div>
+
+    <div class="cc-main">
+      <!-- LEFT PANEL: Conversations -->
+      <div class="cc-left">
+        <div class="cc-mobile-list-header">
+          <div class="cc-mobile-list-title">CSKH</div>
+          <div class="cc-mobile-list-actions">
+            <button class="cc-mobile-icon-btn" id="ccMobileSearchBtn" type="button" title="Tìm kiếm"><i class="fas fa-search"></i></button>
+            <button class="cc-mobile-icon-btn" id="ccMobileFilterBtn" type="button" title="Bộ lọc"><i class="fas fa-sliders-h"></i></button>
+          </div>
+        </div>
+        <div class="cc-block-title">Cuộc hội thoại</div>
+        <div class="cc-search-wrap">
+          <div class="cc-search-box">
+            <i class="fas fa-search" style="color:var(--cc-muted);font-size:13px;"></i>
+            <input class="cc-search" id="ccSearchInput" type="text" placeholder="Tìm theo tên / SĐT / email / mã chat / IP...">
+          </div>
+          <button class="cc-btn cc-btn-outline cc-filter-toggle" id="ccToggleAdvancedFiltersBtn" type="button" aria-expanded="false">
+            <i class="fas fa-sliders-h"></i>
+            <span>Bộ lọc nâng cao</span>
+          </button>
+          <div class="cc-advanced-filters">
+            <div class="cc-filter-grid">
+              <input class="cc-search" id="ccIpFilter" type="text" placeholder="Lọc IP khách hàng...">
+              <input class="cc-search" id="ccGameSessionFilter" type="text" placeholder="Lọc mã phiên chơi...">
+              <input class="cc-search" id="ccDateFilter" type="date" aria-label="Lọc theo ngày chat">
+              <input class="cc-search" id="ccMonthFilter" type="month" aria-label="Lọc theo tháng chat">
+            </div>
+            <select class="cc-status-filter" id="ccStatusFilter">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="active">🟢 Đang hoạt động</option>
+              <option value="waiting">🟡 Đang chờ</option>
+              <option value="closed">⚫ Đã đóng</option>
+              <option value="archived">📦 Lưu trữ</option>
+            </select>
+            <button class="cc-btn cc-btn-outline cc-filter-clear" id="ccClearFiltersBtn" type="button">Xóa bộ lọc nâng cao</button>
+          </div>
+        </div>
+        <div class="cc-conv-list" id="ccConversationList"></div>
+      </div>
+
+      <!-- MIDDLE PANEL: Chat Area -->
+      <div class="cc-mid">
+        <div class="cc-chat-header">
+          <button class="cc-mobile-back-btn" id="ccMobileBackBtn" type="button" title="Quay lại danh sách"><i class="fas fa-arrow-left"></i></button>
+          <div class="cc-chat-avatar" id="ccChatAvatar">-</div>
+          <div class="cc-chat-info" id="ccChatInfoTap">
+            <div class="cc-chat-name" id="ccChatName">Chưa chọn hội thoại</div>
+            <div class="cc-chat-sub-row">
+              <div class="cc-chat-status" id="ccChatStatus">--</div>
+              <div class="cc-game-session-badge" id="ccHeaderGameSession" title="Phiên đang chơi">🎮 --</div>
+              <div class="cc-chat-identity-badge" id="ccHeaderIdentity" title="Dấu hiệu nhận diện chat">#--</div>
+            </div>
+          </div>
+          <div class="cc-header-actions">
+            <button class="cc-btn cc-btn-icon cc-mobile-menu-btn" id="ccMobileMenuBtn" type="button" title="Tùy chọn"><i class="fas fa-ellipsis-v"></i></button>
+            <button class="cc-btn cc-btn-icon" id="ccSearchMsgBtn" type="button" title="Tìm tin nhắn"><i class="fas fa-search"></i></button>
+            <button class="cc-btn cc-btn-icon" id="ccPriorityBtn" type="button" title="Ưu tiên"><i class="fas fa-flag"></i></button>
+            <button class="cc-btn cc-btn-outline" id="ccViewSessionBtn" type="button">📋 Xem phiên</button>
+            <button class="cc-btn cc-btn-join" id="ccJoinSessionBtn" type="button" style="display:none">🙋 Tham gia</button>
+            <button class="cc-btn cc-btn-green" id="ccMarkDoneBtn" type="button">✅ Đã xong</button>
+            <div class="cc-more-menu-wrap">
+              <button class="cc-btn cc-btn-icon" id="ccMoreBtn" type="button" title="Thêm"><i class="fas fa-ellipsis-v"></i></button>
+              <div class="cc-more-dropdown" id="ccMoreDropdown">
+                <button class="cc-more-item" id="ccArchiveBtn"><i class="fas fa-archive"></i> Lưu trữ</button>
+                <button class="cc-more-item" id="ccDeleteBtn" style="color:#ef4444;"><i class="fas fa-trash"></i> Xóa hội thoại</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pinned search bar (toggleable) -->
+        <div class="cc-msg-search-bar" id="ccMsgSearchBar" style="display:none;">
+          <input class="cc-msg-search-input" id="ccMsgSearchInput" type="text" placeholder="Tìm trong tin nhắn...">
+          <button class="cc-btn cc-btn-icon" onclick="document.getElementById('ccMsgSearchBar').style.display='none'"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="cc-msgs" id="ccMessages"></div>
+
+        <!-- Takeover overlay — shown when admin opens unassigned/other-agent session -->
+        <div class="cc-takeover-overlay" id="ccTakeoverOverlay" style="display:none;">
+          <div class="cc-takeover-card">
+            <div class="cc-takeover-icon">💬</div>
+            <div class="cc-takeover-title" id="ccTakeoverTitle">Khách hàng cần hỗ trợ</div>
+            <div class="cc-takeover-desc" id="ccTakeoverDesc">Phiên chat này chưa có ai hỗ trợ. Bạn muốn tiếp quản?</div>
+            <div class="cc-takeover-actions">
+              <button class="cc-btn cc-takeover-accept" id="ccTakeoverAccept" type="button">✅ Tiếp quản</button>
+              <button class="cc-btn cc-takeover-decline" id="ccTakeoverDecline" type="button">Bỏ qua</button>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="cc-typing-indicator" id="ccTypingIndicator" style="display:none;padding:4px 16px;font-size:12px;color:var(--cc-text3,#94a3b8);">
+          <span class="cc-typing-dots"><span>.</span><span>.</span><span>.</span></span>
+          <span id="ccTypingText">Khách hàng đang nhập tin nhắn...</span>
+        </div>
+
+        <div class="cc-emoji-picker" id="ccEmojiPicker" style="display:none;"></div>
+
+        <!-- Tiptap bubble/format toolbar -->
+        <div class="cc-tiptap-bubble" id="ccTiptapBubble" style="display:none;">
+          <button type="button" class="cc-tt-btn" data-tt="bold" title="Bold"><b>B</b></button>
+          <button type="button" class="cc-tt-btn" data-tt="italic" title="Italic"><i>I</i></button>
+          <button type="button" class="cc-tt-btn" data-tt="underline" title="Underline"><u>U</u></button>
+          <span class="cc-tt-divider"></span>
+          <button type="button" class="cc-tt-btn cc-tt-color-btn" data-tt="color" title="Màu chữ">
+            <span class="cc-tt-color-icon">A</span>
+            <input type="color" id="ccTtColorPicker" value="#f87171" tabindex="-1">
+          </button>
+          <select class="cc-tt-select" id="ccTtFontSize" title="Cỡ chữ">
+            <option value="">Size</option>
+            <option value="12px">12</option>
+            <option value="14px">14</option>
+            <option value="16px" selected>16</option>
+            <option value="18px">18</option>
+            <option value="20px">20</option>
+            <option value="24px">24</option>
+            <option value="28px">28</option>
+            <option value="32px">32</option>
+            <option value="36px">36</option>
+            <option value="40px">40</option>
+            <option value="44px">44</option>
+            <option value="48px">48</option>
+            <option value="52px">52</option>
+            <option value="56px">56</option>
+            <option value="60px">60</option>
+            <option value="64px">64</option>
+            <option value="68px">68</option>
+          </select>
+        </div>
+
+        <!-- Custom context menu -->
+        <div class="cc-tiptap-ctx" id="ccTiptapCtx" style="display:none;">
+          <button type="button" data-tt="bold"><b>B</b> Bold</button>
+          <button type="button" data-tt="italic"><i>I</i> Italic</button>
+          <button type="button" data-tt="underline"><u>U</u> Underline</button>
+          <div class="cc-ctx-divider"></div>
+          <button type="button" data-tt="color">🎨 Màu chữ
+            <input type="color" id="ccCtxColorPicker" value="#f87171" tabindex="-1">
+          </button>
+        </div>
+
+        <div class="cc-input-row">
+          <div class="cc-input-actions">
+            <button class="cc-input-action-btn" id="ccAttachBtn" type="button" title="Đính kèm file"><i class="fas fa-paperclip"></i></button>
+            <button class="cc-input-action-btn" id="ccImageBtn" type="button" title="Gửi ảnh"><i class="fas fa-image"></i></button>
+            <button class="cc-input-action-btn" id="ccEmojiBtn" type="button" title="Chọn emoji"><i class="fas fa-smile"></i></button>
+          </div>
+          <input type="file" id="ccFileUpload" style="display:none">
+          <input type="file" id="ccImageUpload" accept="image/*" style="display:none">
+
+          <!-- Tiptap editor replaces textarea; textarea kept hidden for compatibility -->
+          <textarea class="cc-input" id="ccInput" rows="1" style="display:none;" placeholder=""></textarea>
+          <div class="cc-input cc-tiptap-wrap" id="ccTiptapWrap">
+            <div class="cc-tiptap-editor" id="ccTiptapEditor" contenteditable="true" data-placeholder="Nhập tin nhắn hỗ trợ... có thể dán ảnh, dán văn bản đã định dạng, Enter để gửi"></div>
+            <div class="cc-tiptap-resize-handle" id="ccTiptapResizeHandle"></div>
+          </div>
+
+          <button class="cc-send-btn" id="ccSendBtn" type="button">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL: Customer Info -->
+      <div class="cc-right">
+        <div class="cc-block-title">Thông tin khách hàng</div>
+
+        <div class="cc-chat-style-toggle-wrap">
+          <button class="cc-btn cc-btn-outline cc-chat-style-toggle" id="ccToggleChatStyleBtn" type="button">🎨 Tùy chỉnh giao diện chat</button>
+        </div>
+
+        <div class="cc-chat-style-bar" id="ccChatStyleBar" style="display:none;">
+          <div class="cc-chat-style-item cc-chat-style-item-wide">
+            <span>Theme mẫu</span>
+            <div class="cc-theme-presets">
+              <button class="cc-theme-card" type="button" data-cc-theme="messenger">
+                <span class="cc-theme-card-preview cc-theme-messenger"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Messenger</strong><em>Tối</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="telegram">
+                <span class="cc-theme-card-preview cc-theme-telegram"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Telegram</strong><em>Tối</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="dark">
+                <span class="cc-theme-card-preview cc-theme-dark"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Dark Pro</strong><em>Tối</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="ocean">
+                <span class="cc-theme-card-preview cc-theme-ocean"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Ocean</strong><em>Tối</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="sunset">
+                <span class="cc-theme-card-preview cc-theme-sunset"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Sunset</strong><em>Tối</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="forest">
+                <span class="cc-theme-card-preview cc-theme-forest"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Forest</strong><em>Tối</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="rose">
+                <span class="cc-theme-card-preview cc-theme-rose"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Rose</strong><em>Tối</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="mono">
+                <span class="cc-theme-card-preview cc-theme-mono"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Mono</strong><em>Tối</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="daylight">
+                <span class="cc-theme-card-preview cc-theme-daylight"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Daylight</strong><em>Sáng</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="mintlight">
+                <span class="cc-theme-card-preview cc-theme-mintlight"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Mint Light</strong><em>Sáng</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="skyglass">
+                <span class="cc-theme-card-preview cc-theme-skyglass"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Sky Glass</strong><em>Sáng</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="peachcream">
+                <span class="cc-theme-card-preview cc-theme-peachcream"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Peach Cream</strong><em>Sáng</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="lavenderpaper">
+                <span class="cc-theme-card-preview cc-theme-lavenderpaper"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Lavender Paper</strong><em>Sáng</em></span>
+              </button>
+              <button class="cc-theme-card" type="button" data-cc-theme="sandstone">
+                <span class="cc-theme-card-preview cc-theme-sandstone"><span></span><span></span></span>
+                <span class="cc-theme-card-meta"><strong>Sandstone</strong><em>Sáng</em></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="cc-chat-style-item cc-chat-style-item-wide">
+            <span>Nickname khách hàng</span>
+            <div class="cc-color-row">
+              <input type="text" id="ccCustomerNicknameInput" placeholder="VD: Khách VIP A" maxlength="60">
+              <button class="cc-btn cc-btn-outline" id="ccSaveNicknameBtn" type="button">Lưu nickname</button>
+            </div>
+          </div>
+          <div class="cc-chat-style-item">
+            <span>Màu chữ chat</span>
+            <div class="cc-color-row">
+              <input type="color" id="ccChatTextColor" value="#f1f5f9">
+              <input type="text" id="ccChatTextColorText" value="#f1f5f9" maxlength="7">
+            </div>
+          </div>
+          <div class="cc-chat-style-item">
+            <span>Màu nền khung chat</span>
+            <div class="cc-color-row">
+              <input type="color" id="ccChatBgColor" value="#111827">
+              <input type="text" id="ccChatBgColorText" value="#111827" maxlength="7">
+            </div>
+          </div>
+          <div class="cc-chat-style-item">
+            <span>Màu khung tin khách hàng</span>
+            <div class="cc-color-row">
+              <input type="color" id="ccBubbleTheirsColor" value="#111827">
+              <input type="text" id="ccBubbleTheirsColorText" value="#111827" maxlength="7">
+            </div>
+          </div>
+          <div class="cc-chat-style-item">
+            <span>Màu khung tin admin</span>
+            <div class="cc-color-row">
+              <input type="color" id="ccBubbleMineColor" value="#111827">
+              <input type="text" id="ccBubbleMineColorText" value="#111827" maxlength="7">
+            </div>
+          </div>
+          <div class="cc-chat-style-item">
+            <span>Màu chữ tin khách hàng</span>
+            <div class="cc-color-row">
+              <input type="color" id="ccTextTheirsColor" value="#f1f5f9">
+              <input type="text" id="ccTextTheirsColorText" value="#f1f5f9" maxlength="7">
+            </div>
+          </div>
+          <div class="cc-chat-style-item">
+            <span>Màu chữ tin admin</span>
+            <div class="cc-color-row">
+              <input type="color" id="ccTextMineColor" value="#ffffff">
+              <input type="text" id="ccTextMineColorText" value="#ffffff" maxlength="7">
+            </div>
+          </div>
+          <div class="cc-chat-style-item cc-chat-style-item-wide">
+            <span>Tối ưu toast người chơi</span>
+            <div class="cc-color-row" style="gap:12px;flex-wrap:wrap;align-items:center;">
+              <label style="display:inline-flex;align-items:center;gap:6px;">
+                <input type="checkbox" id="ccToastGroupEnabled" checked>
+                <span>Gom toast</span>
+              </label>
+              <label style="display:inline-flex;align-items:center;gap:6px;">
+                <span>Cửa sổ gom (ms)</span>
+                <input type="number" id="ccToastGroupWindowMs" min="0" max="6000" step="100" value="2000" style="width:96px;">
+              </label>
+              <label style="display:inline-flex;align-items:center;gap:6px;">
+                <input type="checkbox" id="ccToastSwipeDismissEnabled" checked>
+                <span>Cho vuốt tắt toast (mobile)</span>
+              </label>
+            </div>
+          </div>
+          <button class="cc-btn cc-btn-outline cc-chat-style-save" id="ccSaveChatStyleBtn" type="button">💾 Lưu màu chat</button>
+        </div>
+
+        <div class="cc-profile">
+          <div class="cc-cust-avatar" id="ccCustAvatar">-</div>
+          <div class="cc-cust-name" id="ccCustName">--</div>
+          <div class="cc-chat-status" id="ccCustStatus">Online</div>
+        </div>
+
+        <div class="cc-kv">
+          <div class="cc-info-block">
+            <div class="cc-info-label">Tham gia</div>
+            <div class="cc-info-val" id="ccJoinDate">--</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">Số điện thoại</div>
+            <div class="cc-info-val" id="ccPhone">--</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">Email</div>
+            <div class="cc-info-val" id="ccEmail">--</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">Mã hội thoại</div>
+            <div class="cc-info-val" id="ccChatCode">--</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">Phiên đang chơi</div>
+            <div class="cc-info-val" id="ccGameSession">--</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">IP khách hàng</div>
+            <div class="cc-info-val mono" id="ccCustIp">--</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">User Agent</div>
+            <div class="cc-info-val mono" id="ccUserAgent">--</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">Fingerprint</div>
+            <div class="cc-info-val mono" id="ccFingerprint">--</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">Hết hạn phiên chat</div>
+            <div class="cc-info-val" id="ccSessionExpireAt">--</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">Người hỗ trợ</div>
+            <div class="cc-info-val" id="ccAgentName"><span class="cc-agent-badge unassigned">Chưa có ai tham gia</span></div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">Tổng tin nhắn</div>
+            <div class="cc-info-val gold" id="ccMsgCount">0</div>
+          </div>
+          <div class="cc-info-block">
+            <div class="cc-info-label">Độ hài lòng</div>
+            <div class="cc-info-val" id="ccSatisfaction">
+              <span class="cc-stars">⭐⭐⭐⭐⭐</span> <span id="ccSatScore">--</span>
+            </div>
+          </div>
+
+          <div class="cc-tags-section">
+            <div class="cc-note-label">Tags</div>
+            <div class="cc-tags-list" id="ccTagsList"></div>
+            <div class="cc-tag-input-row">
+              <input class="cc-tag-input" id="ccTagInput" placeholder="Thêm tag..." maxlength="20">
+              <button class="cc-btn cc-btn-icon cc-btn-sm" onclick="addSessionTag()" type="button"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+
+          <div class="cc-note-wrap">
+            <div class="cc-note-label">📝 Ghi chú nội bộ admin</div>
+            <textarea class="cc-note-input" id="ccAdminNote" placeholder="Thêm ghi chú chăm sóc cho khách hàng này..."></textarea>
+            <button class="cc-btn cc-note-save" id="ccSaveNoteBtn" type="button">💾 Lưu ghi chú</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cc-info-sheet" id="ccInfoSheet">
+      <div class="cc-info-sheet-backdrop" id="ccInfoSheetBackdrop"></div>
+      <div class="cc-info-sheet-panel" role="dialog" aria-modal="true" aria-label="Thông tin khách hàng">
+        <div class="cc-info-sheet-handle"></div>
+        <div class="cc-info-sheet-head">
+          <div class="cc-info-sheet-title">Thông tin khách hàng</div>
+          <button class="cc-mobile-icon-btn" id="ccInfoSheetCloseBtn" type="button" title="Đóng"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cc-info-sheet-profile">
+          <div class="cc-cust-avatar" id="ccSheetAvatar">-</div>
+          <div>
+            <div class="cc-cust-name" id="ccSheetName">--</div>
+            <div class="cc-chat-status" id="ccSheetStatus">--</div>
+          </div>
+        </div>
+        <div class="cc-info-sheet-grid">
+          <div class="cc-info-block"><div class="cc-info-label">Tham gia</div><div class="cc-info-val" id="ccSheetJoinDate">--</div></div>
+          <div class="cc-info-block"><div class="cc-info-label">Số điện thoại</div><div class="cc-info-val" id="ccSheetPhone">--</div></div>
+          <div class="cc-info-block"><div class="cc-info-label">Email</div><div class="cc-info-val" id="ccSheetEmail">--</div></div>
+          <div class="cc-info-block"><div class="cc-info-label">Chat ID</div><div class="cc-info-val mono" id="ccSheetChatCode">--</div></div>
+          <div class="cc-info-block"><div class="cc-info-label">Session ID</div><div class="cc-info-val mono" id="ccSheetGameSession">--</div></div>
+          <div class="cc-info-block"><div class="cc-info-label">Hết hạn phiên chat</div><div class="cc-info-val" id="ccSheetSessionExpireAt">--</div></div>
+          <div class="cc-info-block"><div class="cc-info-label">IP</div><div class="cc-info-val mono" id="ccSheetIp">--</div></div>
+          <div class="cc-info-block"><div class="cc-info-label">User Agent</div><div class="cc-info-val mono" id="ccSheetUserAgent">--</div></div>
+          <div class="cc-info-block"><div class="cc-info-label">Fingerprint</div><div class="cc-info-val mono" id="ccSheetFingerprint">--</div></div>
+          <div class="cc-info-block"><div class="cc-info-label">Tổng tin nhắn</div><div class="cc-info-val gold" id="ccSheetMsgCount">0</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+(function customerCareVisibilityBridge() {
+  var panel = document.getElementById('panel-customer-care');
+  if (!panel) return;
+
+  var emit = function emit() {
+    var visible = panel.classList.contains('active');
+    window.dispatchEvent(new CustomEvent('cc:visibility', { detail: { visible: visible } }));
+  };
+
+  // Initial state: notify immediately so chat can start/stop fallback polling correctly.
+  emit();
+
+  // Observe tab activation without coupling to switchTab implementation details.
+  var observer = new MutationObserver(function () {return emit();});
+  observer.observe(panel, { attributes: true, attributeFilter: ['class'] });
+
+  // Load non-critical emoji bundle lazily so chat list/input appears first.
+  var lazyLoadEmoji = function lazyLoadEmoji() {
+    if (window.EmojiMart) return;
+    var tag = document.createElement('script');
+    tag.src = '/vendor/emoji-mart/browser.js';
+    tag.defer = true;
+    tag.crossOrigin = 'anonymous';
+    document.head.appendChild(tag);
+  };
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(lazyLoadEmoji, { timeout: 2500 });
+  } else {
+    setTimeout(lazyLoadEmoji, 1200);
+  }
+})();</script>
+  <script type="module" src="/build-modern/admin-customer-care.js?v=20260528perf1"></script>
+  <script nomodule src="/build-legacy/admin-customer-care.js?v=20260528perf1"></script>
+</div>

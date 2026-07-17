@@ -1,0 +1,306 @@
+<!-- THANK YOU / CONFIRMATION PAGE -->
+<div id="page-thankyou" class="page">
+  <div class="thankyou-hero">
+    <div class="thankyou-icon">✅</div>
+    <h1 class="thankyou-heading" id="thankYouHeading">Hàng sẽ sớm được giao đến bạn!</h1>
+    <p class="thankyou-subtitle">Yêu cầu của bạn đã được ghi nhận ✨</p>
+  </div>
+
+  <div class="confirmation-card">
+    <div class="confirmation-id">
+      Mã xác nhận: <strong id="confirmationIdDisplay">#--</strong>
+    </div>
+
+    <div class="result-summary">
+      <div class="summary-section" id="summaryPrizeSection">
+        <div class="summary-title">📦 KẾT QUẢ QUAY SỐ</div>
+        <div class="summary-item">
+          <span class="summary-label">Phần thưởng:</span>
+          <span class="summary-value" id="summaryPrizeDisplay">--</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Giá trị:</span>
+          <span class="summary-value" id="summaryValueDisplay">--</span>
+        </div>
+      </div>
+
+      <div class="summary-section">
+        <div class="summary-title">👤 THÔNG TIN CÁ NHÂN</div>
+        <div class="summary-item">
+          <span class="summary-label">Họ tên:</span>
+          <span class="summary-value" id="summaryNameDisplay">--</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Số ĐT:</span>
+          <span class="summary-value" id="summaryPhoneDisplay">--</span>
+        </div>
+        <div class="summary-item" id="summaryEmailSection" style="display: none;">
+          <span class="summary-label">Email:</span>
+          <span class="summary-value" id="summaryEmailDisplay">--</span>
+        </div>
+      </div>
+
+      <div class="summary-section" id="exchangeMethodSection" style="display: none;">
+        <div class="summary-title">💼 HÌNH THỨC NHẬN PHẦN THƯỞNG</div>
+        <div class="summary-item">
+          <span class="summary-label">Phương thức:</span>
+          <span class="summary-value" id="summaryMethodDisplay">--</span>
+        </div>
+        <div class="summary-item" id="summaryBankSection" style="display: none;">
+          <span class="summary-label">Ngân hàng:</span>
+          <span class="summary-value" id="summaryBankDisplay">--</span>
+        </div>
+        <div class="summary-item" id="summaryAccountSection" style="display: none;">
+          <span class="summary-label">Số TK (ẩn):</span>
+          <span class="summary-value" id="summaryAccountDisplay">****</span>
+        </div>
+        <div class="summary-item" id="summaryAddressSection" style="display: none;">
+          <span class="summary-label">Địa chỉ giao:</span>
+          <span class="summary-value" id="summaryAddressDisplay">--</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="processing-info">
+      <div class="processing-icon">⏱️</div>
+      <div class="processing-title">Quá trình xử lý</div>
+      <p class="processing-message" id="processingMessage">
+         <strong>Hàng sẽ sớm được giao đến bạn!!</strong>.<br>
+        Vui lòng nhắn cho nhân viên hỗ trợ để cập nhật đơn hàng!
+      </p>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="btn-share" onclick="shareResult()">
+      📲 Chia sẻ kết quả
+    </button>
+    <button class="btn-back-session" onclick="goToBoxSelection()">
+      🎮 Quay lại phiên chơi
+    </button>
+    <button class="btn-back-home" onclick="backToHome()">
+      🏠 Quay về trang chủ
+    </button>
+  </div>
+</div>
+
+<style>
+.thankyou-hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.thankyou-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  display: inline-block;
+  animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.thankyou-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #22c55e;
+  margin-bottom: 8px;
+}
+
+.thankyou-subtitle {
+  font-size: 0.95rem;
+  color: #94a3b8;
+}
+
+.confirmation-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(20, 28, 47, 0.5) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.confirmation-id {
+  text-align: center;
+  font-size: 1rem;
+  color: #cbd5e1;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.confirmation-id strong {
+  color: #00d4ff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+}
+
+.result-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #a855f7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.summary-label {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.summary-value {
+  color: #f1f5f9;
+  font-weight: 500;
+  text-align: right;
+  max-width: 50%;
+  word-break: break-word;
+}
+
+.processing-info {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin-top: 32px;
+}
+
+.processing-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.processing-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #22c55e;
+  margin-bottom: 8px;
+}
+
+.processing-message {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.processing-message strong {
+  color: #f1f5f9;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.btn-share,
+.btn-back-session,
+.btn-back-home {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-share {
+  background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%);
+  color: white;
+}
+
+.btn-share:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+}
+
+.btn-back-session {
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
+  color: #0f172a;
+}
+
+.btn-back-session:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(34, 211, 238, 0.25);
+}
+
+.btn-back-home {
+  background: rgba(30, 41, 59, 0.7);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.btn-back-home:hover {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+@media (max-width: 640px) {
+  .thankyou-heading {
+    font-size: 1.5rem;
+  }
+
+  .confirmation-card {
+    padding: 20px;
+  }
+
+  .summary-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 0;
+  }
+
+  .summary-value {
+    text-align: left;
+    max-width: 100%;
+    margin-top: 4px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn-share,
+  .btn-back-session,
+  .btn-back-home {
+    width: 100%;
+  }
+}
+</style>

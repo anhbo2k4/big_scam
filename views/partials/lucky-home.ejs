@@ -1,0 +1,51 @@
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="home-hero">
+    <div class="home-logo-big" id="customLogoContainer" style="min-height: 80px; display: flex; align-items: center; justify-content: center;">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+        <path d="M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z" stroke="url(#hl1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="hl1" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <p class="home-subtitle">Nhập mã phiên chơi của bạn để bắt đầu<br>khám phá những phần quà bí ẩn hấp dẫn</p>
+
+
+
+    <div class="session-input-card">
+      <label class="session-input-label">Mã phiên chơi</label>
+      <div class="session-input-row">
+        <input type="text" class="session-input" id="sessionCodeInput" placeholder="Nhập mã phiên (VD: ABC123)" />
+        <button class="btn-enter" onclick="enterSession()">🎲 Tham gia</button>
+      </div>
+      <p class="home-note">💡 Gợi ý: Thử mã <strong style="color:#22d3ee;cursor:pointer" onclick="document.getElementById('sessionCodeInput').value='ABC123'">ABC123</strong> hoặc <strong style="color:#a855f7;cursor:pointer" onclick="document.getElementById('sessionCodeInput').value='XYZ789'">XYZ789</strong></p>
+    </div>
+
+    <div id="customTextContent" style="margin-top: 30px; text-align: center; color: #cbd5e1; font-size: 1em; line-height: 1.6;"></div>
+  </div>
+
+  <div class="features-row">
+    <div class="feature-card">
+      <div class="feature-icon">🎁</div>
+      <div class="feature-title">Hộp Quà Bí Ẩn</div>
+      <div class="feature-desc">Chọn 1 trong 3 hộp quà ngẫu nhiên</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <div class="feature-title">Đổi Sang Tiền</div>
+      <div class="feature-desc">Quy đổi phần thưởng thành tiền mặt</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <div class="feature-title">Kho Vật Phẩm</div>
+      <div class="feature-desc">Lưu trữ và quản lý phần thưởng</div>
+    </div>
+    <br>
+  </div>
+      <div class="online-visitors">
+      <span class="visitor-dot"></span>
+      <span class="visitor-count" id="visitorCount">500</span>
+      <span class="visitor-text">người đang truy cập</span>
+    </div>
+</div>

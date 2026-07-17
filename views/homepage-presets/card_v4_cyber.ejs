@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Background</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Share+Tech+Mono&family=Exo+2:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Share+Tech+Mono&family=Exo+2:wght@400;500;600;700;800&display=swap"></noscript>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { background: #02060e; font-family: Georgia, serif; overflow: hidden; }
+    #root { height: 100%; }
+
+    .min-h-screen {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .overlay-gradient {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(to top right, var(--tw-gradient-stops));
+      --tw-gradient-from: rgb(30 27 75 / 0.8);
+      --tw-gradient-via: rgb(46 16 101 / 0.6);
+      --tw-gradient-to: rgb(2 6 23 / 0.9);
+      --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to);
+    }
+
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); opacity: .28; pointer-events: none;
+      animation: orb-drift var(--dur) ease-in-out infinite alternate;
+      animation-delay: var(--delay, 0s);
+    }
+    .orb1 { width:520px; height:520px; background:radial-gradient(circle,#6d28d9,transparent 70%); top:-140px; left:-100px; --dur:14s; }
+    .orb2 { width:400px; height:400px; background:radial-gradient(circle,#4f46e5,transparent 70%); bottom:-80px; right:40px; --dur:18s; --delay:-6s; }
+    .orb3 { width:260px; height:260px; background:radial-gradient(circle,#7c3aed,transparent 70%); top:50%; left:50%; transform:translate(-50%,-50%); --dur:10s; --delay:-3s; }
+
+    .blobs { position:absolute; inset:0; pointer-events:none; }
+    .blob {
+      position:absolute; border-radius:50%; pointer-events:none;
+      animation: blob-float var(--bd) ease-in-out infinite alternate;
+      animation-delay: var(--bdelay, 0s);
+    }
+
+    .grid-lines {
+      position:absolute; inset:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(139,92,246,.05) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(139,92,246,.05) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+
+    .stars { position:absolute; inset:0; pointer-events:none; }
+    .star {
+      position:absolute; border-radius:50%; background:#fff;
+      animation: twinkle var(--d) ease-in-out infinite alternate;
+      animation-delay: var(--sd, 0s); opacity: var(--o);
+    }
+
+    .shapes { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+    .shape {
+      position: absolute;
+      animation: shape-float var(--sf-dur) ease-in-out infinite alternate;
+      animation-delay: var(--s-delay, 0s);
+      opacity: var(--s-op, 0.6);
+      filter: drop-shadow(0 0 6px var(--s-color, rgba(167,139,250,0.6)));
+    }
+
+    .noise {
+      position:absolute; inset:0; pointer-events:none; opacity:.14;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    }
+
+    /* Google Fonts loaded via preload below */
+
+    /* ── Card wrapper ── */
+    .card-wrapper {
+      position:relative; z-index:10;
+      width:100%; max-width:30rem;
+      animation: cyber-in 1s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes cyber-in {
+      from { opacity:0; transform:translateY(36px) scaleX(.96); filter:blur(8px); }
+      to   { opacity:1; transform:translateY(0) scaleX(1); filter:blur(0); }
+    }
+
+    /* ── Outer neon frame ── */
+    .card-wrapper::before, .card-wrapper::after {
+      content:''; position:absolute; pointer-events:none;
+    }
+    /* Top-left corner accent */
+    .card-wrapper::before {
+      top:-3px; left:-3px; width:40px; height:40px;
+      border-top:2px solid #22d3ee; border-left:2px solid #22d3ee;
+      z-index:20;
+      box-shadow: -2px -2px 10px rgba(34,211,238,.5), inset 0 0 6px rgba(34,211,238,.15);
+    }
+    /* Bottom-right corner accent */
+    .card-wrapper::after {
+      bottom:-3px; right:-3px; width:40px; height:40px;
+      border-bottom:2px solid #e879f9; border-right:2px solid #e879f9;
+      z-index:20;
+      box-shadow: 2px 2px 10px rgba(232,121,249,.5), inset 0 0 6px rgba(232,121,249,.15);
+    }
+
+    /* ── Card ── */
+    .card {
+      background: rgba(4,6,18,.97);
+      border:1px solid rgba(34,211,238,.25);
+      border-radius:4px;
+      overflow:hidden;
+      box-shadow:
+        0 0 0 1px rgba(34,211,238,.08),
+        0 0 40px rgba(34,211,238,.12),
+        0 0 80px rgba(232,121,249,.08),
+        0 32px 60px rgba(0,0,0,.85),
+        inset 0 1px 0 rgba(34,211,238,.1);
+      transition: box-shadow .4s;
+      position:relative;
+    }
+    .card:hover {
+      box-shadow:
+        0 0 0 1px rgba(34,211,238,.18),
+        0 0 60px rgba(34,211,238,.2),
+        0 0 100px rgba(232,121,249,.12),
+        0 40px 80px rgba(0,0,0,.9),
+        inset 0 1px 0 rgba(34,211,238,.15);
+    }
+    /* Scanline overlay */
+    .card::before {
+      content:''; position:absolute; inset:0; z-index:100; pointer-events:none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,.06) 2px,
+        rgba(0,0,0,.06) 4px
+      );
+    }
+
+    /* ── Top neon bar ── */
+    .cyber-topbar {
+      height:3px;
+      background: linear-gradient(90deg, transparent 0%, #22d3ee 20%, #a78bfa 50%, #e879f9 80%, transparent 100%);
+      box-shadow: 0 0 12px rgba(34,211,238,.6), 0 0 24px rgba(232,121,249,.3);
+      animation: neon-sweep 3s ease-in-out infinite alternate;
+    }
+    @keyframes neon-sweep {
+      from { opacity:.7; filter:brightness(1); }
+      to   { opacity:1; filter:brightness(1.4); }
+    }
+
+    /* ── Header ── */
+    .card-header {
+      position:relative; overflow:hidden;
+      padding:28px 26px 24px; text-align:center;
+      background: linear-gradient(180deg, rgba(6,10,30,.98) 0%, rgba(4,6,20,.98) 100%);
+    }
+    /* Grid pattern behind header */
+    .card-header::before {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(34,211,238,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,211,238,.04) 1px, transparent 1px);
+      background-size:28px 28px;
+    }
+    /* Bottom border glow */
+    .card-header::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg, transparent, rgba(34,211,238,.4), rgba(232,121,249,.3), transparent);
+      box-shadow:0 0 8px rgba(34,211,238,.3);
+    }
+
+    /* ── Gift icon ── */
+    .gift-icon-wrap {
+      display:inline-flex; justify-content:center;
+      margin-bottom:18px; position:relative; z-index:2;
+    }
+    .gift-icon-glow {
+      position:absolute; inset:-18px; border-radius:50%;
+      background:radial-gradient(circle, rgba(34,211,238,.35) 0%, rgba(168,85,247,.2) 50%, transparent 70%);
+      filter:blur(12px);
+      animation: icon-glow-pulse 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes icon-glow-pulse {
+      from { opacity:.5; transform:scale(.9); }
+      to   { opacity:1;  transform:scale(1.1); }
+    }
+    .gift-icon-box {
+      position:relative; z-index:2;
+      background: linear-gradient(145deg, rgba(8,14,40,.98), rgba(6,10,30,.98));
+      border:1px solid rgba(34,211,238,.4);
+      padding:18px; border-radius:6px;
+      box-shadow:
+        0 0 0 1px rgba(34,211,238,.1),
+        0 0 20px rgba(34,211,238,.25),
+        0 0 40px rgba(34,211,238,.1),
+        inset 0 1px 0 rgba(34,211,238,.15);
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s;
+    }
+    .gift-icon-box:hover {
+      transform:scale(1.1) rotateY(8deg);
+      box-shadow:
+        0 0 0 1px rgba(34,211,238,.3),
+        0 0 30px rgba(34,211,238,.4),
+        inset 0 1px 0 rgba(34,211,238,.2);
+    }
+    .gift-icon-box svg { width:56px; height:56px; color:#22d3ee; display:block; filter:drop-shadow(0 0 8px rgba(34,211,238,.7)); }
+
+    .sparkle-badge {
+      position:absolute; top:-8px; right:-8px; z-index:3;
+      width:20px; height:20px;
+      animation: spin-slow 6s linear infinite;
+      filter:drop-shadow(0 0 4px rgba(232,121,249,.8));
+    }
+    @keyframes spin-slow { to { transform:rotate(360deg); } }
+
+    .ping-dot {
+      position:absolute; bottom:-5px; left:-5px; z-index:3;
+      width:11px; height:11px; border-radius:50%;
+      background:#22d3ee; box-shadow:0 0 8px rgba(34,211,238,.9);
+    }
+    .ping-dot::before {
+      content:''; position:absolute; inset:0; border-radius:50%;
+      background:#22d3ee; animation:ping 1.6s cubic-bezier(0,0,.2,1) infinite;
+    }
+    @keyframes ping { 75%,100%{transform:scale(2.5);opacity:0} }
+
+    /* ── System tag ── */
+    .sys-tag {
+      display:inline-flex; align-items:center; gap:6px;
+      background:rgba(34,211,238,.06); border:1px solid rgba(34,211,238,.2);
+      border-radius:3px; padding:4px 10px; margin-bottom:14px;
+      position:relative; z-index:2;
+    }
+    .sys-tag .blink { color:#22d3ee; animation:blink-cursor 1s step-end infinite; font-family:'Share Tech Mono',monospace; font-size:12px; }
+    @keyframes blink-cursor { 0%,100%{opacity:1} 50%{opacity:0} }
+    .sys-tag span { font-family:'Share Tech Mono',monospace; font-size:11px; color:rgba(34,211,238,.75); letter-spacing:.08em; }
+
+    /* ── Title ── */
+    .card-title {
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(1.3rem,3.5vw,1.7rem);
+      font-weight:900; letter-spacing:.06em; text-transform:uppercase;
+      color:#fff; margin-bottom:8px; line-height:1.15;
+      position:relative; z-index:2;
+      text-shadow:
+        0 0 20px rgba(34,211,238,.6),
+        0 0 40px rgba(34,211,238,.3),
+        0 0 80px rgba(168,85,247,.2);
+      animation: title-glitch 8s ease-in-out infinite;
+    }
+    @keyframes title-glitch {
+      0%,89%,91%,93%,100% { text-shadow:0 0 20px rgba(34,211,238,.6),0 0 40px rgba(34,211,238,.3); transform:translate(0); }
+      90% { text-shadow:-2px 0 rgba(232,121,249,.8),2px 0 rgba(34,211,238,.8); transform:translate(1px,-1px); }
+      92% { text-shadow:2px 0 rgba(232,121,249,.8),-2px 0 rgba(34,211,238,.8); transform:translate(-1px,1px); }
+    }
+    .card-subtitle {
+      font-family:'Exo 2',sans-serif;
+      font-size:13px; font-weight:500;
+      color:rgba(148,220,255,.6); line-height:1.6;
+      padding:0 8px; position:relative; z-index:2;
+    }
+
+    /* ── Ticker ── */
+    .ticker-wrap {
+      overflow:hidden; padding:6px 0;
+      background:rgba(34,211,238,.04);
+      border-top:1px solid rgba(34,211,238,.12);
+      border-bottom:1px solid rgba(34,211,238,.12);
+    }
+    .ticker-inner {
+      display:flex; white-space:nowrap;
+      animation: ticker-run 22s linear infinite;
+    }
+    @keyframes ticker-run { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .ticker-item {
+      display:inline-flex; align-items:center; gap:5px;
+      font-family:'Share Tech Mono',monospace; font-size:11px;
+      color:rgba(34,211,238,.55); letter-spacing:.06em; padding:0 20px;
+    }
+    .ticker-dot { color:rgba(232,121,249,.5); }
+
+    /* ── Card body ── */
+    .card-body {
+      padding:22px 24px 20px;
+      background: rgba(4,6,18,.96);
+      position:relative;
+    }
+    .card-body::before {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(34,211,238,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,211,238,.02) 1px, transparent 1px);
+      background-size:28px 28px;
+    }
+
+    /* ── Stats ── */
+    .stats-row {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:8px; margin-bottom:20px; position:relative; z-index:2;
+    }
+    .stat-tile {
+      background:rgba(34,211,238,.04);
+      border:1px solid rgba(34,211,238,.18);
+      border-radius:3px; padding:10px 6px 9px; text-align:center;
+      position:relative; overflow:hidden;
+      transition:border-color .25s, background .25s;
+    }
+    .stat-tile::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,transparent,rgba(34,211,238,.5),transparent);
+    }
+    .stat-tile:hover { border-color:rgba(34,211,238,.4); background:rgba(34,211,238,.08); }
+    .stat-tile .s-num {
+      font-family:'Orbitron',sans-serif; font-size:15px; font-weight:700;
+      color:#22d3ee; display:block; line-height:1;
+      text-shadow:0 0 10px rgba(34,211,238,.6);
+    }
+    .stat-tile .s-lbl {
+      font-family:'Share Tech Mono',monospace; font-size:9.5px;
+      color:rgba(34,211,238,.4); letter-spacing:.08em; text-transform:uppercase;
+      margin-top:4px; display:block;
+    }
+
+    /* ── Input ── */
+    .input-label {
+      display:flex; align-items:center; gap:6px; position:relative; z-index:2;
+      font-family:'Share Tech Mono',monospace; font-size:11.5px;
+      color:rgba(34,211,238,.6); letter-spacing:.1em; text-transform:uppercase;
+      margin-bottom:8px;
+    }
+    .input-group { position:relative; margin-bottom:16px; z-index:2; }
+    .input-glow {
+      position:absolute; inset:-2px; border-radius:4px;
+      background:linear-gradient(135deg,rgba(34,211,238,.35),rgba(232,121,249,.3));
+      opacity:0; transition:opacity .3s; pointer-events:none; filter:blur(4px);
+    }
+    .input-group:focus-within .input-glow { opacity:1; }
+    .card-input {
+      width:100%; height:54px;
+      background:rgba(34,211,238,.04);
+      border:1px solid rgba(34,211,238,.35);
+      border-radius:3px;
+      font-family:'Share Tech Mono',monospace;
+      font-size:22px; font-weight:400;
+      letter-spacing:.35em; color:#22d3ee; text-align:center;
+      padding:0 16px; outline:none;
+      transition:border-color .3s, box-shadow .3s, background .3s;
+      position:relative; z-index:1;
+      text-shadow:0 0 10px rgba(34,211,238,.5);
+      caret-color:#22d3ee;
+    }
+    .card-input::placeholder {
+      color:rgba(34,211,238,.25); font-size:13px;
+      letter-spacing:.08em; font-weight:400;
+    }
+    .card-input:focus {
+      border-color:rgba(34,211,238,.7);
+      background:rgba(34,211,238,.07);
+      box-shadow:0 0 0 1px rgba(34,211,238,.2), 0 0 20px rgba(34,211,238,.15), inset 0 0 10px rgba(34,211,238,.05);
+    }
+
+    /* ── CTA Button ── */
+    .card-btn {
+      width:100%; height:52px;
+      background:transparent;
+      border:1px solid rgba(34,211,238,.5);
+      border-radius:3px;
+      color:#22d3ee;
+      font-family:'Orbitron',sans-serif;
+      font-size:13.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+      cursor:pointer; position:relative; overflow:hidden; z-index:2;
+      box-shadow:0 0 16px rgba(34,211,238,.2), inset 0 0 16px rgba(34,211,238,.03);
+      transition:all .35s cubic-bezier(.22,1,.36,1);
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      text-shadow:0 0 10px rgba(34,211,238,.6);
+    }
+    /* Fill sweep on hover */
+    .card-btn::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(90deg, transparent, rgba(34,211,238,.12), transparent);
+      transform:translateX(-150%);
+      transition:transform .55s cubic-bezier(.22,1,.36,1);
+    }
+    /* Bottom glow line */
+    .card-btn::after {
+      content:''; position:absolute; bottom:0; left:10%; right:10%; height:1px;
+      background:linear-gradient(90deg,transparent,rgba(34,211,238,.6),transparent);
+      box-shadow:0 0 6px rgba(34,211,238,.5);
+    }
+    .card-btn:hover::before { transform:translateX(150%); }
+    .card-btn:hover {
+      border-color:rgba(34,211,238,.85);
+      color:#fff; background:rgba(34,211,238,.08);
+      box-shadow:0 0 30px rgba(34,211,238,.35), 0 0 60px rgba(34,211,238,.15), inset 0 0 20px rgba(34,211,238,.06);
+      transform:translateY(-2px);
+      text-shadow:0 0 16px rgba(34,211,238,.9);
+    }
+    .card-btn:active { transform:translateY(0); }
+    .card-btn:disabled {
+      opacity:.3; cursor:not-allowed; transform:none;
+      box-shadow:none; text-shadow:none;
+    }
+
+    /* ── Divider ── */
+    .card-divider {
+      border:none; height:1px; position:relative; z-index:2;
+      background:linear-gradient(90deg,transparent,rgba(34,211,238,.18),rgba(232,121,249,.12),transparent);
+      margin:18px 0;
+    }
+
+    /* ── Reward grid ── */
+    .reward-label {
+      font-family:'Share Tech Mono',monospace; font-size:10px;
+      text-transform:uppercase; letter-spacing:.14em;
+      color:rgba(34,211,238,.35); text-align:center;
+      margin-bottom:10px; position:relative; z-index:2;
+    }
+    .reward-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; position:relative; z-index:2; }
+    .reward-card {
+      position:relative; overflow:hidden; padding:14px 6px 11px;
+      border-radius:3px; text-align:center; border:1px solid;
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+      cursor:default;
+    }
+    .reward-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+    }
+    .reward-card:hover { transform:translateY(-4px) scale(1.04); }
+    .reward-card .r-icon { font-size:24px; margin-bottom:5px; display:block; }
+    .reward-card .r-label { font-family:'Orbitron',sans-serif; font-size:9.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:2px; }
+    .reward-card .r-sub   { font-family:'Share Tech Mono',monospace; font-size:9px; opacity:.55; letter-spacing:.04em; }
+    /* VIP — gold neon */
+    .reward-vip   {
+      background:linear-gradient(160deg,rgba(251,191,36,.1),rgba(245,158,11,.05));
+      border-color:rgba(251,191,36,.28);
+      box-shadow:0 0 12px rgba(251,191,36,.08);
+    }
+    .reward-vip .r-label { color:#fde68a; text-shadow:0 0 8px rgba(251,191,36,.5); }
+    .reward-vip .r-sub   { color:#fcd34d; }
+    /* Lucky — cyan neon */
+    .reward-lucky {
+      background:linear-gradient(160deg,rgba(34,211,238,.1),rgba(6,182,212,.05));
+      border-color:rgba(34,211,238,.28);
+      box-shadow:0 0 12px rgba(34,211,238,.1);
+    }
+    .reward-lucky .r-label { color:#67e8f9; text-shadow:0 0 8px rgba(34,211,238,.5); }
+    .reward-lucky .r-sub   { color:#a5f3fc; }
+    /* Try — pink neon */
+    .reward-try {
+      background:linear-gradient(160deg,rgba(232,121,249,.1),rgba(192,38,211,.05));
+      border-color:rgba(232,121,249,.25);
+      box-shadow:0 0 12px rgba(232,121,249,.08);
+    }
+    .reward-try .r-label { color:#f5d0fe; text-shadow:0 0 8px rgba(232,121,249,.5); }
+    .reward-try .r-sub   { color:#e879f9; }
+
+    /* ── Trust bar ── */
+    .trust-bar {
+      display:flex; margin-top:16px; position:relative; z-index:2;
+      border:1px solid rgba(34,211,238,.12); border-radius:3px; overflow:hidden;
+      background:rgba(34,211,238,.02);
+    }
+    .trust-item {
+      flex:1; display:flex; align-items:center; justify-content:center; gap:5px;
+      padding:8px 4px;
+      font-family:'Share Tech Mono',monospace; font-size:10px;
+      color:rgba(34,211,238,.55); letter-spacing:.04em;
+      border-right:1px solid rgba(34,211,238,.1);
+    }
+    .trust-item:last-child { border-right:none; }
+
+    /* ── Tagline ── */
+    .tagline-wrap {
+      text-align:center; margin-top:14px;
+      animation: cyber-in .7s .6s ease-out both;
+    }
+    .tagline-pill {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(4,6,18,.92);
+      border:1px solid rgba(34,211,238,.2);
+      backdrop-filter:blur(12px);
+      padding:8px 20px; border-radius:3px;
+      box-shadow:0 0 16px rgba(34,211,238,.1), 0 8px 32px rgba(0,0,0,.5);
+    }
+    .tagline-dot {
+      width:6px; height:6px; border-radius:50%;
+      background:#22d3ee; box-shadow:0 0 8px rgba(34,211,238,.9);
+      animation:pulse-slow 2s ease-in-out infinite alternate;
+    }
+    .tagline-pill span {
+      font-family:'Share Tech Mono',monospace; font-size:12px;
+      color:rgba(34,211,238,.7); letter-spacing:.05em;
+    }
+
+    @keyframes orb-drift {
+      from { transform:translate(0,0) scale(1); }
+      to   { transform:translate(38px,26px) scale(1.1); }
+    }
+    @keyframes blob-float {
+      from { transform:translate(0,0); }
+      to   { transform:translate(var(--bx,20px), var(--by,-30px)); }
+    }
+    @keyframes twinkle {
+      from { opacity:var(--o); transform:scale(1); }
+      to   { opacity:calc(var(--o)*.2); transform:scale(.5); }
+    }
+    @keyframes shape-float {
+      0%   { transform: translateY(0px) rotate(var(--r0,0deg)); }
+      100% { transform: translateY(var(--float-y,-24px)) rotate(var(--r1,15deg)); }
+    }
+  </style>
+</head>
+<body>
+<div id="root">
+  <div class="min-h-screen">
+
+    <div class="overlay-gradient"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="blobs" id="blobs"></div>
+    <div class="grid-lines"></div>
+    <div class="stars" id="stars"></div>
+    <div class="shapes" id="shapes"></div>
+    <div class="noise"></div>
+
+    <!-- Card wrapper -->
+    <div class="card-wrapper">
+      <div class="card">
+
+        <!-- Top neon bar -->
+        <div class="cyber-topbar"></div>
+
+        <!-- Header -->
+        <div class="card-header">
+
+          <!-- Gift icon (original SVG kept) -->
+          <div class="gift-icon-wrap">
+            <div class="gift-icon-glow"></div>
+            <div class="gift-icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="8" width="18" height="4" rx="1"/>
+                <path d="M12 8v13"/>
+                <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/>
+                <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/>
+              </svg>
+              <svg class="sparkle-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgba(232,121,249,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+              </svg>
+              <div class="ping-dot"></div>
+            </div>
+          </div>
+
+          <!-- System tag -->
+          <div class="sys-tag">
+            <span class="blink">█</span>
+            <span>SYS.ONLINE · 1,247 PLAYERS ACTIVE</span>
+          </div>
+
+          <div class="card-title">Mở Hộp Quà</div>
+          <div class="card-subtitle">
+            Nhập mã phiên để mở hộp quà &amp; nhận thưởng ngay<br>
+            <span style="color:rgba(34,211,238,.4);font-size:11.5px;font-family:'Share Tech Mono',monospace;">// Hàng nghìn người đang tham gia cùng bạn</span>
+          </div>
+        </div>
+
+        <!-- Ticker -->
+        <div class="ticker-wrap">
+          <div class="ticker-inner">
+            <span class="ticker-item">► Nguyễn V.A. nhận VIP <span class="ticker-dot">|</span></span>
+            <span class="ticker-item">► Trần T.B. trúng Lucky <span class="ticker-dot">|</span></span>
+            <span class="ticker-item">► Lê M.C. mở được VIP <span class="ticker-dot">|</span></span>
+            <span class="ticker-item">► Phạm Q.D. nhận thưởng <span class="ticker-dot">|</span></span>
+            <span class="ticker-item">► Hoàng T.E. tham gia <span class="ticker-dot">|</span></span>
+            <span class="ticker-item">► Nguyễn V.A. nhận VIP <span class="ticker-dot">|</span></span>
+            <span class="ticker-item">► Trần T.B. trúng Lucky <span class="ticker-dot">|</span></span>
+            <span class="ticker-item">► Lê M.C. mở được VIP <span class="ticker-dot">|</span></span>
+            <span class="ticker-item">► Phạm Q.D. nhận thưởng <span class="ticker-dot">|</span></span>
+            <span class="ticker-item">► Hoàng T.E. tham gia <span class="ticker-dot">|</span></span>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+
+          <!-- Stats -->
+          <div class="stats-row">
+            <div class="stat-tile"><span class="s-num">12,847</span><span class="s-lbl">Players</span></div>
+            <div class="stat-tile"><span class="s-num">98.6%</span><span class="s-lbl">Satisfied</span></div>
+            <div class="stat-tile"><span class="s-num">3,200+</span><span class="s-lbl">Rewards</span></div>
+          </div>
+
+          <!-- Input -->
+          <label class="input-label" for="sessionCode">
+            <span style="color:rgba(232,121,249,.7);">▶</span> SESSION_CODE
+          </label>
+          <div class="input-group">
+            <div class="input-glow"></div>
+            <input class="card-input" id="sessionCode" type="text"
+              placeholder="_ _ _ _ _ _ _ _"
+              maxlength="8" autocomplete="off"
+              oninput="document.getElementById('startBtn').disabled = this.value.trim().length < 1"/>
+          </div>
+
+          <!-- Button -->
+          <button class="card-btn" id="startBtn" type="button" disabled onclick="handleStart()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            EXECUTE · BẮT ĐẦU NHẬN THƯỞNG
+          </button>
+
+          <hr class="card-divider"/>
+
+          <!-- Rewards -->
+          <div class="reward-label">// reward_pool [ 3 tiers ]</div>
+          <div class="reward-grid">
+            <div class="reward-card reward-vip">
+              <span class="r-icon">👑</span>
+              <div class="r-label">VIP</div>
+              <div class="r-sub">TIER_01</div>
+            </div>
+            <div class="reward-card reward-lucky">
+              <span class="r-icon">🎉</span>
+              <div class="r-label">Lucky</div>
+              <div class="r-sub">TIER_02</div>
+            </div>
+            <div class="reward-card reward-try">
+              <span class="r-icon">🔄</span>
+              <div class="r-label">Retry</div>
+              <div class="r-sub">TIER_03</div>
+            </div>
+          </div>
+
+          <!-- Trust bar -->
+          <div class="trust-bar">
+            <div class="trust-item">🔐 SSL_ENC</div>
+            <div class="trust-item">⚡ INSTANT</div>
+            <div class="trust-item">✓ VERIFIED</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tagline -->
+      <div class="tagline-wrap">
+        <div class="tagline-pill">
+          <div class="tagline-dot"></div>
+          <span>TRUSTED BY <strong style="color:#22d3ee">12,000+</strong> PLAYERS WORLDWIDE</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ── Stars ── */
+(function () {
+  var c = document.getElementById('stars');
+  for (var i = 0; i < 80; i++) {
+    var el = document.createElement('div');el.className = 'star';
+    var size = (Math.random() * 2 + 0.4).toFixed(1);
+    var o = (Math.random() * 0.45 + 0.1).toFixed(2);
+    el.style.cssText = "width:".concat(size, "px;height:").concat(size, "px;top:").concat((Math.random() * 100).toFixed(2), "%;left:").concat((Math.random() * 100).toFixed(2), "%;--o:").concat(o, ";--d:").concat((Math.random() * 5 + 2).toFixed(1), "s;--sd:").concat((Math.random() * 8).toFixed(1), "s;");
+    c.appendChild(el);
+  }
+})();
+
+/* ── Blobs ── */
+(function () {
+  var c = document.getElementById('blobs');
+  var cfgs = [
+  { w: 120, h: 44, top: 21, left: 41, blur: 18, color: 'rgba(96,165,250,0.22)', bd: 8, bx: '15px', by: '-20px' },
+  { w: 90, h: 34, top: 44, left: 31, blur: 14, color: 'rgba(139,92,246,0.28)', bd: 11, bx: '-10px', by: '-25px' },
+  { w: 60, h: 22, top: 61, left: 32, blur: 10, color: 'rgba(96,165,250,0.2)', bd: 9, bx: '8px', by: '-18px' },
+  { w: 200, h: 72, top: 66, left: 24, blur: 22, color: 'rgba(139,92,246,0.22)', bd: 13, bx: '-20px', by: '-30px' },
+  { w: 160, h: 58, top: 72, left: 46, blur: 20, color: 'rgba(96,165,250,0.18)', bd: 10, bx: '12px', by: '-22px' },
+  { w: 230, h: 82, top: 63, left: 60, blur: 24, color: 'rgba(139,92,246,0.18)', bd: 14, bx: '18px', by: '-28px' },
+  { w: 100, h: 36, top: 18, left: 79, blur: 14, color: 'rgba(167,139,250,0.2)', bd: 9, bx: '-12px', by: '-20px' }];
+
+  cfgs.forEach(function (cfg, i) {
+    var el = document.createElement('div');el.className = 'blob';
+    el.style.cssText = "width:".concat(cfg.w, "px;height:").concat(cfg.h, "px;top:").concat(cfg.top, "%;left:").concat(cfg.left, "%;background:").concat(cfg.color, ";filter:blur(").concat(cfg.blur, "px);--bd:").concat(cfg.bd, "s;--bdelay:").concat(-(i * 1.3).toFixed(1), "s;--bx:").concat(cfg.bx, ";--by:").concat(cfg.by, ";");
+    c.appendChild(el);
+  });
+})();
+
+/* ── Shapes ── */
+(function () {
+  var container = document.getElementById('shapes');
+
+  var colors = ['#a78bfa', '#818cf8', '#c4b5fd', '#7dd3fc', '#93c5fd', '#ddd6fe', '#e879f9', '#f9a8d4', '#6ee7b7'];
+
+  // SVG shape definitions (40x40 viewBox)
+  var shapeDefs = {
+
+    diamond: function diamond(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\">\n      <polygon points=\"20,2 38,20 20,38 2,20\" fill=\"".concat(
+        c, "\" fill-opacity=\".18\" stroke=\"").concat(c, "\" stroke-width=\"1.5\"/>\n      <polygon points=\"20,9 31,20 20,31 9,20\" fill=\"").concat(
+        c, "\" fill-opacity=\".1\" stroke=\"").concat(c, "\" stroke-width=\".7\"/>\n      <line x1=\"2\" y1=\"20\" x2=\"38\" y2=\"20\" stroke=\"").concat(
+        c, "\" stroke-width=\".5\" opacity=\".4\"/>\n      <line x1=\"20\" y1=\"2\" x2=\"20\" y2=\"38\" stroke=\"").concat(
+        c, "\" stroke-width=\".5\" opacity=\".4\"/>\n    </svg>");},
+
+
+    star: function star(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\">\n      <polygon points=\"20,2 24,15 38,15 27,23 31,37 20,29 9,37 13,23 2,15 16,15\"\n        fill=\"".concat(
+
+        c, "\" fill-opacity=\".22\" stroke=\"").concat(c, "\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/>\n    </svg>");},
+
+
+    hexagon: function hexagon(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\">\n      <polygon points=\"20,2 35,11 35,29 20,38 5,29 5,11\" fill=\"none\" stroke=\"".concat(
+        c, "\" stroke-width=\"1.5\"/>\n      <polygon points=\"20,9 29,14 29,26 20,31 11,26 11,14\" fill=\"").concat(
+        c, "\" fill-opacity=\".14\" stroke=\"").concat(c, "\" stroke-width=\".7\"/>\n    </svg>");},
+
+
+    ornament: function ornament(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M20 4L20 36M4 20L36 20M8.7 8.7L31.3 31.3M31.3 8.7L8.7 31.3\" stroke=\"".concat(
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n      <circle cx=\"20\" cy=\"20\" r=\"4\" fill=\"").concat(
+        c, "\" opacity=\".55\"/>\n      <circle cx=\"20\" cy=\"20\" r=\"8\" fill=\"none\" stroke=\"").concat(
+        c, "\" stroke-width=\".6\" opacity=\".4\"/>\n    </svg>");},
+
+
+    // 🧑 Human — cute line figure
+    human: function human(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\">\n      <circle cx=\"20\" cy=\"8\" r=\"5\" fill=\"".concat(
+        c, "\" fill-opacity=\".25\" stroke=\"").concat(c, "\" stroke-width=\"1.4\"/>\n      <path d=\"M12 30 Q12 20 20 18 Q28 20 28 30\" fill=\"").concat(
+        c, "\" fill-opacity=\".18\" stroke=\"").concat(c, "\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n      <line x1=\"20\" y1=\"18\" x2=\"20\" y2=\"28\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.2\" stroke-linecap=\"round\"/>\n      <line x1=\"12\" y1=\"22\" x2=\"28\" y2=\"22\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.2\" stroke-linecap=\"round\"/>\n      <line x1=\"15\" y1=\"28\" x2=\"13\" y2=\"36\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n      <line x1=\"25\" y1=\"28\" x2=\"27\" y2=\"36\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n    </svg>");},
+
+
+    // 🌲 Tree — pine / christmas style
+    tree: function tree(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\">\n      <polygon points=\"20,3 33,18 26,18 31,28 24,28 24,37 16,37 16,28 9,28 14,18 7,18\"\n        fill=\"".concat(
+
+        c, "\" fill-opacity=\".2\" stroke=\"").concat(c, "\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n      <line x1=\"20\" y1=\"3\" x2=\"20\" y2=\"37\" stroke=\"").concat(
+        c, "\" stroke-width=\".5\" opacity=\".3\"/>\n    </svg>");},
+
+
+    // 🐶 Puppy — simple cute dog
+    puppy: function puppy(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\">\n      <!-- body -->\n      <ellipse cx=\"20\" cy=\"26\" rx=\"11\" ry=\"8\" fill=\"".concat(
+
+        c, "\" fill-opacity=\".2\" stroke=\"").concat(c, "\" stroke-width=\"1.3\"/>\n      <!-- head -->\n      <circle cx=\"20\" cy=\"14\" r=\"7\" fill=\"").concat(
+
+        c, "\" fill-opacity=\".22\" stroke=\"").concat(c, "\" stroke-width=\"1.3\"/>\n      <!-- ears -->\n      <ellipse cx=\"13\" cy=\"10\" rx=\"3.5\" ry=\"5\" fill=\"").concat(
+
+        c, "\" fill-opacity=\".3\" stroke=\"").concat(c, "\" stroke-width=\"1\" transform=\"rotate(-15 13 10)\"/>\n      <ellipse cx=\"27\" cy=\"10\" rx=\"3.5\" ry=\"5\" fill=\"").concat(
+        c, "\" fill-opacity=\".3\" stroke=\"").concat(c, "\" stroke-width=\"1\" transform=\"rotate(15 27 10)\"/>\n      <!-- eyes -->\n      <circle cx=\"17\" cy=\"13\" r=\"1.2\" fill=\"").concat(
+
+        c, "\" opacity=\".8\"/>\n      <circle cx=\"23\" cy=\"13\" r=\"1.2\" fill=\"").concat(
+        c, "\" opacity=\".8\"/>\n      <!-- nose -->\n      <ellipse cx=\"20\" cy=\"17\" rx=\"2\" ry=\"1.2\" fill=\"").concat(
+
+        c, "\" opacity=\".6\"/>\n      <!-- tail -->\n      <path d=\"M31 24 Q38 18 36 26\" fill=\"none\" stroke=\"").concat(
+
+        c, "\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n      <!-- legs -->\n      <line x1=\"13\" y1=\"33\" x2=\"12\" y2=\"39\" stroke=\"").concat(
+
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n      <line x1=\"17\" y1=\"34\" x2=\"16\" y2=\"39\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n      <line x1=\"23\" y1=\"34\" x2=\"24\" y2=\"39\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n      <line x1=\"27\" y1=\"33\" x2=\"28\" y2=\"39\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n    </svg>");},
+
+
+    // 🐱 Kitty — simple cute cat
+    // 🎁 Gift box
+    gift: function gift(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\">\n      <!-- box body -->\n      <rect x=\"6\" y=\"18\" width=\"28\" height=\"18\" rx=\"1.5\" fill=\"".concat(
+
+        c, "\" fill-opacity=\".2\" stroke=\"").concat(c, "\" stroke-width=\"1.4\"/>\n      <!-- box lid -->\n      <rect x=\"4\" y=\"13\" width=\"32\" height=\"7\" rx=\"1.5\" fill=\"").concat(
+
+        c, "\" fill-opacity=\".28\" stroke=\"").concat(c, "\" stroke-width=\"1.4\"/>\n      <!-- ribbon vertical -->\n      <rect x=\"18\" y=\"13\" width=\"4\" height=\"23\" fill=\"").concat(
+
+        c, "\" fill-opacity=\".45\"/>\n      <!-- ribbon horizontal on lid -->\n      <rect x=\"4\" y=\"15.5\" width=\"32\" height=\"2\" fill=\"").concat(
+
+        c, "\" fill-opacity=\".45\"/>\n      <!-- bow left loop -->\n      <path d=\"M20 13 Q14 6 10 10 Q8 14 14 14 Z\" fill=\"").concat(
+
+        c, "\" fill-opacity=\".5\" stroke=\"").concat(c, "\" stroke-width=\".9\"/>\n      <!-- bow right loop -->\n      <path d=\"M20 13 Q26 6 30 10 Q32 14 26 14 Z\" fill=\"").concat(
+
+        c, "\" fill-opacity=\".5\" stroke=\"").concat(c, "\" stroke-width=\".9\"/>\n      <!-- shine -->\n      <line x1=\"9\" y1=\"22\" x2=\"9\" y2=\"30\" stroke=\"").concat(
+
+        c, "\" stroke-width=\".6\" opacity=\".35\"/>\n    </svg>");},
+
+
+    kitty: function kitty(c) {return "<svg width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" xmlns=\"http://www.w3.org/2000/svg\">\n      <!-- body -->\n      <ellipse cx=\"20\" cy=\"27\" rx=\"10\" ry=\"8\" fill=\"".concat(
+
+        c, "\" fill-opacity=\".2\" stroke=\"").concat(c, "\" stroke-width=\"1.3\"/>\n      <!-- head -->\n      <circle cx=\"20\" cy=\"14\" r=\"7\" fill=\"").concat(
+
+        c, "\" fill-opacity=\".22\" stroke=\"").concat(c, "\" stroke-width=\"1.3\"/>\n      <!-- pointy ears -->\n      <polygon points=\"13,9 10,2 16,7\" fill=\"").concat(
+
+        c, "\" fill-opacity=\".35\" stroke=\"").concat(c, "\" stroke-width=\"1\"/>\n      <polygon points=\"27,9 30,2 24,7\" fill=\"").concat(
+        c, "\" fill-opacity=\".35\" stroke=\"").concat(c, "\" stroke-width=\"1\"/>\n      <!-- eyes (almond) -->\n      <ellipse cx=\"17\" cy=\"13\" rx=\"1.8\" ry=\"1.2\" fill=\"").concat(
+
+        c, "\" opacity=\".85\"/>\n      <ellipse cx=\"23\" cy=\"13\" rx=\"1.8\" ry=\"1.2\" fill=\"").concat(
+        c, "\" opacity=\".85\"/>\n      <!-- nose + mouth -->\n      <polygon points=\"20,16.5 18.5,18 21.5,18\" fill=\"").concat(
+
+        c, "\" opacity=\".6\"/>\n      <path d=\"M18.5 18 Q17 20 15 19.5 M21.5 18 Q23 20 25 19.5\" fill=\"none\" stroke=\"").concat(
+        c, "\" stroke-width=\".9\" stroke-linecap=\"round\"/>\n      <!-- whiskers -->\n      <line x1=\"8\"  y1=\"16\" x2=\"15\" y2=\"17\" stroke=\"").concat(
+
+        c, "\" stroke-width=\".8\" opacity=\".5\"/>\n      <line x1=\"8\"  y1=\"18\" x2=\"15\" y2=\"18\" stroke=\"").concat(
+        c, "\" stroke-width=\".8\" opacity=\".4\"/>\n      <line x1=\"25\" y1=\"17\" x2=\"32\" y2=\"16\" stroke=\"").concat(
+        c, "\" stroke-width=\".8\" opacity=\".5\"/>\n      <line x1=\"25\" y1=\"18\" x2=\"32\" y2=\"18\" stroke=\"").concat(
+        c, "\" stroke-width=\".8\" opacity=\".4\"/>\n      <!-- tail -->\n      <path d=\"M30 27 Q38 20 36 30 Q34 36 30 34\" fill=\"none\" stroke=\"").concat(
+
+        c, "\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n      <!-- legs -->\n      <line x1=\"13\" y1=\"34\" x2=\"12\" y2=\"39\" stroke=\"").concat(
+
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n      <line x1=\"17\" y1=\"35\" x2=\"17\" y2=\"39\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n      <line x1=\"23\" y1=\"35\" x2=\"23\" y2=\"39\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n      <line x1=\"27\" y1=\"34\" x2=\"28\" y2=\"39\" stroke=\"").concat(
+        c, "\" stroke-width=\"1.3\" stroke-linecap=\"round\"/>\n    </svg>");}
+
+  };
+
+  var shapeKeys = Object.keys(shapeDefs);
+
+  // Distribute: ensure each type appears multiple times
+  var pool = [];
+  shapeKeys.forEach(function (k) {
+    var count = k === 'gift' ? 5 : k === 'human' || k === 'tree' || k === 'puppy' || k === 'kitty' ? 3 : 4;
+    for (var i = 0; i < count; i++) pool.push(k);
+  });
+  // Shuffle
+  for (var i = pool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));var _ref =
+    [pool[j], pool[i]];pool[i] = _ref[0];pool[j] = _ref[1];
+  }
+
+  pool.forEach(function (key, i) {
+    var wrapper = document.createElement('div');
+    wrapper.className = 'shape';
+
+    var scale = (Math.random() * 0.8 + 0.7).toFixed(2); // 0.7–1.5x
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    var svg = shapeDefs[key](color);
+
+    var top = (Math.random() * 88 + 2).toFixed(2);
+    var left = (Math.random() * 94 + 1).toFixed(2);
+    var floatY = (-(Math.random() * 28 + 10)).toFixed(0) + 'px';
+    var r0 = (Math.random() * 30 - 15).toFixed(0) + 'deg';
+    var r1 = (Math.random() * 30 - 15).toFixed(0) + 'deg';
+    var sfDur = (Math.random() * 6 + 5).toFixed(1) + 's';
+    var delay = (-(Math.random() * 14)).toFixed(1) + 's';
+    var opacity = (Math.random() * 0.35 + 0.5).toFixed(2);
+    var size = Math.round(scale * 40);
+
+    wrapper.style.cssText = "\n      top:".concat(
+      top, "%;left:").concat(left, "%;\n      width:").concat(
+      size, "px;height:").concat(size, "px;\n      --float-y:").concat(
+      floatY, ";--r0:").concat(r0, ";--r1:").concat(r1, ";\n      --sf-dur:").concat(
+      sfDur, ";--s-delay:").concat(delay, ";--s-op:").concat(opacity, ";\n      --s-color:").concat(
+      color, ";\n    ");
+
+    wrapper.innerHTML = svg;
+    container.appendChild(wrapper);
+  });
+})();
+/* ── Input → button enable ── */
+var inp = document.getElementById('sessionCode');
+var btn = document.getElementById('startBtn');
+if (inp && btn) {
+  inp.addEventListener('input', function () {
+    btn.disabled = inp.value.trim().length < 1;
+  });
+}
+function handleStart() {
+  var code = document.getElementById('sessionCode').value.trim();
+  if (!code) return;
+  var b = document.getElementById('startBtn');
+  b.innerHTML = '<div class="btn-top-shine"></div>⏳ Đang vào phòng...';
+  b.disabled = true;
+  setTimeout(function () {
+    b.innerHTML = '<div class="btn-top-shine"></div>✅ Đã kết nối!';
+  }, 1800);
+}</script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+﻿<!-- SPECIAL PRIZE APPROVAL TAB -->
+  <div class="tab-panel" id="panel-gifts">
+    <div class="gift-panel-head" style="display:flex;gap:12px;align-items:center;margin-bottom:20px;">
+      <h1 style="font-size:18px;font-weight:700;margin:0">⭐ Duyệt quà đặc biệt</h1>
+      <div style="flex:1;"></div>
+    </div>
+
+    <div class="gift-approval-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px;">
+      <button id="giftApprovalTabSpecial" class="btn btn-secondary btn-small" type="button" onclick="switchGiftApprovalTab('special')">⭐ Phê duyệt quà đặc biệt</button>
+      <button id="giftApprovalTabConversions" class="btn btn-secondary btn-small" type="button" onclick="switchGiftApprovalTab('conversions')">💱 Phê duyệt quy đổi tiền</button>
+      <button id="giftApprovalTabHistory" class="btn btn-secondary btn-small" type="button" onclick="switchGiftApprovalTab('history')">📜 Lịch sử phê duyệt</button>
+    </div>
+
+    <div id="giftApprovalSectionSpecial">
+
+    <!-- Stats Row -->
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-info"><div class="stat-label">Tổng quà đặc biệt</div><div class="stat-value"><%= (stats.specialPending || 0) + (stats.specialApproved || 0) + (stats.specialDecided || 0) %></div></div><div class="stat-icon-wrap purple"><i class="fas fa-star"></i></div></div>
+      <div class="stat-card"><div class="stat-info"><div class="stat-label">Chờ duyệt</div><div class="stat-value" style="color:var(--yellow)"><%= stats.specialPending || 0 %></div></div><div class="stat-icon-wrap yellow"><i class="fas fa-hourglass-half"></i></div></div>
+      <div class="stat-card"><div class="stat-info"><div class="stat-label">Đã duyệt</div><div class="stat-value" style="color:var(--green)"><%= stats.specialApproved || 0 %></div></div><div class="stat-icon-wrap green"><i class="fas fa-check"></i></div></div>
+    </div>
+
+    <!-- Filter & Search -->
+    <div class="gift-filter-row" style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+      <input class="gifts-search" id="giftsSearchInput" placeholder="Tìm mã phiên..." style="flex:1;min-width:250px;">
+      <select class="gifts-select" id="giftsFilterStatus" style="min-width:180px;">
+        <option value="all">Tất cả trạng thái</option>
+        <option value="pending_approval">Chờ duyệt</option>
+        <option value="confirmed">Đã duyệt</option>
+        <option value="converted">Đã quy đổi</option>
+        <option value="declined">Người chơi từ chối</option>
+        <option value="rejected">Admin từ chối</option>
+      </select>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <% if (specialPrizeList && specialPrizeList.length > 0) { %>
+      <%
+        const groupedMap = {};
+        specialPrizeList.forEach((item) => {
+          const code = item.session_code || 'N/A';
+          if (!groupedMap[code]) {
+            groupedMap[code] = {
+              session_code: code,
+              player_name: item._playerName || 'N/A',
+              player_phone: item._playerPhone || 'N/A',
+              created_by: item._createdBy || 'admin',
+              player_ip: item._playerIp || 'N/A',
+              latest_at: item.updated_at || item.created_at,
+              approved_by: null,
+              rejected_by: null,
+              items: []
+            };
+          }
+          groupedMap[code].items.push(item);
+          if (item.approved_by) groupedMap[code].approved_by = item.approved_by;
+          if (item.rejected_by) groupedMap[code].rejected_by = item.rejected_by;
+          const currentLatest = new Date(groupedMap[code].latest_at || 0).getTime();
+          const itemLatest = new Date(item.updated_at || item.created_at || 0).getTime();
+          if (itemLatest > currentLatest) groupedMap[code].latest_at = item.updated_at || item.created_at;
+        });
+
+        const groupedList = Object.values(groupedMap).sort((a, b) => {
+          return new Date(b.latest_at || 0).getTime() - new Date(a.latest_at || 0).getTime();
+        });
+
+        const statusMap = {
+          pending_approval: { text: 'Chờ duyệt', color: 'var(--yellow)', bg: 'rgba(250,204,21,0.1)' },
+          confirmed:        { text: 'Đã duyệt', color: 'var(--green)', bg: 'rgba(34,197,94,0.1)' },
+          converted:        { text: 'Đã quy đổi', color: 'var(--green)', bg: 'rgba(34,197,94,0.1)' },
+          declined:         { text: 'KH từ chối', color: 'var(--text2)', bg: 'rgba(148,163,184,0.14)' },
+          rejected:         { text: 'Admin từ chối', color: 'var(--red)', bg: 'rgba(239,68,68,0.12)' }
+        };
+      %>
+
+      <div class="grid grid-cols-3" style="gap: var(--space-4);display:flex;flex-wrap:wrap;align-items:stretch;" id="giftsCardsContainer">
+        <% groupedList.forEach(function(group) { %>
+        <%
+          const pendingItems = group.items.filter(it => it.status === 'pending_approval');
+          const statuses = group.items.map(it => String(it.status || 'pending_approval'));
+          const overallStatus = statuses.includes('pending_approval')
+            ? 'pending_approval'
+            : (statuses.includes('confirmed')
+              ? 'confirmed'
+              : (statuses.includes('converted')
+                ? 'converted'
+                : (statuses.includes('declined') ? 'declined' : 'rejected')));
+          const st = statusMap[overallStatus] || statusMap.pending_approval;
+          const displayBoxes = [1, 2, 3].map((boxNum) => {
+            const found = group.items.find((x) => Number(x.box_number) === boxNum);
+            return found || null;
+          });
+        %>
+        <div class="card gift-card-item"
+             data-gift-id="<%= group.session_code %>"
+             data-status="<%= overallStatus %>"
+             data-session="<%= group.session_code || '' %>"
+             data-recipient="<%= group.player_name || '' %>"
+             data-phone="<%= group.player_phone || '' %>">
+
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px;">
+            <div>
+              <div style="font-size:18px;font-weight:800;color:#60a5fa;line-height:1;letter-spacing:.5px;"><%= group.session_code || 'N/A' %></div>
+              <div style="font-size:11px;color:var(--text2);margin-top:4px;">Tạo bởi: <strong style="color:var(--text)"><%= group.created_by || 'admin' %></strong></div>
+              <% if (group.approved_by) { %><div style="font-size:11px;color:var(--text2);margin-top:2px;">Duyệt bởi: <strong style="color:#4ade80"><%= group.approved_by %></strong></div><% } %>
+              <% if (group.rejected_by) { %><div style="font-size:11px;color:var(--text2);margin-top:2px;">Từ chối bởi: <strong style="color:#f87171"><%= group.rejected_by %></strong></div><% } %>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px;"><i class="fas fa-calendar-alt"></i> <%= new Date(group.latest_at).toLocaleString('vi-VN') %></div>
+            </div>
+            <span style="display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:<%= st.bg %>;color:<%= st.color %>;border:1px solid <%= st.color %>33;">
+              <i class="fas <%= overallStatus === 'pending_approval' ? 'fa-clock' : 'fa-check-circle' %>"></i> <%= st.text %>
+            </span>
+          </div>
+
+          <div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Phần thưởng đặc biệt:</div>
+          <div class="gift-box-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;">
+            <% displayBoxes.forEach(function(it, idx) {
+              if (it) {
+                const itSt = statusMap[it.status] || st;
+                const cashVal = Number(it.prize_value || 0);
+                const hasCash = it.is_cash && cashVal > 0;
+            %>
+            <div style="background:linear-gradient(155deg,rgba(25,35,58,.94),rgba(16,24,42,.92));border:1px solid rgba(148,163,184,.22);border-radius:8px;padding:7px 5px;text-align:center;cursor:default;min-height:102px;display:flex;flex-direction:column;justify-content:center;">
+              <div style="font-size:20px;line-height:1;margin-bottom:3px;"><%= it.prize_icon || '🎁' %></div>
+              <div style="font-weight:700;color:var(--text);font-size:10px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;" title="<%= it.prize_name || 'Quà đặc biệt' %>"><%= it.prize_name || 'Quà đặc biệt' %></div>
+              <% if (hasCash) { %>
+              <div style="font-size:10px;color:#fbbf24;font-weight:700;margin-top:2px;"><%= cashVal.toLocaleString('vi-VN') %> đ</div>
+              <% } %>
+              <div style="font-size:9px;margin-top:3px;display:inline-block;padding:1px 6px;border-radius:999px;font-weight:700;background:<%= itSt.bg %>;color:<%= itSt.color %>;border:1px solid <%= itSt.color %>33;">✓ <%= itSt.text %></div>
+            </div>
+            <% } else { %>
+            <div style="background:linear-gradient(155deg,rgba(18,26,42,.7),rgba(12,18,31,.62));border:1px dashed rgba(148,163,184,.25);border-radius:8px;padding:7px 5px;text-align:center;min-height:102px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#64748b;">
+              <div style="font-size:18px;line-height:1;opacity:.7;">🔒</div>
+              <div style="font-size:10px;margin-top:4px;">Hộp <%= idx + 1 %></div>
+            </div>
+            <% }
+            }) %>
+          </div>
+
+          <div style="margin-top:10px;color:var(--text2);font-size:11px;">
+            Người chơi: <strong style="color:var(--text)"><%= group.player_name || 'N/A' %></strong>
+          </div>
+          <div style="margin-top:2px;color:var(--text3);font-size:11px;">Mở lúc: <%= new Date(group.latest_at).toLocaleString('vi-VN') %></div>
+
+          <% if (pendingItems.length > 0) { %>
+          <div style="margin-top:10px;background:linear-gradient(140deg,rgba(92,40,8,.4),rgba(20,30,52,.7));border:1px solid rgba(250,204,21,.45);border-radius:8px;padding:8px 10px;">
+            <div style="font-size:11px;font-weight:800;color:#facc15;margin-bottom:3px;">⏳ Cần duyệt:</div>
+            <div style="font-size:12px;color:var(--text);font-weight:700;"><%= pendingItems.map(i => i.prize_name).join(', ') %></div>
+            <div style="font-size:10px;color:#fde68a;margin-top:1px;">Hộp <%= pendingItems.map(i => i.box_number).join(', ') %></div>
+          </div>
+          <% } %>
+
+          <div class="gift-card-actions" style="display:flex;gap:6px;margin-top:10px;">
+            <button class="btn btn-secondary btn-small" style="flex:1;font-size:12px;" onclick="viewSpecialPrizeSessionDetail('<%= group.session_code %>')"><i class="fas fa-eye"></i> Chi tiết</button>
+            <% if (pendingItems.length > 0) { %>
+            <button class="btn btn-success btn-small" style="flex:1;font-size:12px;" onclick="approveSpecialPrizeBatch('<%= group.session_code %>')"><i class="fas fa-check-circle"></i> Duyệt nhanh</button>
+            <% } %>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+
+      <div class="pagination-wrap" id="giftsPagination" style="margin-top: var(--space-6);"></div>
+      <% } else { %>
+      <div class="empty-state" style="padding:60px 20px;text-align:center;">
+        <i class="fas fa-star" style="font-size:48px;color:var(--text3);margin-bottom:12px;display:block;"></i>
+        <h3 style="margin:0 0 8px 0;color:var(--text);">Không có quà đặc biệt</h3>
+        <p style="margin:0;color:var(--text3);font-size:13px;">Chưa có phiên chơi nào có quà đặc biệt cần duyệt</p>
+      </div>
+      <% } %>
+    </div>
+    </div>
+
+    <div id="giftApprovalSectionConversions" style="display:none;">
+      <div class="conversion-hero">
+        <div>
+          <div class="conversion-hero-title">💱 Trung tâm phê duyệt quy đổi tiền</div>
+          <div class="conversion-hero-sub">Theo dõi toàn bộ yêu cầu theo mã phiên, xử lý nhanh theo phiên hoặc từng hộp quà.</div>
+        </div>
+        <div class="conversion-hero-chip"><i class="fas fa-bolt"></i> Duyệt nhanh theo phiên</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-info"><div class="stat-label">Yêu cầu quy đổi</div><div class="stat-value" id="convStatTotal">0</div></div><div class="stat-icon-wrap cyan"><i class="fas fa-right-left"></i></div></div>
+        <div class="stat-card"><div class="stat-info"><div class="stat-label">Chờ duyệt</div><div class="stat-value" id="convStatPending" style="color:var(--yellow)">0</div></div><div class="stat-icon-wrap yellow"><i class="fas fa-hourglass-half"></i></div></div>
+        <div class="stat-card"><div class="stat-info"><div class="stat-label">Đã xử lý</div><div class="stat-value" id="convStatHandled" style="color:var(--green)">0</div></div><div class="stat-icon-wrap green"><i class="fas fa-check-circle"></i></div></div>
+      </div>
+
+      <div class="conversion-toolbar">
+        <div class="conversion-search-wrap">
+          <i class="fas fa-search"></i>
+          <input class="gifts-search conversion-search" id="conversionsSearchInput" placeholder="Tìm mã phiên, tên quà, người yêu cầu..." style="flex:1;min-width:250px;">
+        </div>
+        <select class="gifts-select conversion-filter" id="conversionsFilterStatus" style="min-width:180px;">
+          <option value="all">Tất cả trạng thái</option>
+          <option value="pending">Chờ duyệt</option>
+          <option value="approved">Đã duyệt</option>
+          <option value="rejected">Từ chối</option>
+        </select>
+        <div class="conversion-toolbar-note">Hiển thị theo mã phiên, tối ưu thao tác hàng loạt</div>
+      </div>
+
+      <div class="conversion-board">
+        <div class="grid grid-cols-3" style="gap: var(--space-4);" id="conversionsCardsContainer"></div>
+        <div class="pagination-wrap" id="conversionsPagination" style="margin-top: var(--space-6);"></div>
+      </div>
+    </div>
+
+    <div id="giftApprovalSectionHistory" style="display:none;">
+      <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+        <input class="gifts-search" id="approvalHistorySearchInput" placeholder="Tìm mã phiên, người duyệt..." style="flex:1;min-width:250px;">
+        <select class="gifts-select" id="approvalHistoryTypeFilter" style="min-width:180px;">
+          <option value="all">Tất cả nguồn</option>
+          <option value="special">Quà đặc biệt</option>
+          <option value="conversion">Quy đổi tiền</option>
+        </select>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;">
+        <div class="grid grid-cols-3" style="gap: var(--space-4);" id="approvalHistoryCardsContainer"></div>
+        <div class="pagination-wrap" id="approvalHistoryPagination" style="margin-top: var(--space-6);"></div>
+      </div>
+    </div>
+  </div>
+

@@ -1,0 +1,109 @@
+<!-- FILES TAB -->
+  <div class="tab-panel" id="panel-files">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-4); margin-bottom: var(--space-6);">
+      <div>
+        <h1 style="font-size: 20px; font-weight: 700; margin-bottom: var(--space-1);">Quản lý tệp</h1>
+        <p style="font-size: 13px; color: var(--color-text-secondary);">Quản lý hình ảnh và tệp tải lên</p>
+      </div>
+      <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+        <div class="form-group" style="margin-bottom: 0; position: relative;">
+          <i class="fas fa-search" style="position: absolute; left: var(--space-3); top: 50%; transform: translateY(-50%); color: var(--color-text-tertiary);"></i>
+          <input id="filesSearchInput" class="form-input" style="padding-left: var(--space-10); width: 200px;" placeholder="Tìm kiếm tệp...">
+        </div>
+        <button class="btn btn-primary" onclick="document.getElementById('filesUploadInput').click();"><i class="fas fa-cloud-upload-alt"></i> Tải lên tệp</button>
+        <button class="btn btn-primary" style="background: var(--color-success, #22c55e);" onmouseover="this.style.background='#16a34a'" onmouseout="this.style.background='var(--color-success, #22c55e)'" onclick="window.open('/admin/download-images-zip', '_blank');">
+          <i class="fas fa-download"></i> Tải toàn bộ ảnh (ZIP)
+        </button>
+        <input type="file" id="filesUploadInput" multiple style="display: none;">
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3" style="gap: var(--space-4); margin-bottom: var(--space-6);">
+      <div class="stat-card"><div style="flex: 1;"><div class="stat-label">Tổng số tệp</div><div class="stat-value" id="filesTotalCount">0</div></div><div style="font-size: 24px; color: var(--color-primary);"><i class="fas fa-file"></i></div></div>
+      <div class="stat-card"><div style="flex: 1;"><div class="stat-label">Hình ảnh</div><div class="stat-value" id="filesImageCount">0</div></div><div style="font-size: 24px; color: var(--color-success);"><i class="fas fa-image"></i></div></div>
+      <div class="stat-card"><div style="flex: 1;"><div class="stat-label">Kích thước tổng</div><div class="stat-value" id="filesTotalSize">0 KB</div></div><div style="font-size: 24px; color: var(--color-primary);"><i class="fas fa-database"></i></div></div>
+    </div>
+
+    <!-- File Table -->
+    <div class="table-wrapper" style="margin-bottom: var(--space-6);">
+      <table class="table" id="filesTable">
+        <thead>
+          <tr>
+            <th style="width: 35%;">Tên tệp</th>
+            <th style="width: 15%;">Loại</th>
+            <th style="width: 15%; text-align: center;">Kích thước</th>
+            <th style="width: 20%; text-align: center;">Ngày tải</th>
+            <th style="width: 15%; text-align: center;">Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="filesTableBody">
+          <tr>
+            <td colspan="5" style="padding: var(--space-8); text-align: center;">
+              <div style="color: var(--color-text-tertiary);">
+                <i class="fas fa-folder-open" style="font-size: 40px; margin-bottom: var(--space-3); display: block;"></i>
+                <p>Chưa có tệp nào. Nhấn "Tải lên tệp" để thêm.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- File Grid -->
+    <div class="grid grid-auto-fit" id="filesGridContainer" style="display: none; gap: var(--space-4);"></div>
+  </div>
+
+<script>
+(function() {
+  window.downloadFileAdmin = function(url, filename) {
+    if (!url) return;
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'download';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  const originalLoadFilesList = window.loadFilesList;
+  if (originalLoadFilesList) {
+    window.loadFilesList = async function() {
+      await originalLoadFilesList.apply(this, arguments);
+      const tbody = document.getElementById('filesTableBody');
+      if (tbody) {
+        const rows = tbody.querySelectorAll('tr');
+        rows.forEach(function(row) {
+          if (row.querySelector('.btn-download-individual')) return;
+          const actionsDiv = row.querySelector('td:last-child div');
+          if (actionsDiv) {
+            const viewBtn = actionsDiv.querySelector('.blue');
+            if (viewBtn) {
+              const onclickText = viewBtn.getAttribute('onclick') || '';
+              const urlMatch = onclickText.match(/viewFileAdmin\('(.*?)'\)/);
+              const url = urlMatch ? urlMatch[1] : '';
+              const nameDiv = row.querySelector('td:first-child div');
+              const filename = nameDiv ? nameDiv.textContent.trim() : '';
+              if (url) {
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'btn-icon-sm btn-download-individual';
+                downloadBtn.style.color = '#22c55e';
+                downloadBtn.style.borderColor = '#22c55e';
+                downloadBtn.style.backgroundColor = 'rgba(34,197,94,0.08)';
+                downloadBtn.title = 'Tải xuống';
+                downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+                downloadBtn.onclick = function() {
+                  window.downloadFileAdmin(url, filename);
+                };
+                viewBtn.after(downloadBtn);
+              }
+            }
+          }
+        });
+      }
+    };
+  }
+})();
+</script>
+
+  
+

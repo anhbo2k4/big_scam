@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - manhlamstore.vn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-0: #060d19;
+            --bg-1: #0a1224;
+            --bg-2: #101b31;
+            --line: rgba(255, 255, 255, 0.08);
+            --line-strong: rgba(106, 207, 255, 0.36);
+            --text-main: #f5fbff;
+            --text-sub: #9cb6d7;
+            --accent: #39c6ff;
+            --accent-2: #37f1c0;
+            --danger: #ff6b8a;
+            --success: #43d58a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; }
+
+        body {
+            font-family: 'Exo 2', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            color: var(--text-main);
+            background:
+                radial-gradient(1200px 600px at 10% -10%, rgba(57,198,255,0.2), transparent 62%),
+                radial-gradient(900px 500px at 100% 0%, rgba(55,241,192,0.16), transparent 58%),
+                linear-gradient(150deg, var(--bg-0) 0%, var(--bg-1) 52%, #0f1830 100%);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+            position: relative;
+        }
+
+        .scan-grid,
+        .scan-grid::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .scan-grid {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+            background-size: 34px 34px;
+            mask-image: radial-gradient(circle at 50% 45%, black 22%, transparent 90%);
+        }
+
+        .scan-grid::before {
+            background: linear-gradient(180deg, transparent 0%, rgba(57,198,255,0.14) 50%, transparent 100%);
+            transform: translateY(-100%);
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            100% { transform: translateY(100%); }
+        }
+
+        .login-shell {
+            position: relative;
+            z-index: 1;
+            width: min(1060px, 100%);
+            min-height: min(680px, calc(100vh - 44px));
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            background: linear-gradient(145deg, rgba(10,18,36,0.95), rgba(8,14,30,0.93));
+            box-shadow:
+                0 38px 90px rgba(0, 0, 0, 0.6),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            overflow: hidden;
+        }
+
+        .sys-panel {
+            padding: 40px 36px;
+            border-right: 1px solid var(--line);
+            background:
+                radial-gradient(500px 280px at 20% 15%, rgba(57,198,255,0.16), transparent 60%),
+                radial-gradient(420px 260px at 85% 70%, rgba(55,241,192,0.14), transparent 62%);
+        }
+
+        .sys-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(57,198,255,0.32);
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 0.12em;
+            font-size: 12px;
+            color: #bfe9ff;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .sys-chip::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-2);
+            box-shadow: 0 0 12px rgba(55,241,192,0.8);
+            animation: pulseDot 1.6s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.82); }
+        }
+
+        .sys-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: clamp(30px, 4vw, 44px);
+            line-height: 1.04;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            max-width: 560px;
+            margin-bottom: 16px;
+            text-shadow: 0 0 30px rgba(57,198,255,0.25);
+        }
+
+        .sys-desc {
+            color: var(--text-sub);
+            max-width: 520px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+            font-size: 15px;
+        }
+
+        .sys-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            max-width: 560px;
+        }
+
+        .stat-card {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(2px);
+        }
+
+        .stat-value {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #dff6ff;
+            letter-spacing: 0.04em;
+        }
+
+        .stat-label {
+            margin-top: 2px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #91abd1;
+        }
+
+        .login-panel {
+            padding: 36px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 390px;
+            padding: 26px 22px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.09);
+            background: linear-gradient(160deg, rgba(20,31,54,0.92), rgba(12,22,43,0.95));
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.38);
+        }
+
+        .login-head { margin-bottom: 20px; }
+
+        .login-head h1 {
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .login-head p {
+            color: var(--text-sub);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .message {
+            display: none;
+            margin-bottom: 14px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            border: 1px solid transparent;
+        }
+
+        .message.show { display: block; }
+        .message.error { border-color: rgba(255,107,138,0.4); background: rgba(255,107,138,0.1); color: #ffc3d0; }
+        .message.success { border-color: rgba(67,213,138,0.45); background: rgba(67,213,138,0.14); color: #c6ffe1; }
+
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 12px;
+            color: #b8d0ee;
+            margin-bottom: 6px;
+        }
+
+        .field-wrap { position: relative; }
+
+        .form-group input {
+            width: 100%;
+            height: 45px;
+            border-radius: 11px;
+            border: 1px solid rgba(170, 196, 230, 0.25);
+            background: rgba(6, 12, 23, 0.58);
+            color: #e6f1ff;
+            padding: 0 13px;
+            outline: none;
+            transition: border-color .2s ease, box-shadow .2s ease;
+            font-size: 14px;
+        }
+
+        .form-group input::placeholder { color: #7a95b7; }
+        .form-group input:focus {
+            border-color: var(--line-strong);
+            box-shadow: 0 0 0 3px rgba(57,198,255,0.12);
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            border: 1px solid rgba(255,255,255,0.16);
+            background: rgba(255,255,255,0.05);
+            color: #ccddf5;
+            border-radius: 8px;
+            height: 28px;
+            padding: 0 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0 14px;
+            color: #9fb7d7;
+            font-size: 13px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--accent);
+        }
+
+        .login-button {
+            width: 100%;
+            height: 46px;
+            border: none;
+            border-radius: 11px;
+            cursor: pointer;
+            color: #021626;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 15px;
+            background: linear-gradient(135deg, #35c7ff, #38efc2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: transform .2s ease, filter .2s ease;
+        }
+
+        .login-button:hover:not(:disabled) { transform: translateY(-1px); filter: saturate(1.1); }
+        .login-button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(2,22,38,0.28);
+            border-top-color: #021626;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        .login-button:disabled .spinner { display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .caps-tip {
+            min-height: 18px;
+            font-size: 12px;
+            color: #ffc57a;
+            margin-top: 6px;
+        }
+
+        .login-footer {
+            margin-top: 14px;
+            color: #7f99bc;
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 900px) {
+            .login-shell {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .sys-panel {
+                border-right: none;
+                border-bottom: 1px solid var(--line);
+                padding: 24px 22px;
+            }
+            .sys-stats { grid-template-columns: repeat(3, minmax(90px, 1fr)); }
+        }
+
+        @media (max-width: 560px) {
+            body { padding: 12px; }
+            .sys-panel { display: none; }
+            .login-panel { padding: 16px; }
+            .login-card { padding: 22px 16px 16px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scan-grid" aria-hidden="true"></div>
+    <div class="login-shell">
+        <aside class="sys-panel">
+            <div class="sys-chip">manhlamstore.vn</div>
+            <h2 class="sys-title">Trung tâm điều hành game manhlamstore.vn</h2>
+            <p class="sys-desc">Đăng nhập để quản trị phiên chơi, duyệt giao dịch và xử lý CSKH realtime cho hệ thống game của manhlamstore.vn trong một bảng điều khiển tập trung.</p>
+            <div class="sys-stats">
+                <div class="stat-card"><div class="stat-value">24/7</div><div class="stat-label">Giám sát phiên chơi</div></div>
+                <div class="stat-card"><div class="stat-value">CSKH</div><div class="stat-label">Phản hồi realtime</div></div>
+                <div class="stat-card"><div class="stat-value">BẢO MẬT</div><div class="stat-label">Quản trị nội bộ</div></div>
+            </div>
+        </aside>
+        <section class="login-panel">
+            <div class="login-card">
+                <div class="login-head">
+                    <h1>Admin manhlamstore.vn</h1>
+                    <p>Xác thực tài khoản quản trị để truy cập hệ thống game nội bộ của manhlamstore.vn.</p>
+                </div>
+
+                <div id="errorMsg" class="message error"></div>
+                <div id="successMsg" class="message success"></div>
+
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <div class="field-wrap">
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Nhập tài khoản quản trị manhlamstore.vn"
+                                required
+                                autocomplete="username"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <div class="field-wrap">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Nhập mật khẩu"
+                                required
+                                autocomplete="current-password"
+                            >
+                            <button type="button" class="password-toggle" id="togglePasswordBtn">Hiện</button>
+                        </div>
+                        <div class="caps-tip" id="capsTip"></div>
+                    </div>
+
+                    <div class="remember-me">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <label for="rememberMe">Giữ đăng nhập trên thiết bị này</label>
+                    </div>
+
+                    <button type="submit" class="login-button" id="loginBtn">
+                        <span id="btnText">Đăng nhập hệ thống</span>
+                        <div class="spinner"></div>
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    <p>manhlamstore.vn • Game Operations Console</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Polyfills for Android 5-7 WebView -->
+    <script nomodule src="/build-legacy/polyfills/core-js-bundle.min.js"></script>
+    <script nomodule src="/build-legacy/polyfills/fetch.min.js"></script>
+    <script nomodule src="/build-legacy/polyfills/abortcontroller.min.js"></script>
+    <script nomodule src="/build-legacy/polyfills.js"></script>
+
+    <!-- Build detector: logs which JS build (ES5/ES6+) is loaded on this device -->
+    <script type="module" src="/build-modern/build-detector.js"></script>
+    <script nomodule src="/build-legacy/build-detector.js"></script>
+
+    <script>
+function handleLogin(event) {
+  event.preventDefault();
+
+  var username = document.getElementById('username').value.trim();
+  var password = document.getElementById('password').value;
+  var rememberMe = document.getElementById('rememberMe').checked;
+  var errorMsg = document.getElementById('errorMsg');
+  var successMsg = document.getElementById('successMsg');
+  var loginBtn = document.getElementById('loginBtn');
+  var btnText = document.getElementById('btnText');
+
+  // Reset messages
+  errorMsg.classList.remove('show');
+  successMsg.classList.remove('show');
+
+  // Validation
+  if (!username || !password) {
+    showError(errorMsg, 'Vui lòng nhập tên đăng nhập và mật khẩu');
+    return;
+  }
+
+  if (password.length < 6) {
+    showError(errorMsg, 'Mật khẩu phải có ít nhất 6 ký tự');
+    return;
+  }
+
+  // Disable button
+  loginBtn.disabled = true;
+  btnText.textContent = 'Đang đăng nhập...';
+
+  // Send request
+  fetch('/api/admin/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+      rememberMe: rememberMe
+    })
+  }).
+  then(function (response) {
+    if (response.ok || response.status === 200) {
+      return response.json().then(function (data) {
+        showSuccess(successMsg, 'Đăng nhập thành công! Đang chuyển hướng...');
+        setTimeout(function () {
+          window.location.href = '/admin';
+        }, 1500);
+      });
+    } else {
+      return response.json().then(function (data) {
+        showError(errorMsg, data.message || 'Đăng nhập thất bại');
+        resetButton(loginBtn, btnText);
+      });
+    }
+  }).
+  catch(function (error) {
+    showError(errorMsg, 'Lỗi kết nối. Kiểm tra internet của bạn.');
+    resetButton(loginBtn, btnText);
+  });
+}
+
+function showError(el, msg) {
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+function showSuccess(el, msg) {
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+function resetButton(btn, text) {
+  btn.disabled = false;
+  text.textContent = 'Đăng nhập hệ thống';
+}
+
+function updateCapsTip(event) {
+  var capsTip = document.getElementById('capsTip');
+  if (!capsTip) return;
+  if (event.getModifierState && event.getModifierState('CapsLock')) {
+    capsTip.textContent = 'Caps Lock đang bật';
+  } else {
+    capsTip.textContent = '';
+  }
+}
+
+var passwordInput = document.getElementById('password');
+var togglePasswordBtn = document.getElementById('togglePasswordBtn');
+
+if (togglePasswordBtn && passwordInput) {
+  togglePasswordBtn.addEventListener('click', function () {
+    var showing = passwordInput.type === 'text';
+    passwordInput.type = showing ? 'password' : 'text';
+    togglePasswordBtn.textContent = showing ? 'Hiện' : 'Ẩn';
+    passwordInput.focus();
+  });
+}
+
+passwordInput.addEventListener('keydown', updateCapsTip);
+passwordInput.addEventListener('keyup', updateCapsTip);
+
+// Enter key to submit
+document.getElementById('password').addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+  }
+});
+
+// Clear error on input
+['username', 'password'].forEach(function (id) {
+  document.getElementById(id).addEventListener('focus', function () {
+    document.getElementById('errorMsg').classList.remove('show');
+  });
+});</script>
+</body>
+</html>

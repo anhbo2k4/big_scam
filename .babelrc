@@ -1,0 +1,20 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "android": "5"
+      },
+      "modules": false
+      // Note: useBuiltIns is intentionally omitted (no bundler).
+      // Polyfills are loaded globally via <script nomodule src="/build-legacy/polyfills/core-js-bundle.min.js">.
+      // core-js and regenerator-runtime are installed for future bundler migration.
+    }]
+  ],
+  "ignore": [
+    "**/*.min.js",
+    "**/*.min.js.gz",
+    "**/*.min.js.br",
+    "**/*.react.jsx"
+  ]
+}
+

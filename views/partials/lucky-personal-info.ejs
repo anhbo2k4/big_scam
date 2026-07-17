@@ -1,0 +1,188 @@
+<div id="page-personal" class="page">
+  <div class="personal-header">
+    <h1 class="personal-title">🎁 Bắt đầu trải nghiệm mở hộp quà</h1>
+    <p class="personal-subtitle">
+      Thông tin của bạn chỉ được yêu cầu khi xác nhận nhận quà hoặc rút tiền
+    </p>
+  </div>
+
+  <div class="personal-form personal-quick-card">
+    <div class="personal-benefits">
+      <div class="personal-benefit-item">
+        <span>⚡</span>
+        <span>Thao tác nhanh gọn – không cần nhập lại thông tin nhiều lần</span>
+      </div>
+      <div class="personal-benefit-item">
+        <span>🎁</span>
+        <span>Thông tin nhận quà sẽ được lưu khi bạn xác nhận phần thưởng</span>
+      </div>
+      <div class="personal-benefit-item">
+        <span>💳</span>
+        <span>Thông tin thanh toán chỉ lưu khi bạn gửi yêu cầu rút tiền</span>
+      </div>
+    </div>
+
+    <button type="button" class="btn-form-submit" onclick="goToBoxSelection()">
+      Tiếp tục chọn hộp quà
+    </button>
+  </div>
+
+  <div class="personal-note">
+    🔒 Chúng tôi cam kết bảo mật dữ liệu người dùng và không chia sẻ cho bên thứ ba.
+  </div>
+</div>
+
+<style>
+.personal-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.personal-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin-bottom: 8px;
+}
+
+.personal-subtitle {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.personal-form {
+  max-width: 400px;
+  margin: 0 auto 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.personal-quick-card {
+  max-width: 520px;
+  background: rgba(30, 41, 59, 0.38);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.personal-benefits {
+  display: grid;
+  gap: 10px;
+}
+
+.personal-benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cbd5e1;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.form-label .required {
+  color: #ef4444;
+}
+
+#emailOptional {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+.form-input {
+  padding: 12px 16px;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1.5px solid rgba(148, 163, 184, 0.3);
+  border-radius: 8px;
+  color: #f1f5f9;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  outline: none;
+  background: rgba(30, 41, 59, 0.7);
+  border-color: #00d4ff;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+}
+
+.form-input::placeholder {
+  color: #64748b;
+}
+
+.form-error {
+  font-size: 0.8rem;
+  color: #ef4444;
+  display: none;
+}
+
+.form-error.show {
+  display: block;
+}
+
+.btn-form-submit {
+  margin-top: 10px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-form-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+}
+
+.btn-form-submit:active {
+  transform: translateY(0);
+}
+
+.personal-note {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+@media (max-width: 640px) {
+  .personal-header {
+    margin-bottom: 30px;
+  }
+
+  .personal-title {
+    font-size: 1.5rem;
+  }
+
+  .personal-form {
+    gap: 16px;
+  }
+
+  .personal-quick-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .personal-benefit-item {
+    font-size: 0.86rem;
+    align-items: flex-start;
+  }
+}
+</style>

@@ -1,0 +1,1279 @@
+<!-- BANNERS TAB -->
+<div class="tab-panel" id="panel-banners">
+  <div class="panel-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+    <div style="flex:1;min-width:200px;">
+      <h1 style="font-size:20px;font-weight:700;margin-bottom:4px;">🖼️ Quản lý Banner</h1>
+      <p style="font-size:13px;color:var(--color-text-secondary);">Thêm, chỉnh sửa và sắp xếp banner hiển thị trên trang game và trang chủ</p>
+    </div>
+    <button class="btn btn-primary" onclick="return openBannerModal()" style="flex-shrink:0;"><i class="fas fa-plus"></i> Thêm banner mới</button>
+  </div>
+
+  <!-- Location filter tabs -->
+  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+    <button class="banner-loc-btn active" data-loc="all" onclick="bannerMgr.setFilter('all', this)">🌐 Tất cả</button>
+    <button class="banner-loc-btn" data-loc="game" onclick="bannerMgr.setFilter('game', this)">🎮 Màn game</button>
+    <button class="banner-loc-btn" data-loc="home" onclick="bannerMgr.setFilter('home', this)">🏠 Trang chủ</button>
+    <button class="banner-loc-btn" data-loc="both" onclick="bannerMgr.setFilter('both', this)">📍 Cả hai</button>
+  </div>
+
+  <!-- Stats row -->
+  <div id="bannerStatsRow" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px;"></div>
+
+  <!-- Banner list -->
+  <div id="bannerListContainer" style="display:grid;gap:12px;">
+    <div style="text-align:center;padding:40px;color:var(--text3);"><i class="fas fa-spinner fa-spin"></i> Đang tải...</div>
+  </div>
+
+  <!-- Empty state (hidden by default) -->
+  <div id="bannerEmptyState" style="display:none;text-align:center;padding:60px 20px;color:var(--text3);">
+    <div style="font-size:48px;margin-bottom:12px;">🖼️</div>
+    <h3 style="font-size:16px;margin-bottom:8px;color:var(--text2);">Chưa có banner nào</h3>
+    <p style="font-size:13px;margin-bottom:16px;">Tạo banner đầu tiên để hiển thị trên giao diện người chơi</p>
+    <button class="btn btn-primary" onclick="return openBannerModal()"><i class="fas fa-plus"></i> Thêm banner đầu tiên</button>
+  </div>
+</div>
+
+<!-- Banner Modal -->
+<div class="modal-overlay" id="bannerModalOverlay" style="display:none;" onclick="if(event.target===this)closeBannerModal()"></div>
+<div class="modal-wrap" id="bannerModal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(600px,94vw);max-width:min(600px,94vw);max-height:90vh;overflow:auto;z-index:10001;">
+  <div class="modal-header" style="background:linear-gradient(135deg,#7c3aed,#ec4899);padding:14px 16px;">
+    <h3 class="modal-title" style="margin:0;font-size:16px;font-weight:700;" id="bannerModalTitle">🖼️ Thêm banner mới</h3>
+    <button class="modal-close-btn" onclick="closeBannerModal()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="modal-body" style="padding:20px;">
+    <input type="hidden" id="bannerEditId" value="">
+
+    <div style="display:grid;gap:14px;">
+      <div>
+        <label class="form-label">Nội dung văn bản banner</label>
+        <input class="form-input" id="bannerText" placeholder="VD: 🎁 Khuyến mãi đặc biệt hôm nay! Nhận ngay quà tặng miễn phí." maxlength="200">
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label class="form-label">Màu nền banner</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="color" id="bannerBgColor" value="#1e1b38" style="width:44px;height:36px;border:none;background:none;cursor:pointer;border-radius:6px;">
+            <input class="form-input" id="bannerBgColorText" value="#1e1b38" placeholder="#1e1b38" style="font-family:monospace;flex:1;">
+          </div>
+        </div>
+        <div>
+          <label class="form-label">Màu chữ</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="color" id="bannerTextColor" value="#ffffff" style="width:44px;height:36px;border:none;background:none;cursor:pointer;border-radius:6px;">
+            <input class="form-input" id="bannerTextColorText" value="#ffffff" placeholder="#ffffff" style="font-family:monospace;flex:1;">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="form-label">URL hình ảnh banner (tuỳ chọn)</label>
+        <div style="display:flex;gap:8px;">
+          <input class="form-input" id="bannerImageUrl" placeholder="https://... hoặc /uploads/..." style="flex:1;">
+          <button type="button" class="btn-upload2" onclick="document.getElementById('bannerImageFileInput').click()"><i class="fas fa-upload"></i> Upload</button>
+        </div>
+        <input type="file" id="bannerImageFileInput" accept="image/*" style="display:none;" onchange="uploadBannerImage(event)">
+        <small style="color:var(--text3);display:block;margin-top:4px;">Hình ảnh sẽ hiển thị bên trái hoặc làm nền banner</small>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label class="form-label">URL liên kết (tuỳ chọn)</label>
+          <input class="form-input" id="bannerLinkUrl" placeholder="https://...">
+        </div>
+        <div>
+          <label class="form-label">Mở liên kết</label>
+          <select class="form-input" id="bannerLinkTarget">
+            <option value="_self">Cùng tab</option>
+            <option value="_blank">Tab mới</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label class="form-label">Vị trí hiển thị</label>
+          <select class="form-input" id="bannerLocation">
+            <option value="game">🎮 Màn game</option>
+            <option value="home">🏠 Trang chủ</option>
+            <option value="both">📍 Cả hai</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Trạng thái</label>
+          <select class="form-input" id="bannerIsActive">
+            <option value="1">✅ Hiển thị</option>
+            <option value="0">❌ Ẩn</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label class="form-label">Kiểu banner</label>
+          <select class="form-input" id="bannerDisplayType">
+            <option value="bar">Thanh banner (trên trang)</option>
+            <option value="popup">Popup giữa màn hình</option>
+            <option value="both">Cả thanh + popup</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Tần suất popup</label>
+          <select class="form-input" id="bannerPopupFrequency">
+            <option value="session">Mỗi phiên truy cập 1 lần</option>
+            <option value="daily">Mỗi ngày 1 lần</option>
+            <option value="always">Mỗi lần vào trang</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div>
+          <label class="form-label">Delay popup (ms)</label>
+          <input class="form-input" id="bannerPopupDelayMs" type="number" min="0" step="100" value="800">
+        </div>
+        <div>
+          <label class="form-label">Nút CTA</label>
+          <input class="form-input" id="bannerCtaText" placeholder="VD: Mua ngay">
+        </div>
+        <div>
+          <label class="form-label">Đóng popup</label>
+          <select class="form-input" id="bannerPopupDismissible">
+            <option value="1">Cho phép đóng</option>
+            <option value="0">Không cho đóng</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div>
+          <label class="form-label">Tỉ lệ popup</label>
+          <select class="form-input" id="bannerAspectRatio">
+            <option value="16:9">16:9</option>
+            <option value="3:4">3:4</option>
+            <option value="4:3">4:3</option>
+            <option value="9:16">9:16</option>
+            <option value="1:1">1:1</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Rộng popup (tuỳ chọn)</label>
+          <input class="form-input" id="bannerPopupWidth" placeholder="VD: 900px hoặc 80vw">
+        </div>
+        <div>
+          <label class="form-label">Cao popup (tuỳ chọn)</label>
+          <input class="form-input" id="bannerPopupHeight" placeholder="VD: 520px hoặc 70vh">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label class="form-label">Animation vào</label>
+          <select class="form-input" id="bannerShowAnimation">
+            <option value="zoom">Zoom In</option>
+            <option value="fade">Fade In</option>
+            <option value="slide-up">Slide Up</option>
+            <option value="slide-down">Slide Down</option>
+            <option value="flip">Flip In</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Animation ra</label>
+          <select class="form-input" id="bannerHideAnimation">
+            <option value="fade">Fade Out</option>
+            <option value="zoom-out">Zoom Out</option>
+            <option value="slide-down">Slide Down</option>
+            <option value="slide-up">Slide Up</option>
+          </select>
+        </div>
+      </div>
+
+      <small style="color:var(--text3);display:block;margin-top:-8px;">Kích thước hợp lệ: số + đơn vị px, vw, vh hoặc % (ví dụ: 900px, 80vw, 70vh)</small>
+
+      <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;">
+        <div>
+          <label class="form-label">Tự đóng popup sau (ms, để trống = không tự đóng)</label>
+          <input class="form-input" id="bannerAutoCloseMs" type="number" min="0" step="100" placeholder="VD: 5000">
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="openGrapesBuilder()">🧩 Mở Visual Builder (kéo-thả)</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label class="form-label">Bắt đầu hiển thị (tùy chọn)</label>
+          <input class="form-input" id="bannerStartAt" type="datetime-local">
+        </div>
+        <div>
+          <label class="form-label">Kết thúc hiển thị (tùy chọn)</label>
+          <input class="form-input" id="bannerEndAt" type="datetime-local">
+        </div>
+      </div>
+
+      <input type="hidden" id="bannerDesignJson" value="">
+      <input type="hidden" id="bannerDesignHtml" value="">
+      <input type="hidden" id="bannerDesignCss" value="">
+
+      <details id="bannerDesignStudio" style="border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,0.02);padding:10px;">
+        <summary style="cursor:pointer;font-weight:700;color:var(--text2);">🎨 Design Studio (Canva-lite)</summary>
+        <div style="display:grid;gap:12px;margin-top:10px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;">
+            <input class="form-input" id="dsHeadline" placeholder="Headline" value="SALE OFF 50%">
+            <input class="form-input" id="dsSubline" placeholder="Subline" value="Ưu đãi chỉ hôm nay">
+            <input class="form-input" id="dsBadge" placeholder="Badge" value="LIMITED">
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dsImageUpload').click()">Thêm ảnh vào design</button>
+            <input type="file" id="dsImageUpload" accept="image/*" style="display:none;" onchange="designStudio.onImageUpload(event)">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;">
+            <div style="display:flex;gap:8px;align-items:center;"><label style="font-size:12px;">BG</label><input type="color" id="dsBg" value="#0b1220"></div>
+            <div style="display:flex;gap:8px;align-items:center;"><label style="font-size:12px;">Text</label><input type="color" id="dsText" value="#ffffff"></div>
+            <div style="display:flex;gap:8px;align-items:center;"><label style="font-size:12px;">Badge</label><input type="color" id="dsBadgeColor" value="#f59e0b"></div>
+            <div style="display:flex;gap:8px;align-items:center;"><label style="font-size:12px;">CTA</label><input type="color" id="dsCtaColor" value="#2563eb"></div>
+          </div>
+          <canvas id="bannerDesignCanvas" width="1200" height="628" style="width:100%;max-height:280px;border:1px solid var(--border);border-radius:10px;background:#0b1220;"></canvas>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" class="btn btn-secondary" onclick="designStudio.render()">Render lại</button>
+            <button type="button" class="btn btn-primary" onclick="designStudio.exportToBannerImage()">Xuất design -> ảnh banner</button>
+          </div>
+        </div>
+      </details>
+
+      <!-- Preview -->
+      <div>
+        <label class="form-label">Xem trước banner</label>
+        <div id="bannerPreviewBox" style="border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:12px;min-height:52px;background:#1e1b38;color:#fff;font-size:14px;font-weight:500;transition:all .2s;">
+          <span id="bannerPreviewText" style="flex:1;">Xem trước nội dung banner...</span>
+          <img id="bannerPreviewImg" src="" style="height:36px;border-radius:4px;display:none;" alt="preview">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="padding:14px 20px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--border);">
+    <button class="btn btn-secondary" onclick="closeBannerModal()">Hủy</button>
+    <button class="btn btn-primary" onclick="saveBanner()"><i class="fas fa-save"></i> Lưu banner</button>
+  </div>
+</div>
+
+  <div id="grapesBuilderOverlay" style="display:none;position:fixed;inset:0;z-index:12050;background:rgba(2,6,23,0.9);">
+    <div style="position:absolute;inset:20px;border:1px solid rgba(255,255,255,0.18);border-radius:12px;overflow:hidden;background:#0f172a;display:flex;flex-direction:column;">
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#111827;border-bottom:1px solid rgba(255,255,255,0.1);">
+        <strong style="color:#e5e7eb;">GrapesJS Visual Builder</strong>
+        <span style="color:#93c5fd;font-size:12px;">Kéo thả block, chỉnh style, bấm Áp dụng vào banner</span>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button type="button" class="btn btn-secondary" onclick="grapesUndo()">Undo</button>
+          <button type="button" class="btn btn-secondary" onclick="grapesRedo()">Redo</button>
+          <button type="button" class="btn btn-secondary" onclick="importGrapesTemplate()">Nhập template JSON</button>
+          <button type="button" class="btn btn-secondary" onclick="exportGrapesTemplate()">Xuất template JSON</button>
+          <button type="button" class="btn btn-secondary" onclick="bringSelectedForward()">Layer lên trên</button>
+          <button type="button" class="btn btn-secondary" onclick="sendSelectedBackward()">Layer xuống dưới</button>
+          <button type="button" class="btn btn-secondary" onclick="toggleSelectedLock()">Khóa hoặc mở layer</button>
+          <button type="button" class="btn btn-secondary" onclick="cloneSelectedComponent()">Nhân bản layer</button>
+          <button type="button" class="btn btn-secondary" onclick="deleteSelectedComponent()">Xóa layer</button>
+          <button type="button" class="btn btn-secondary" onclick="applyGrapesDesignToBanner()">Áp dụng vào banner</button>
+          <button type="button" class="btn btn-primary" onclick="closeGrapesBuilder()">Đóng builder</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;padding:10px 12px;background:#0b1220;border-bottom:1px solid rgba(255,255,255,0.08);overflow-x:auto;">
+        <button type="button" class="btn btn-secondary" onclick="applyTemplateByName('promo-hero')">🧱 Promo Hero</button>
+        <button type="button" class="btn btn-secondary" onclick="applyTemplateByName('flashSale')">⚡ Flash Sale</button>
+        <button type="button" class="btn btn-secondary" onclick="applyTemplateByName('newArrival')">🆕 New Arrival</button>
+        <button type="button" class="btn btn-secondary" onclick="applyTemplateByName('event')">🎉 Event Banner</button>
+      </div>
+      <div id="grapesTemplateGallery" style="display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:10px;padding:10px 12px;background:#0b1220;border-bottom:1px solid rgba(255,255,255,0.08);"></div>
+      <div id="grapesEditorHost" style="flex:1;min-height:0;"></div>
+    </div>
+  </div>
+  <input type="file" id="grapesTemplateImportInput" accept="application/json" style="display:none;" onchange="handleImportGrapesTemplate(event)">
+
+<style>
+/* Banner tab styles */
+#bannerModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+}
+
+#bannerModal {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(600px, 94vw) !important;
+  max-width: min(600px, 94vw) !important;
+  max-height: 90vh !important;
+  overflow: auto !important;
+  z-index: 10001 !important;
+}
+
+@media (max-width: 768px) {
+  #bannerModal {
+    width: min(600px, 96vw) !important;
+    max-height: 92vh !important;
+  }
+}
+
+.banner-loc-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--card);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all .2s;
+}
+.banner-loc-btn.active {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: #fff;
+  border-color: transparent;
+}
+.banner-item-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  transition: box-shadow .2s;
+}
+.banner-item-card:hover { box-shadow: 0 4px 16px rgba(124,58,237,0.15); }
+.banner-item-drag { color: var(--text3); cursor: grab; font-size: 16px; }
+.banner-item-preview {
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.banner-item-meta { font-size: 11px; color: var(--text3); display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.banner-item-actions { display: flex; gap: 6px; }
+.banner-item-actions button { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; cursor: pointer; color: var(--text2); font-size: 12px; transition: all .15s; }
+.banner-item-actions button:hover { border-color: #7c3aed; color: #7c3aed; }
+.banner-item-actions button.delete:hover { border-color: #ef4444; color: #ef4444; }
+
+#grapesBuilderOverlay .gjs-one-bg { background-color: #0b1220; }
+#grapesBuilderOverlay .gjs-two-color { color: #cbd5e1; }
+#grapesBuilderOverlay .gjs-three-bg { background-color: #1f2937; color: #fff; }
+#grapesBuilderOverlay .gjs-four-color,
+#grapesBuilderOverlay .gjs-four-color-h:hover { color: #60a5fa; }
+
+.g-tpl-card {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 10px;
+  background: #111827;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .15s ease, border-color .15s ease;
+}
+
+.g-tpl-card:hover {
+  transform: translateY(-2px);
+  border-color: #60a5fa;
+}
+
+.g-tpl-thumb {
+  height: 88px;
+  padding: 10px;
+  color: #fff;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.g-tpl-meta {
+  padding: 8px 10px;
+  color: #cbd5e1;
+  font-size: 12px;
+}
+
+@media (max-width: 1100px) {
+  #grapesTemplateGallery {
+    grid-template-columns: repeat(2, minmax(160px, 1fr)) !important;
+  }
+}
+</style>
+
+<script>function _typeof(o) {"@babel/helpers - typeof";return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {return typeof o;} : function (o) {return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;}, _typeof(o);}function _regenerator() {
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */var e,t,r = "function" == typeof Symbol ? Symbol : {},n = r.iterator || "@@iterator",o = r.toStringTag || "@@toStringTag";function i(r, n, o, i) {var c = n && n.prototype instanceof Generator ? n : Generator,u = Object.create(c.prototype);return _regeneratorDefine2(u, "_invoke", function (r, n, o) {var i,c,u,f = 0,p = o || [],y = !1,G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) {return i = t, c = 0, u = e, G.n = r, a;} };function d(r, n) {for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) {var o,i = p[t],d = G.p,l = i[2];r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0));}if (o || r > 1) return a;throw y = !0, n;}return function (o, p, l) {if (f > 1) throw TypeError("Generator is already running");for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) {i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u);try {if (f = 2, i) {if (c || (o = "next"), t = i[o]) {if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object");if (!t.done) return t;u = t.value, c < 2 && (c = 0);} else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1);i = e;} else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break;} catch (t) {i = e, c = 1, u = t;} finally {f = 1;}}return { value: t, done: y };};}(r, o, i), !0), u;}var a = {};function Generator() {}function GeneratorFunction() {}function GeneratorFunctionPrototype() {}t = Object.getPrototypeOf;var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () {return this;}), t),u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c);function f(e) {return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e;}return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () {return this;}), _regeneratorDefine2(u, "toString", function () {return "[object Generator]";}), (_regenerator = function _regenerator() {return { w: i, m: f };})();}function _regeneratorDefine2(e, r, n, t) {var i = Object.defineProperty;try {i({}, "", {});} catch (e) {i = 0;}_regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) {function o(r, n) {_regeneratorDefine2(e, r, function (e) {return this._invoke(r, n, e);});}r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2));}, _regeneratorDefine2(e, r, n, t);}function asyncGeneratorStep(n, t, e, r, o, a, c) {try {var i = n[a](c),u = i.value;} catch (n) {return void e(n);}i.done ? t(u) : Promise.resolve(u).then(r, o);}function _asyncToGenerator(n) {return function () {var t = this,e = arguments;return new Promise(function (r, o) {var a = n.apply(t, e);function _next(n) {asyncGeneratorStep(a, r, o, _next, _throw, "next", n);}function _throw(n) {asyncGeneratorStep(a, r, o, _next, _throw, "throw", n);}_next(void 0);});};}function _slicedToArray(r, e) {return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(r, a) {if (r) {if ("string" == typeof r) return _arrayLikeToArray(r, a);var t = {}.toString.call(r).slice(8, -1);return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;}}function _arrayLikeToArray(r, a) {(null == a || a > r.length) && (a = r.length);for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];return n;}function _iterableToArrayLimit(r, l) {var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];if (null != t) {var e,n,i,u,a = [],f = !0,o = !1;try {if (i = (t = t.call(r)).next, 0 === l) {if (Object(t) !== t) return;f = !1;} else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);} catch (r) {o = !0, n = r;} finally {try {if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;} finally {if (o) throw n;}}return a;}}function _arrayWithHoles(r) {if (Array.isArray(r)) return r;}var grapesEditor = null;
+var grapesLoaded = false;
+var grapesSelectedLocked = false;
+var GRAPES_DRAFT_KEY = 'banner_grapes_draft_v1';
+var TEMPLATE_LIBRARY = {
+  'promo-hero': {
+    title: 'Promo Hero',
+    desc: 'Hero layout co hinh + CTA',
+    previewBg: 'linear-gradient(135deg,#0b1220,#1f2937)',
+    html: getDefaultGrapesHtml
+  },
+  flashSale: {
+    title: 'Flash Sale',
+    desc: 'Sale manh voi countdown',
+    previewBg: 'linear-gradient(135deg,#991b1b,#ef4444)',
+    html: function html() {return getPresetHtml('flashSale');}
+  },
+  newArrival: {
+    title: 'New Arrival',
+    desc: 'Bo suu tap moi',
+    previewBg: 'linear-gradient(130deg,#0f172a,#1d4ed8)',
+    html: function html() {return getPresetHtml('newArrival');}
+  },
+  event: {
+    title: 'Event Banner',
+    desc: 'Thong bao su kien',
+    previewBg: 'linear-gradient(135deg,#111827,#7c3aed)',
+    html: function html() {return getPresetHtml('event');}
+  },
+  minimal: {
+    title: 'Minimal',
+    desc: 'Phong cach sach gon',
+    previewBg: 'linear-gradient(135deg,#0f172a,#334155)',
+    html: function html() {return '<section style="padding:24px;border-radius:14px;background:#0f172a;color:#e2e8f0;border:1px solid rgba(148,163,184,.25)"><h2 style="margin:0 0 8px;font-size:34px;">Uu dai hom nay</h2><p style="margin:0 0 12px;opacity:.85">Nhan ma giam gia doc quyen khi dang nhap.</p><a href="#" style="display:inline-block;padding:9px 14px;border-radius:10px;background:#e2e8f0;color:#0f172a;text-decoration:none;font-weight:700;">Nhan ngay</a></section>';}
+  },
+  festive: {
+    title: 'Festive',
+    desc: 'Le hoi, event, year-end',
+    previewBg: 'linear-gradient(135deg,#0f172a,#c026d3)',
+    html: function html() {return '<section style="padding:24px;border-radius:14px;background:linear-gradient(135deg,#0f172a,#c026d3);color:#fff;position:relative;overflow:hidden;"><div style="font-size:12px;opacity:.9;letter-spacing:1px;">LIMITED EVENT</div><h2 style="margin:8px 0 10px;font-size:38px;line-height:1.1;">Sale cuoi nam</h2><p style="margin:0 0 14px;opacity:.9">Nhan qua + voucher tu 20h den 23h.</p><a href="#" style="display:inline-block;padding:10px 16px;border-radius:999px;background:#fde047;color:#111827;text-decoration:none;font-weight:800;">Tham gia ngay</a></section>';}
+  }
+};
+
+function toLocalDatetimeInputValue(value) {
+  if (!value) return '';
+  var d = new Date(value);
+  if (Number.isNaN(d.getTime())) return '';
+  var pad = function pad(n) {return String(n).padStart(2, '0');};
+  var yyyy = d.getFullYear();
+  var mm = pad(d.getMonth() + 1);
+  var dd = pad(d.getDate());
+  var hh = pad(d.getHours());
+  var mi = pad(d.getMinutes());
+  return yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + mi;
+}
+
+function ensureGrapesLoaded() {
+  if (grapesLoaded && window.grapesjs) return Promise.resolve();
+  return new Promise(function (resolve, reject) {
+    var cssId = 'grapesjs-css-cdn';
+    if (!document.getElementById(cssId)) {
+      var link = document.createElement('link');
+      link.id = cssId;
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/grapesjs/dist/css/grapes.min.css';
+      document.head.appendChild(link);
+    }
+
+    if (window.grapesjs) {
+      grapesLoaded = true;
+      resolve();
+      return;
+    }
+
+    var s = document.createElement('script');
+    s.src = 'https://unpkg.com/grapesjs';
+    s.onload = function () {
+      grapesLoaded = true;
+      resolve();
+    };
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+function getDefaultGrapesHtml() {
+  return '<section style="padding:28px;background:linear-gradient(135deg,#0b1220,#1f2937);color:#fff;border-radius:12px;display:flex;align-items:center;gap:20px;">' +
+  '<div style="flex:1"><div style="display:inline-block;padding:6px 12px;border-radius:999px;background:#f59e0b;color:#111827;font-weight:700;margin-bottom:10px;">HOT DEAL</div>' +
+  '<h2 style="margin:0 0 8px;font-size:36px;line-height:1.1;">Giảm đến 50%</h2>' +
+  '<p style="margin:0 0 14px;opacity:.9;">Ưu đãi dành riêng cho khách truy cập hôm nay.</p>' +
+  '<a href="#" style="display:inline-block;padding:10px 16px;border-radius:999px;background:#2563eb;color:#fff;text-decoration:none;font-weight:700;">Xem ngay</a></div>' +
+  '<img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=600&q=80" style="width:40%;border-radius:12px;object-fit:cover;"/>' +
+  '</section>';
+}
+
+function getPresetHtml(name) {
+  var presets = {
+    flashSale: '<section style="padding:24px;background:linear-gradient(135deg,#991b1b,#ef4444);color:#fff;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;"><div><div style="font-size:13px;font-weight:800;letter-spacing:1px;opacity:.9;">FLASH SALE</div><h2 style="margin:6px 0 10px;font-size:42px;line-height:1.05;">GIAM 70%</h2><p style="margin:0;opacity:.9;">Chi trong 24 gio. So luong co han.</p></div><div style="padding:14px 18px;background:#111827;border-radius:10px;font-size:22px;font-weight:900;">00:59:45</div></section>',
+    newArrival: '<section style="padding:26px;background:linear-gradient(130deg,#0f172a,#1d4ed8);color:#fff;border-radius:14px;"><div style="font-size:12px;font-weight:700;opacity:.8;">NEW ARRIVAL</div><h2 style="margin:8px 0 10px;font-size:38px;">Bo suu tap moi da len song</h2><p style="margin:0 0 14px;opacity:.9;">Kham pha ngay cac item hot nhat tuan nay.</p><a href="#" style="display:inline-block;padding:10px 16px;background:#f59e0b;color:#111827;border-radius:999px;text-decoration:none;font-weight:800;">Xem bo suu tap</a></section>',
+    event: '<section style="padding:26px;background:linear-gradient(135deg,#111827,#7c3aed);color:#fff;border-radius:14px;display:flex;flex-direction:column;gap:10px;"><div style="display:inline-block;padding:6px 10px;background:#22c55e;color:#052e16;border-radius:999px;font-size:12px;font-weight:800;">SU KIEN DAC BIET</div><h2 style="margin:0;font-size:34px;">Nhan qua moi ngay</h2><p style="margin:0;opacity:.92;">Quay thuong, uu dai, mini game lien tuc.</p></section>'
+  };
+  return presets[name] || getDefaultGrapesHtml();
+}
+
+function applyTemplateByName(name) {
+  if (!grapesEditor) return;
+  var tpl = TEMPLATE_LIBRARY[name];
+  if (!tpl) return;
+  var html = typeof tpl.html === 'function' ? tpl.html() : String(tpl.html || '');
+  grapesEditor.setComponents(html || getDefaultGrapesHtml());
+  grapesEditor.setStyle('body{background:transparent;}');
+}
+
+function renderTemplateGallery() {
+  var el = document.getElementById('grapesTemplateGallery');
+  if (!el) return;
+  var html = Object.entries(TEMPLATE_LIBRARY).map(function (_ref) {var _ref2 = _slicedToArray(_ref, 2),key = _ref2[0],tpl = _ref2[1];
+    return '<div class="g-tpl-card" onclick="applyTemplateByName(\'' + key + '\')">' +
+    '<div class="g-tpl-thumb" style="background:' + tpl.previewBg + ';">' +
+    '<strong>' + tpl.title + '</strong>' +
+    '<span style="opacity:.85">' + tpl.desc + '</span>' +
+    '</div>' +
+    '<div class="g-tpl-meta">Click de dung mau</div>' +
+    '</div>';
+  }).join('');
+  el.innerHTML = html;
+}
+
+function saveGrapesDraft() {
+  if (!grapesEditor) return;
+  try {
+    var payload = {
+      html: grapesEditor.getHtml(),
+      css: grapesEditor.getCss(),
+      savedAt: Date.now()
+    };
+    localStorage.setItem(GRAPES_DRAFT_KEY, JSON.stringify(payload));
+  } catch (_) {}
+}
+
+function loadGrapesDraft() {
+  try {
+    var raw = localStorage.getItem(GRAPES_DRAFT_KEY);
+    if (!raw) return null;
+    var obj = JSON.parse(raw);
+    if (!obj || !obj.html) return null;
+    return obj;
+  } catch (_) {
+    return null;
+  }
+}function
+
+openGrapesBuilder() {return _openGrapesBuilder.apply(this, arguments);}function _openGrapesBuilder() {_openGrapesBuilder = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {var ov, host, bm, designHtml, designCss, draft, _t3;return _regenerator().w(function (_context3) {while (1) switch (_context3.p = _context3.n) {case 0:_context3.p = 0;_context3.n = 1;return (
+
+            ensureGrapesLoaded());case 1:
+          ov = document.getElementById('grapesBuilderOverlay');
+          host = document.getElementById('grapesEditorHost');if (!(
+          !ov || !host)) {_context3.n = 2;break;}return _context3.a(2);case 2:
+          ov.style.display = 'block';
+          renderTemplateGallery();
+
+          if (!grapesEditor) {
+            host.innerHTML = '<div id="grapesEditorCanvas" style="height:100%;"></div>';
+            grapesEditor = window.grapesjs.init({
+              container: '#grapesEditorCanvas',
+              height: '100%',
+              width: 'auto',
+              fromElement: false,
+              storageManager: false,
+              blockManager: {
+                appendTo: '.gjs-blocks-c'
+              }
+            });
+
+            bm = grapesEditor.BlockManager;
+            bm.add('promo-hero', {
+              label: 'Promo Hero',
+              content: getDefaultGrapesHtml(),
+              category: 'Preset'
+            });
+            bm.add('preset-flash-sale', {
+              label: 'Flash Sale',
+              content: getPresetHtml('flashSale'),
+              category: 'Preset'
+            });
+            bm.add('preset-new-arrival', {
+              label: 'New Arrival',
+              content: getPresetHtml('newArrival'),
+              category: 'Preset'
+            });
+            bm.add('preset-event', {
+              label: 'Event Banner',
+              content: getPresetHtml('event'),
+              category: 'Preset'
+            });
+            bm.add('text-block', {
+              label: 'Text',
+              content: '<div style="padding:10px;color:#fff;">Nội dung mới...</div>',
+              category: 'Basic'
+            });
+            bm.add('button-block', {
+              label: 'CTA Button',
+              content: '<a href="#" style="display:inline-block;padding:10px 16px;border-radius:999px;background:#2563eb;color:#fff;text-decoration:none;">Mua ngay</a>',
+              category: 'Basic'
+            });
+            bm.add('image-block', {
+              label: 'Image',
+              content: '<img src="https://picsum.photos/700/400" style="max-width:100%;border-radius:8px;"/>',
+              category: 'Basic'
+            });
+
+            grapesEditor.on('update', function () {
+              saveGrapesDraft();
+            });
+          }
+
+          designHtml = document.getElementById('bannerDesignHtml').value;
+          designCss = document.getElementById('bannerDesignCss').value;
+          if (designHtml) {
+            grapesEditor.setComponents(designHtml);
+            grapesEditor.setStyle(designCss || '');
+          } else {
+            draft = loadGrapesDraft();
+            if (draft && draft.html) {
+              grapesEditor.setComponents(draft.html);
+              grapesEditor.setStyle(draft.css || '');
+            } else {
+              grapesEditor.setComponents(getDefaultGrapesHtml());
+              grapesEditor.setStyle('body{background:transparent;}');
+            }
+          }_context3.n = 4;break;case 3:_context3.p = 3;_t3 = _context3.v;
+
+          if (typeof showToast === 'function') showToast('❌ Không tải được GrapesJS', 'error');case 4:return _context3.a(2);}}, _callee3, null, [[0, 3]]);}));return _openGrapesBuilder.apply(this, arguments);}
+
+
+
+function closeGrapesBuilder() {
+  var ov = document.getElementById('grapesBuilderOverlay');
+  if (ov) ov.style.display = 'none';
+}
+
+function applyGrapesDesignToBanner() {
+  if (!grapesEditor) return;
+  var html = grapesEditor.getHtml();
+  var css = grapesEditor.getCss();
+  document.getElementById('bannerDesignHtml').value = html;
+  document.getElementById('bannerDesignCss').value = css;
+  saveGrapesDraft();
+  closeGrapesBuilder();
+  if (typeof showToast === 'function') showToast('✅ Đã áp dụng thiết kế kéo-thả', 'success');
+}
+
+function grapesUndo() {
+  if (!grapesEditor) return;
+  try {
+    grapesEditor.runCommand('core:undo');
+  } catch (_) {}
+}
+
+function grapesRedo() {
+  if (!grapesEditor) return;
+  try {
+    grapesEditor.runCommand('core:redo');
+  } catch (_) {}
+}
+
+function exportGrapesTemplate() {
+  if (!grapesEditor) return;
+  try {
+    var payload = {
+      components: grapesEditor.getComponents(),
+      styles: grapesEditor.getStyle(),
+      html: grapesEditor.getHtml(),
+      css: grapesEditor.getCss(),
+      version: 1,
+      exportedAt: new Date().toISOString()
+    };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'banner-template-' + Date.now() + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } catch (e) {
+    if (typeof showToast === 'function') showToast('❌ Xuất template thất bại', 'error');
+  }
+}
+
+function importGrapesTemplate() {
+  var input = document.getElementById('grapesTemplateImportInput');
+  if (!input) return;
+  input.value = '';
+  input.click();
+}
+
+function handleImportGrapesTemplate(event) {
+  var file = event.target.files && event.target.files[0];
+  if (!file || !grapesEditor) return;
+  var reader = new FileReader();
+  reader.onload = function () {
+    try {
+      var data = JSON.parse(String(reader.result || '{}'));
+      if (data.html) {
+        grapesEditor.setComponents(data.html);
+        grapesEditor.setStyle(data.css || '');
+      } else {
+        grapesEditor.setComponents(data.components || '');
+        grapesEditor.setStyle(data.styles || '');
+      }
+      if (typeof showToast === 'function') showToast('✅ Đã nhập template', 'success');
+    } catch (e) {
+      if (typeof showToast === 'function') showToast('❌ File template không hợp lệ', 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function getSelectedComponent() {
+  if (!grapesEditor) return null;
+  return grapesEditor.getSelected();
+}
+
+function bringSelectedForward() {
+  var comp = getSelectedComponent();
+  if (!comp || !comp.parent()) return;
+  var parent = comp.parent();
+  var idx = parent.index(comp);
+  if (idx < parent.components().length - 1) {
+    parent.append(comp, { at: idx + 1 });
+  }
+}
+
+function sendSelectedBackward() {
+  var comp = getSelectedComponent();
+  if (!comp || !comp.parent()) return;
+  var parent = comp.parent();
+  var idx = parent.index(comp);
+  if (idx > 0) {
+    parent.append(comp, { at: idx - 1 });
+  }
+}
+
+function toggleSelectedLock() {
+  var comp = getSelectedComponent();
+  if (!comp) return;
+  grapesSelectedLocked = !grapesSelectedLocked;
+  comp.set({
+    draggable: !grapesSelectedLocked,
+    editable: !grapesSelectedLocked,
+    selectable: true,
+    hoverable: true
+  });
+  if (typeof showToast === 'function') showToast(grapesSelectedLocked ? '🔒 Đã khóa layer' : '🔓 Đã mở khóa layer', 'success');
+}
+
+function cloneSelectedComponent() {
+  var comp = getSelectedComponent();
+  if (!comp || !comp.parent()) return;
+  var parent = comp.parent();
+  var idx = parent.index(comp);
+  var clone = comp.clone();
+  parent.append(clone, { at: idx + 1 });
+}
+
+function deleteSelectedComponent() {
+  var comp = getSelectedComponent();
+  if (!comp) return;
+  comp.remove();
+}
+
+var bannerMgr = {
+  _all: [],
+  _filter: 'all',
+
+  setFilter: function setFilter(loc, btn) {
+    this._filter = loc;
+    document.querySelectorAll('.banner-loc-btn').forEach(function (b) {return b.classList.remove('active');});
+    btn.classList.add('active');
+    this._render(this._all);
+  },
+
+  load: function load() {var _this = this;return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {var res, j, _t;return _regenerator().w(function (_context) {while (1) switch (_context.p = _context.n) {case 0:_context.p = 0;_context.n = 1;return (
+
+              fetch('/api/banners/admin'));case 1:res = _context.v;_context.n = 2;return (
+              res.json());case 2:j = _context.v;if (
+            j.success) {_context.n = 3;break;}throw new Error(j.message);case 3:
+            _this._all = j.data || [];
+            _this._renderStats(_this._all);
+            _this._render(_this._all);_context.n = 5;break;case 4:_context.p = 4;_t = _context.v;
+
+            document.getElementById('bannerListContainer').innerHTML = "<div style=\"text-align:center;padding:40px;color:#ef4444;\">\u274C L\u1ED7i: ".concat(_t.message, "</div>");case 5:return _context.a(2);}}, _callee, null, [[0, 4]]);}))();
+
+  },
+
+  _renderStats: function _renderStats(banners) {
+    var total = banners.length;
+    var active = banners.filter(function (b) {return b.is_active;}).length;
+    var game = banners.filter(function (b) {return b.location === 'game' || b.location === 'both';}).length;
+    var home = banners.filter(function (b) {return b.location === 'home' || b.location === 'both';}).length;
+    var statEl = document.getElementById('bannerStatsRow');
+    if (!statEl) return;
+    statEl.innerHTML = [
+    { icon: '🖼️', label: 'Tổng banner', val: total, c: 'var(--blue)' },
+    { icon: '✅', label: 'Đang hiển thị', val: active, c: 'var(--green)' },
+    { icon: '🎮', label: 'Màn game', val: game, c: '#a855f7' },
+    { icon: '🏠', label: 'Trang chủ', val: home, c: '#f59e0b' }].
+    map(function (s) {return "<div style=\"background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;\">\n      <div style=\"font-size:20px;margin-bottom:4px;\">".concat(
+        s.icon, "</div>\n      <div style=\"font-size:20px;font-weight:700;color:").concat(
+        s.c, ";\">").concat(s.val, "</div>\n      <div style=\"font-size:11px;color:var(--text3);\">").concat(
+        s.label, "</div>\n    </div>");}
+    ).join('');
+  },
+
+  _render: function _render(banners) {var _this2 = this;
+    var container = document.getElementById('bannerListContainer');
+    var emptyEl = document.getElementById('bannerEmptyState');
+    var filtered = this._filter === 'all' ? banners : banners.filter(function (b) {return (
+        b.location === _this2._filter || _this2._filter !== 'both' && b.location === 'both');}
+    );
+    if (filtered.length === 0) {
+      container.style.display = 'none';
+      emptyEl.style.display = 'block';
+      return;
+    }
+    container.style.display = 'grid';
+    emptyEl.style.display = 'none';
+    container.innerHTML = filtered.map(function (b, idx) {var _b$sort_order;
+      var locLabel = { game: '🎮 Màn game', home: '🏠 Trang chủ', both: '📍 Cả hai' }[b.location] || b.location;
+      var activeLabel = b.is_active ? '<span style="color:var(--green);font-weight:600;">✅ Hiển thị</span>' : '<span style="color:var(--text3);">❌ Ẩn</span>';
+      var typeLabel = { bar: 'Thanh', popup: 'Popup', both: 'Thanh + Popup' }[b.display_type || 'bar'] || 'Thanh';
+      var sizeLabel = b.popup_width || b.popup_height ?
+      'Size: ' + (b.popup_width || 'auto') + ' x ' + (b.popup_height || 'ratio ' + (b.aspect_ratio || '16:9')) :
+      'Size: ratio ' + (b.aspect_ratio || '16:9');
+      var sch = b.start_at || b.end_at ?
+      'Lịch: ' + (b.start_at ? new Date(b.start_at).toLocaleString('vi-VN') : 'Ngay') + ' -> ' + (b.end_at ? new Date(b.end_at).toLocaleString('vi-VN') : 'Vo thoi han') :
+      'Lịch: Luôn hiển thị';
+      var bg = b.bg_color || '#1e1b38';
+      var tc = b.text_color || '#ffffff';
+      return "\n      <div class=\"banner-item-card\" data-id=\"".concat(
+        b.id, "\">\n        <div class=\"banner-item-drag\"><i class=\"fas fa-grip-vertical\"></i></div>\n        <div>\n          <div class=\"banner-item-preview\" style=\"background:").concat(
+
+
+        bg, ";color:").concat(tc, ";\">\n            ").concat(
+        b.image_url ? "<img src=\"".concat(b.image_url, "\" style=\"height:32px;border-radius:4px;\" alt=\"banner img\">") : '', "\n            <span style=\"flex:1;\">").concat(
+        b.text || '<em style="opacity:.5">Không có văn bản</em>', "</span>\n            ").concat(
+        b.link_url ? "<a href=\"".concat(b.link_url, "\" target=\"").concat(b.link_target || '_blank', "\" onclick=\"event.stopPropagation()\" style=\"color:").concat(tc, ";font-size:11px;opacity:.7;text-decoration:underline;\">Xem li\xEAn k\u1EBFt</a>") : '', "\n          </div>\n          <div class=\"banner-item-meta\">\n            <span>").concat(
+
+
+        locLabel, "</span>\n            <span>|</span>\n            <span>Ki\u1EC3u: ").concat(
+
+        typeLabel, "</span>\n            <span>|</span>\n            ").concat(
+
+        activeLabel, "\n            <span>|</span>\n            <span>Th\u1EE9 t\u1EF1: ").concat((_b$sort_order =
+
+      b.sort_order) !== null && _b$sort_order !== void 0 ? _b$sort_order : idx + 1, "</span>\n            <span>|</span>\n            <span>").concat(
+
+        sizeLabel, "</span>\n            <span>|</span>\n            <span>").concat(
+
+        sch, "</span>\n          </div>\n        </div>\n        <div class=\"banner-item-actions\">\n          <button onclick=\"return openBannerModal(").concat(
+
+
+
+        JSON.stringify(b).replace(/"/g, '&quot;'), ")\"><i class=\"fas fa-pen\"></i></button>\n          <button onclick=\"toggleBannerActive(").concat(
+        b.id, ", ").concat(b.is_active ? 0 : 1, ")\" title=\"").concat(b.is_active ? 'Ẩn banner' : 'Hiện banner', "\">").concat(b.is_active ? '👁️' : '🚫', "</button>\n          <button class=\"delete\" onclick=\"deleteBanner(").concat(
+        b.id, ")\"><i class=\"fas fa-trash\"></i></button>\n        </div>\n      </div>");
+
+
+    }).join('');
+  }
+};
+
+function getBannerModalEls() {
+  var overlay = document.getElementById('bannerModalOverlay');
+  var modal = document.getElementById('bannerModal');
+  return { overlay: overlay, modal: modal };
+}
+
+function mountBannerModalToBody() {
+  var _getBannerModalEls = getBannerModalEls(),overlay = _getBannerModalEls.overlay,modal = _getBannerModalEls.modal;
+  if (!overlay || !modal) return;
+  if (overlay.parentElement !== document.body) document.body.appendChild(overlay);
+  if (modal.parentElement !== document.body) document.body.appendChild(modal);
+}
+
+function openBannerModal(banner) {
+  var _getBannerModalEls2 = getBannerModalEls(),overlay = _getBannerModalEls2.overlay,modal = _getBannerModalEls2.modal;
+  if (!overlay || !modal) {
+    if (typeof showToast === 'function') showToast('❌ Không tìm thấy modal banner', 'error');
+    return false;
+  }
+
+  mountBannerModalToBody();
+  document.getElementById('bannerModalTitle').textContent = banner ? '✏️ Sửa banner' : '🖼️ Thêm banner mới';
+  document.getElementById('bannerEditId').value = banner ? banner.id : '';
+  document.getElementById('bannerText').value = banner ? banner.text || '' : '';
+  document.getElementById('bannerBgColor').value = banner ? banner.bg_color || '#1e1b38' : '#1e1b38';
+  document.getElementById('bannerBgColorText').value = banner ? banner.bg_color || '#1e1b38' : '#1e1b38';
+  document.getElementById('bannerTextColor').value = banner ? banner.text_color || '#ffffff' : '#ffffff';
+  document.getElementById('bannerTextColorText').value = banner ? banner.text_color || '#ffffff' : '#ffffff';
+  document.getElementById('bannerImageUrl').value = banner ? banner.image_url || '' : '';
+  document.getElementById('bannerLinkUrl').value = banner ? banner.link_url || '' : '';
+  document.getElementById('bannerLinkTarget').value = banner ? banner.link_target || '_self' : '_self';
+  document.getElementById('bannerLocation').value = banner ? banner.location || 'game' : 'game';
+  document.getElementById('bannerDisplayType').value = banner ? banner.display_type || 'bar' : 'bar';
+  document.getElementById('bannerPopupFrequency').value = banner ? banner.popup_frequency || 'session' : 'session';
+  document.getElementById('bannerPopupDelayMs').value = banner ? Number(banner.popup_delay_ms || 800) : 800;
+  document.getElementById('bannerAspectRatio').value = banner ? banner.aspect_ratio || '16:9' : '16:9';
+  document.getElementById('bannerPopupWidth').value = banner ? banner.popup_width || '' : '';
+  document.getElementById('bannerPopupHeight').value = banner ? banner.popup_height || '' : '';
+  document.getElementById('bannerShowAnimation').value = banner ? banner.show_animation || 'zoom' : 'zoom';
+  document.getElementById('bannerHideAnimation').value = banner ? banner.hide_animation || 'fade' : 'fade';
+  document.getElementById('bannerAutoCloseMs').value = banner && banner.auto_close_ms ? Number(banner.auto_close_ms) : '';
+  document.getElementById('bannerStartAt').value = banner && banner.start_at ? toLocalDatetimeInputValue(banner.start_at) : '';
+  document.getElementById('bannerEndAt').value = banner && banner.end_at ? toLocalDatetimeInputValue(banner.end_at) : '';
+  document.getElementById('bannerPopupDismissible').value = banner ? banner.popup_dismissible === false ? '0' : '1' : '1';
+  document.getElementById('bannerCtaText').value = banner ? banner.cta_text || '' : '';
+  document.getElementById('bannerDesignJson').value = banner ? banner.design_json || '' : '';
+  document.getElementById('bannerDesignHtml').value = banner ? banner.design_html || '' : '';
+  document.getElementById('bannerDesignCss').value = banner ? banner.design_css || '' : '';
+  document.getElementById('bannerIsActive').value = banner ? banner.is_active ? '1' : '0' : '1';
+  if (banner && banner.design_json) {
+    designStudio.loadFromJson(banner.design_json);
+  } else {
+    designStudio.reset();
+  }
+  updateBannerPreview();
+
+  overlay.style.display = 'block';
+  overlay.classList.add('open', 'show', 'active');
+  modal.style.display = 'flex';
+  modal.classList.add('open', 'show');
+  return false;
+}
+
+function closeBannerModal() {
+  var _getBannerModalEls3 = getBannerModalEls(),overlay = _getBannerModalEls3.overlay,modal = _getBannerModalEls3.modal;
+  if (!overlay || !modal) return false;
+  overlay.classList.remove('open', 'show', 'active');
+  modal.classList.remove('open', 'show');
+  overlay.style.display = 'none';
+  modal.style.display = 'none';
+  return false;
+}
+
+function updateBannerPreview() {
+  var text = document.getElementById('bannerText').value || 'Xem trước nội dung banner...';
+  var bg = document.getElementById('bannerBgColor').value || '#1e1b38';
+  var tc = document.getElementById('bannerTextColor').value || '#ffffff';
+  var img = document.getElementById('bannerImageUrl').value;
+  var box = document.getElementById('bannerPreviewBox');
+  var imgEl = document.getElementById('bannerPreviewImg');
+  var txtEl = document.getElementById('bannerPreviewText');
+  box.style.background = bg;
+  box.style.color = tc;
+  txtEl.textContent = text;
+  if (img) {imgEl.src = img;imgEl.style.display = 'block';} else {imgEl.style.display = 'none';}
+}
+
+// Wire color pickers → text inputs → preview
+['bannerBgColor', 'bannerTextColor'].forEach(function (id) {
+  var picker = document.getElementById(id);
+  var textId = id + 'Text';
+  if (picker) {
+    picker.addEventListener('input', function () {
+      document.getElementById(textId).value = picker.value;
+      updateBannerPreview();
+    });
+  }
+  var textInput = document.getElementById(textId);
+  if (textInput) {
+    textInput.addEventListener('input', function () {
+      if (/^#[0-9a-fA-F]{6}$/.test(textInput.value)) {
+        document.getElementById(id).value = textInput.value;
+      }
+      updateBannerPreview();
+    });
+  }
+});
+['bannerText', 'bannerImageUrl'].forEach(function (id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateBannerPreview);
+});function
+
+uploadBannerImage(_x) {return _uploadBannerImage.apply(this, arguments);}function _uploadBannerImage() {_uploadBannerImage = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(event) {var file, fd, res, j, uploadedUrl, _t4;return _regenerator().w(function (_context4) {while (1) switch (_context4.p = _context4.n) {case 0:
+          file = event.target.files[0];if (
+          file) {_context4.n = 1;break;}return _context4.a(2);case 1:
+          fd = new FormData();
+          fd.append('file', file);_context4.p = 2;_context4.n = 3;return (
+
+            fetch('/api/files', { method: 'POST', body: fd }));case 3:res = _context4.v;_context4.n = 4;return (
+            res.json());case 4:j = _context4.v;
+          uploadedUrl = j && j.data && j.data.url || j.url;
+          if (j.success && uploadedUrl) {
+            document.getElementById('bannerImageUrl').value = uploadedUrl;
+            updateBannerPreview();
+          } else {
+            showToast('❌ Upload thất bại', 'error');
+          }_context4.n = 6;break;case 5:_context4.p = 5;_t4 = _context4.v;
+          showToast('❌ Lỗi upload', 'error');case 6:return _context4.a(2);}}, _callee4, null, [[2, 5]]);}));return _uploadBannerImage.apply(this, arguments);}function
+
+
+saveBanner() {return _saveBanner.apply(this, arguments);}function _saveBanner() {_saveBanner = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {var id, designJson, payload, url, method, res, j, _t5;return _regenerator().w(function (_context5) {while (1) switch (_context5.p = _context5.n) {case 0:
+          id = document.getElementById('bannerEditId').value;
+          designJson = designStudio.toJson();
+          document.getElementById('bannerDesignJson').value = designJson;
+          payload = {
+            text: document.getElementById('bannerText').value.trim(),
+            bg_color: document.getElementById('bannerBgColor').value,
+            text_color: document.getElementById('bannerTextColor').value,
+            image_url: document.getElementById('bannerImageUrl').value.trim(),
+            link_url: document.getElementById('bannerLinkUrl').value.trim(),
+            link_target: document.getElementById('bannerLinkTarget').value,
+            location: document.getElementById('bannerLocation').value,
+            display_type: document.getElementById('bannerDisplayType').value,
+            aspect_ratio: document.getElementById('bannerAspectRatio').value,
+            popup_width: document.getElementById('bannerPopupWidth').value.trim(),
+            popup_height: document.getElementById('bannerPopupHeight').value.trim(),
+            popup_frequency: document.getElementById('bannerPopupFrequency').value,
+            popup_delay_ms: Number(document.getElementById('bannerPopupDelayMs').value || 800),
+            show_animation: document.getElementById('bannerShowAnimation').value,
+            hide_animation: document.getElementById('bannerHideAnimation').value,
+            auto_close_ms: document.getElementById('bannerAutoCloseMs').value ? Number(document.getElementById('bannerAutoCloseMs').value) : null,
+            start_at: document.getElementById('bannerStartAt').value || null,
+            end_at: document.getElementById('bannerEndAt').value || null,
+            popup_dismissible: document.getElementById('bannerPopupDismissible').value === '1',
+            cta_text: document.getElementById('bannerCtaText').value.trim(),
+            cta_bg_color: document.getElementById('dsCtaColor').value,
+            cta_text_color: '#ffffff',
+            design_json: designJson,
+            design_html: document.getElementById('bannerDesignHtml').value,
+            design_css: document.getElementById('bannerDesignCss').value,
+            is_active: document.getElementById('bannerIsActive').value === '1'
+          };_context5.p = 1;
+
+          url = id ? "/api/banners/".concat(id) : '/api/banners';
+          method = id ? 'PUT' : 'POST';_context5.n = 2;return (
+            fetch(url, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }));case 2:res = _context5.v;_context5.n = 3;return (
+            res.json());case 3:j = _context5.v;if (
+          j.success) {_context5.n = 4;break;}throw new Error(j.message);case 4:
+          closeBannerModal();
+          showToast(id ? '✅ Đã cập nhật banner' : '✅ Đã thêm banner mới', 'success');
+          bannerMgr.load();_context5.n = 6;break;case 5:_context5.p = 5;_t5 = _context5.v;
+
+          showToast('❌ ' + _t5.message, 'error');case 6:return _context5.a(2);}}, _callee5, null, [[1, 5]]);}));return _saveBanner.apply(this, arguments);}function
+
+
+
+deleteBanner(_x2) {return _deleteBanner.apply(this, arguments);}function _deleteBanner() {_deleteBanner = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(id) {var res, j, _t6;return _regenerator().w(function (_context6) {while (1) switch (_context6.p = _context6.n) {case 0:if (
+          confirm('Xác nhận xóa banner này?')) {_context6.n = 1;break;}return _context6.a(2);case 1:_context6.p = 1;_context6.n = 2;return (
+
+            fetch("/api/banners/".concat(id), { method: 'DELETE' }));case 2:res = _context6.v;_context6.n = 3;return (
+            res.json());case 3:j = _context6.v;if (
+          j.success) {_context6.n = 4;break;}throw new Error(j.message);case 4:
+          showToast('🗑️ Đã xóa banner', 'success');
+          bannerMgr.load();_context6.n = 6;break;case 5:_context6.p = 5;_t6 = _context6.v;
+
+          showToast('❌ ' + _t6.message, 'error');case 6:return _context6.a(2);}}, _callee6, null, [[1, 5]]);}));return _deleteBanner.apply(this, arguments);}function
+
+
+
+toggleBannerActive(_x3, _x4) {return _toggleBannerActive.apply(this, arguments);}function _toggleBannerActive() {_toggleBannerActive = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7(id, isActive) {var res, j, _t7;return _regenerator().w(function (_context7) {while (1) switch (_context7.p = _context7.n) {case 0:_context7.p = 0;_context7.n = 1;return (
+
+            fetch("/api/banners/".concat(id), {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ is_active: !!isActive })
+            }));case 1:res = _context7.v;_context7.n = 2;return (
+            res.json());case 2:j = _context7.v;if (
+          j.success) {_context7.n = 3;break;}throw new Error(j.message);case 3:
+          showToast(isActive ? '✅ Banner đã hiển thị' : '🚫 Banner đã ẩn', 'success');
+          bannerMgr.load();_context7.n = 5;break;case 4:_context7.p = 4;_t7 = _context7.v;
+
+          showToast('❌ ' + _t7.message, 'error');case 5:return _context7.a(2);}}, _callee7, null, [[0, 4]]);}));return _toggleBannerActive.apply(this, arguments);}
+
+
+
+var designStudio = {
+  state: {
+    headline: 'SALE OFF 50%',
+    subline: 'Ưu đãi chỉ hôm nay',
+    badge: 'LIMITED',
+    bg: '#0b1220',
+    text: '#ffffff',
+    badgeColor: '#f59e0b',
+    ctaColor: '#2563eb',
+    imageDataUrl: ''
+  },
+
+  init: function init() {var _this3 = this;
+    ['dsHeadline', 'dsSubline', 'dsBadge', 'dsBg', 'dsText', 'dsBadgeColor', 'dsCtaColor'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', function () {
+        _this3.captureForm();
+        _this3.render();
+      });
+    });
+    this.captureForm();
+    this.render();
+  },
+
+  captureForm: function captureForm() {
+    this.state.headline = document.getElementById('dsHeadline').value || '';
+    this.state.subline = document.getElementById('dsSubline').value || '';
+    this.state.badge = document.getElementById('dsBadge').value || '';
+    this.state.bg = document.getElementById('dsBg').value || '#0b1220';
+    this.state.text = document.getElementById('dsText').value || '#ffffff';
+    this.state.badgeColor = document.getElementById('dsBadgeColor').value || '#f59e0b';
+    this.state.ctaColor = document.getElementById('dsCtaColor').value || '#2563eb';
+  },
+
+  reset: function reset() {
+    document.getElementById('dsHeadline').value = 'SALE OFF 50%';
+    document.getElementById('dsSubline').value = 'Ưu đãi chỉ hôm nay';
+    document.getElementById('dsBadge').value = 'LIMITED';
+    document.getElementById('dsBg').value = '#0b1220';
+    document.getElementById('dsText').value = '#ffffff';
+    document.getElementById('dsBadgeColor').value = '#f59e0b';
+    document.getElementById('dsCtaColor').value = '#2563eb';
+    this.state.imageDataUrl = '';
+    this.captureForm();
+    this.render();
+  },
+
+  loadFromJson: function loadFromJson(raw) {
+    try {
+      var parsed = JSON.parse(raw || '{}');
+      if (!parsed || _typeof(parsed) !== 'object') return this.reset();
+      document.getElementById('dsHeadline').value = parsed.headline || 'SALE OFF 50%';
+      document.getElementById('dsSubline').value = parsed.subline || 'Ưu đãi chỉ hôm nay';
+      document.getElementById('dsBadge').value = parsed.badge || 'LIMITED';
+      document.getElementById('dsBg').value = parsed.bg || '#0b1220';
+      document.getElementById('dsText').value = parsed.text || '#ffffff';
+      document.getElementById('dsBadgeColor').value = parsed.badgeColor || '#f59e0b';
+      document.getElementById('dsCtaColor').value = parsed.ctaColor || '#2563eb';
+      this.state.imageDataUrl = parsed.imageDataUrl || '';
+      this.captureForm();
+      this.render();
+    } catch (_) {
+      this.reset();
+    }
+  },
+
+  toJson: function toJson() {
+    return JSON.stringify(this.state);
+  },
+
+  onImageUpload: function onImageUpload(event) {var _this4 = this;
+    var f = event.target.files && event.target.files[0];
+    if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      _this4.state.imageDataUrl = String(rd.result || '');
+      _this4.render();
+    };
+    rd.readAsDataURL(f);
+  },
+
+  render: function render() {var _this5 = this;
+    this.captureForm();
+    var canvas = document.getElementById('bannerDesignCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width;
+    var h = canvas.height;
+
+    var grd = ctx.createLinearGradient(0, 0, w, h);
+    grd.addColorStop(0, this.state.bg);
+    grd.addColorStop(1, '#111827');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fillRect(0, h - 180, w, 180);
+
+    if (this.state.imageDataUrl) {
+      var img = new Image();
+      img.onload = function () {
+        var iw = Math.min(450, w * 0.38);
+        var ih = img.height / img.width * iw;
+        ctx.drawImage(img, w - iw - 40, h - ih - 40, iw, ih);
+        _this5._drawTexts(ctx, w, h);
+      };
+      img.src = this.state.imageDataUrl;
+      return;
+    }
+
+    this._drawTexts(ctx, w, h);
+  },
+
+  _drawTexts: function _drawTexts(ctx, w, h) {
+    ctx.fillStyle = this.state.badgeColor;
+    ctx.fillRect(44, 48, 220, 48);
+    ctx.fillStyle = '#0b1220';
+    ctx.font = '700 26px Arial';
+    ctx.fillText(this.state.badge || 'LIMITED', 58, 81);
+
+    ctx.fillStyle = this.state.text;
+    ctx.font = '900 82px Arial';
+    ctx.fillText(this.state.headline || 'SALE OFF 50%', 44, 250);
+
+    ctx.font = '600 40px Arial';
+    ctx.fillStyle = 'rgba(255,255,255,0.92)';
+    ctx.fillText(this.state.subline || 'Ưu đãi chỉ hôm nay', 44, 322);
+
+    ctx.fillStyle = this.state.ctaColor;
+    if (typeof ctx.roundRect === 'function') {
+      ctx.beginPath();
+      ctx.roundRect(44, h - 112, 240, 58, 28);
+      ctx.fill();
+    } else {
+      ctx.fillRect(44, h - 112, 240, 58);
+    }
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 28px Arial';
+    ctx.fillText('XEM NGAY', 102, h - 73);
+  },
+
+  exportToBannerImage: function exportToBannerImage() {var _this6 = this;return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {var canvas, blob, fd, res, j, uploadedUrl, _t2;return _regenerator().w(function (_context2) {while (1) switch (_context2.p = _context2.n) {case 0:_context2.p = 0;
+
+            _this6.render();
+            canvas = document.getElementById('bannerDesignCanvas');if (
+            canvas) {_context2.n = 1;break;}return _context2.a(2);case 1:_context2.n = 2;return (
+              new Promise(function (resolve) {return canvas.toBlob(resolve, 'image/png', 0.95);}));case 2:blob = _context2.v;if (
+            blob) {_context2.n = 3;break;}throw new Error('Không tạo được ảnh design');case 3:
+            fd = new FormData();
+            fd.append('file', blob, 'banner-design-' + Date.now() + '.png');_context2.n = 4;return (
+              fetch('/api/files', { method: 'POST', body: fd }));case 4:res = _context2.v;_context2.n = 5;return (
+              res.json());case 5:j = _context2.v;
+            uploadedUrl = j && j.data && j.data.url || j.url;if (!(
+            !j.success || !uploadedUrl)) {_context2.n = 6;break;}throw new Error(j.message || 'Upload thất bại');case 6:
+            document.getElementById('bannerImageUrl').value = uploadedUrl;
+            document.getElementById('bannerBgColor').value = _this6.state.bg;
+            document.getElementById('bannerTextColor').value = _this6.state.text;
+            document.getElementById('bannerCtaText').value = document.getElementById('bannerCtaText').value || 'Xem ngay';
+            updateBannerPreview();
+            if (typeof showToast === 'function') showToast('✅ Đã xuất design thành banner', 'success');_context2.n = 8;break;case 7:_context2.p = 7;_t2 = _context2.v;
+
+            if (typeof showToast === 'function') showToast('❌ ' + (_t2.message || 'Lỗi export design'), 'error');case 8:return _context2.a(2);}}, _callee2, null, [[0, 7]]);}))();
+
+  }
+};
+
+// Load banners when tab is activated
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof designStudio.init === 'function') designStudio.init();
+  var originalSwitchTab = window.switchTab;
+  if (typeof originalSwitchTab === 'function') {
+    window.switchTab = function (tab) {
+      originalSwitchTab(tab);
+      if (tab === 'banners') bannerMgr.load();
+    };
+  }
+});
+window.openBannerModal = openBannerModal;
+window.closeBannerModal = closeBannerModal;
+window.saveBanner = saveBanner;
+window.deleteBanner = deleteBanner;
+window.toggleBannerActive = toggleBannerActive;
+window.openGrapesBuilder = openGrapesBuilder;
+window.closeGrapesBuilder = closeGrapesBuilder;
+window.applyGrapesDesignToBanner = applyGrapesDesignToBanner;
+window.applyTemplateByName = applyTemplateByName;
+window.grapesUndo = grapesUndo;
+window.grapesRedo = grapesRedo;
+window.exportGrapesTemplate = exportGrapesTemplate;
+window.importGrapesTemplate = importGrapesTemplate;
+window.handleImportGrapesTemplate = handleImportGrapesTemplate;
+window.bringSelectedForward = bringSelectedForward;
+window.sendSelectedBackward = sendSelectedBackward;
+window.toggleSelectedLock = toggleSelectedLock;
+window.cloneSelectedComponent = cloneSelectedComponent;
+window.deleteSelectedComponent = deleteSelectedComponent;</script>

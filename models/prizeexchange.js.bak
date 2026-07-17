@@ -1,0 +1,53 @@
+module.exports = (sequelize, DataTypes) => {
+  return sequelize.define('PrizeExchange', {
+    session_code: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    customer_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    customer_phone: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    bank_account: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    bank_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    prize_name: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    prize_amount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    status: {
+      type: DataTypes.ENUM('PENDING', 'APPROVED', 'COMPLETED', 'REJECTED'),
+      defaultValue: 'PENDING'
+    },
+    approved_at: {
+      type: DataTypes.DATE,
+      defaultValue: null
+    },
+    completed_at: {
+      type: DataTypes.DATE,
+      defaultValue: null
+    },
+    notes: {
+      type: DataTypes.TEXT,
+      defaultValue: null
+    }
+  }, {
+    tableName: 'prize_exchanges',
+    underscored: true,
+    timestamps: true
+  })
+}

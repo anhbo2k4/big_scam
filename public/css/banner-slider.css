@@ -1,0 +1,100 @@
+/* ── Banner Slider System ──────────────────────────────────── */
+.bs-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  min-height: 38px;
+  background: linear-gradient(135deg, rgba(124,58,237,.18) 0%, rgba(67,56,202,.14) 100%);
+}
+
+.bs-track {
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.bs-slide {
+  min-width: 100%;
+  width: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 20px;
+  gap: 10px;
+  box-sizing: border-box;
+  animation: bsFadeIn .45s ease;
+}
+
+.bs-slide.bs-active {
+  display: flex;
+}
+
+@keyframes bsFadeIn {
+  from { opacity: 0; transform: translateX(18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.bs-img {
+  max-height: 28px;
+  width: auto;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.bs-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2d9f5;
+  letter-spacing: .02em;
+  text-align: center;
+  pointer-events: none;
+}
+
+.bs-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.bs-dots {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 2;
+}
+
+.bs-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  border: none;
+  cursor: pointer;
+  transition: background .3s;
+  padding: 0;
+}
+
+.bs-dot.bs-dot-active {
+  background: #a78bfa;
+  width: 16px;
+  border-radius: 4px;
+}
+
+/* Game screen placement — below g-nav */
+.game-banner-slot {
+  width: 100%;
+  z-index: 10;
+}
+
+/* Homepage placement — pinned at top */
+.homepage-banner-slot {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}

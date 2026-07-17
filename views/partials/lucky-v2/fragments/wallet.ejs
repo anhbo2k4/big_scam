@@ -1,0 +1,100 @@
+<div class="g-wallet wallet-wrap">
+  <div class="wallet-panel wallet-card">
+    <div class="wallet-main wallet-main-row">
+      <div class="wi wallet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/><circle cx="18" cy="15" r="1" fill="currentColor"/></svg></div>
+      <div class="winfo wallet-info">
+        <div class="wlabel wallet-label" id="walletTotalLabel" data-i18n="walletTotal">Ví điện tử Việt Nam</div>
+        <div class="wsub" id="walletWithdrawHint" data-i18n="walletWithdrawHint">Hãy liên hệ CSKH để được giúp đỡ.</div>
+        <div class="wallet-currency-grid">
+          <div class="wallet-currency-item" id="walletItemVND" data-currency="VND">
+            <div class="wallet-currency-top"><span class="wallet-currency-code">VND</span><span class="wallet-currency-badge ready" id="walletBadgeVND">Sẵn sàng</span></div>
+            <div class="wallet-currency-amount wallet-amount-row"><span class="wallet-currency-symbol wallet-sym">₫</span><span class="wallet-amount" id="walletAmtVND">0</span></div>
+            <div class="wallet-currency-note" id="walletNoteVND">Ví trống</div>
+          </div>
+        </div>
+        <div class="wallet-available-text wallet-available" id="walletAvailableText" data-i18n="walletAvailable">Đang chờ xác nhận quy đổi từ hệ thống</div>
+      </div>
+
+      <div class="wallet-btns-icon">
+        <button class="wicon-btn blue" type="button" title="Mở Ví" onclick="openWith()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        </button>
+        <button class="wicon-btn" type="button" title="Tải lại ví" onclick="refreshWallet()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 12a8 8 0 1 1-2.34-5.66" stroke-linecap="round"/><path d="M20 4v6h-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="wallet-trust-row trust-row" id="walletTrustRow">
+      <span class="wallet-trust-label trust-label" id="walletTrustLabel" data-i18n="walletTrust">Tín nhiệm</span>
+      <div class="wallet-trust-bar trust-track"><div class="wallet-trust-fill trust-fill" id="walletTrustFill"></div></div>
+      <span class="wallet-trust-val trust-val" id="walletTrustVal">100</span>
+    </div>
+
+    <div class="wbtns wallet-action-btns">
+      <button class="wbtn doi wbtn-session" id="walletOpenSessionBtn" onclick="openWith()" title="Mở Ví">
+        <svg class="wallet-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span>Mở Ví</span>
+      </button>
+      <button class="wbtn rut wbtn-withdraw" id="walletWithdrawBtn" onclick="refreshWallet()" title="Tải lại ví">
+        <svg class="wallet-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 12a8 8 0 1 1-2.34-5.66" stroke-linecap="round"/><path d="M20 4v6h-6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Tải lại ví</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-ov" id="modalOv" onclick="if(event.target===this)closeWith()">
+  <div class="mbox">
+    <div class="mhdr">
+      <div class="mhdr-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M7 15h2M15 15h2"/></svg></div>
+      <div><div class="mttl" id="withModalTitle">Quản lý rút tiền - <span id="withSessionCode">-</span></div></div>
+      <button class="mx" onclick="closeWith()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="mbody">
+      <div class="with-bal-row">
+        <div><span id="withAvailableBalanceLabel">Số dư khả dụng</span>: <strong><span id="withAmt">0</span> <span id="withCurrLabel">VNĐ</span></strong></div>
+        <div id="withTrustWrap"><span id="withTrustScoreLabel">Điểm tín nhiệm</span>: <strong><span id="withTrustScore">100</span></strong></div>
+      </div>
+      <div class="with-trust-block-alert" id="withTrustBlockAlert" style="display:none;"></div>
+
+      <div id="withPanelHistory">
+        <div id="withHistoryList" class="with-history-empty">Chưa có lệnh rút tiền nào</div>
+      </div>
+
+      <div id="withPanelCreate">
+        <div class="fg"><div class="fl">Số tiền rút <span id="withCurrUnit">(VNĐ)</span> <span class="req">*</span></div><input class="fi" id="withAmount" type="text" inputmode="numeric" placeholder="0"></div>
+        <div class="field-error" id="withAmountError"></div>
+        <div class="with-quick-amounts">
+          <button type="button" class="with-quick-btn" onclick="fillWithdrawAmountPercent(100)">Tất cả (100%)</button>
+          <button type="button" class="with-quick-btn" onclick="fillWithdrawAmountPercent(50)">50%</button>
+          <button type="button" class="with-quick-btn" onclick="fillWithdrawAmountPercent(25)">25%</button>
+        </div>
+
+        <div class="fg"><div class="fl">Tên ngân hàng <span class="req">*</span></div><select class="fi" id="withBank"><option value="">VD: Vietcombank, BIDV, Techcombank...</option></select></div>
+        <div class="field-error" id="withBankError"></div>
+        <div class="fg"><div class="fl">Số tài khoản <span class="req">*</span></div><input class="fi" id="withAccNo" type="text" placeholder="Nhập số tài khoản"></div>
+        <div class="field-error" id="withAccNoError"></div>
+        <div class="fg"><div class="fl">Tên chủ tài khoản <span class="req">*</span></div><input class="fi" id="withAccName" type="text" placeholder="Nhập tên chủ tài khoản"></div>
+        <div class="field-error" id="withAccNameError"></div>
+
+        <div class="fg" style="display:none;"><div class="fl">Họ và tên nhận <span class="req">*</span></div><input class="fi" id="withName" type="text" placeholder="Nhập họ và tên..."></div>
+        <div class="field-error" id="withNameError"></div>
+        <div class="fg" style="display:none;"><div class="fl">Số điện thoại <span class="req">*</span></div><input class="fi" id="withPhone" type="tel" placeholder="Nhập số điện thoại..."></div>
+        <div class="field-error" id="withPhoneError"></div>
+        <div class="fg" style="display:none;"><div class="fl">Email <span class="req">*</span></div><input class="fi" id="withEmail" type="email" placeholder="Nhập email..."></div>
+        <div class="field-error" id="withEmailError"></div>
+
+        <div class="fg" style="display:none;"><div class="fl">Ghi chú (tùy chọn)</div><textarea class="fi fta" id="withNote" placeholder="Ghi chú thêm..."></textarea></div>
+
+        <div class="ckrow" style="display:none;">
+          <div class="ck" id="ck" onclick="togCk()"></div>
+          Tôi xác nhận thông tin trên là chính xác
+        </div>
+
+        <div class="with-action-row">
+          <button class="bsub" id="withSubmitBtn" onclick="submitWith()">Tạo lệnh rút tiền</button>
+          <button type="button" class="with-close-btn" id="withCloseBtn" onclick="closeWith()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

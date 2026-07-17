@@ -1,0 +1,487 @@
+/* ============================================================================
+   MODAL SYSTEM - Production Grade Centered Modal
+   Proper positioning, z-index management, and responsive design
+   ============================================================================ */
+
+:root {
+  --modal-overlay-z: 99998;
+  --modal-z: 99999;
+  --modal-transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================================
+   OVERLAY - Full screen dark background with blur
+   ============================================================================ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: var(--modal-overlay-z);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  pointer-events: auto;
+}
+
+.modal-overlay.show,
+.modal-overlay.open {
+  display: block;
+}
+
+/* ============================================================================
+   MODAL - Centered content with proper sizing
+   ============================================================================ */
+
+.modal-wrap {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  z-index: var(--modal-z);
+  display: none;
+  flex-direction: column;
+  background: var(--bg3, #1a2235);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  opacity: 0;
+  transition: transform var(--modal-transition), opacity var(--modal-transition);
+  pointer-events: auto;
+}
+
+.modal-wrap.show,
+.modal-wrap.open {
+  display: flex;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ============================================================================
+   MODAL HEADER
+   ============================================================================ */
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  gap: 16px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text, #f1f5f9);
+  margin: 0;
+  flex: 1;
+}
+
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: var(--text2, #94a3b8);
+  font-size: 20px;
+  cursor: pointer;
+  transition: all var(--modal-transition);
+  flex-shrink: 0;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text, #f1f5f9);
+  transform: scale(1.05);
+}
+
+.modal-close:active {
+  transform: scale(0.95);
+}
+
+/* ============================================================================
+   MODAL CONTENT - Scrollable body
+   ============================================================================ */
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================================================
+   MODAL FOOTER
+   ============================================================================ */
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+/* ============================================================================
+   BUTTON STYLES
+   ============================================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--modal-transition);
+  min-height: 40px;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text2, #94a3b8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text, #f1f5f9);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.btn-success {
+  background: #10b981;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* ============================================================================
+   FORM ELEMENTS
+   ============================================================================ */
+
+.modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.modal-form-group:last-child {
+  margin-bottom: 0;
+}
+
+.modal-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2, #94a3b8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-input,
+.modal-select,
+.modal-textarea {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg4, #1e293b);
+  border: 1px solid var(--border2, rgba(255, 255, 255, 0.12));
+  border-radius: 8px;
+  color: var(--text, #f1f5f9);
+  font-size: 14px;
+  font-family: inherit;
+  transition: all var(--modal-transition);
+  min-height: 40px;
+}
+
+.modal-input::placeholder,
+.modal-textarea::placeholder {
+  color: var(--text3, #64748b);
+}
+
+.modal-input:focus,
+.modal-select:focus,
+.modal-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  background: var(--card, #111827);
+}
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.modal-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 12px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes fadeOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .modal-wrap {
+    width: calc(100% - 32px);
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 20px 16px;
+  }
+
+  .modal-body {
+    padding: 20px 16px;
+  }
+
+  .modal-footer {
+    padding: 16px;
+    flex-direction: column-reverse;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-wrap {
+    width: calc(100% - 16px);
+    border-radius: 12px;
+  }
+
+  .modal-header {
+    padding: 16px;
+  }
+
+  .modal-body {
+    padding: 16px;
+    font-size: 14px;
+  }
+
+  .modal-title {
+    font-size: 16px;
+  }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .modal-input,
+  .modal-select,
+  .modal-textarea {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 320px) {
+  .modal-wrap {
+    width: calc(100% - 12px);
+  }
+
+  .modal-header {
+    padding: 12px;
+  }
+
+  .modal-body {
+    padding: 12px;
+  }
+
+  .modal-footer {
+    padding: 12px;
+  }
+
+  .modal-title {
+    font-size: 14px;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+}
+
+/* ============================================================================
+   ACCESSIBILITY
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-wrap,
+  .modal-overlay,
+  .modal-close {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .modal-wrap {
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .modal-wrap {
+    border-width: 2px;
+    border-color: #fff;
+  }
+
+  .modal-overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .modal-footer button,
+  .modal-close {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .modal-input,
+  .modal-select,
+  .modal-textarea {
+    font-size: 16px;
+  }
+
+  .modal-close {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ============================================================================
+   PREVENT OVERFLOW
+   ============================================================================ */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.modal-overlay,
+.modal-wrap {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* ============================================================================
+   PREVENT BODY SCROLL
+   ============================================================================ */
+
+body.modal-open {
+  overflow: hidden;
+  height: 100vh;
+}

@@ -1,0 +1,123 @@
+<!-- Chat Message Toast (shows new admin msg when chat is closed) -->
+<div class="chat-msg-toast" id="chatMsgToast" onclick="togChatFromToast()" role="button" tabindex="0">
+  <div class="chat-msg-toast-glow" aria-hidden="true"></div>
+  <div class="chat-msg-toast-av">
+    <img src="/images/cskh_avatar.png" alt="CSKH">
+  </div>
+  <div class="chat-msg-toast-body">
+    <div class="chat-msg-toast-meta">
+      <div class="chat-msg-toast-name">CSKH Mạnh Lâm TaoBao</div>
+      <div class="chat-msg-toast-time" id="chatMsgToastTime">Bây giờ</div>
+    </div>
+    <div class="chat-msg-toast-text" id="chatMsgToastText">Bạn có tin nhắn mới</div>
+    <div class="chat-msg-toast-tag" id="chatMsgToastTag">Thông báo mới</div>
+  </div>
+  <button class="chat-msg-toast-x" onclick="event.stopPropagation();hideChatToast()" aria-label="Đóng">×</button>
+  <div class="chat-msg-toast-progress" aria-hidden="true"></div>
+</div>
+
+<!-- Chat Widget (always visible on all screens) -->
+<button class="cfab" id="chatFabBtn" onclick="togChat()" aria-label="Bấm vào để sẵn sàng liên hệ CSKH" title="Bấm vào để sẵn sàng liên hệ CSKH">
+  <img class="cfab-avatar" src="/images/cskh_avatar.png" alt="CSKH Mạnh Lâm TaoBao" loading="lazy" decoding="async">
+  <span class="cfab-icon" id="chatFabIcon" aria-hidden="true">💬</span>
+  <div class="cfab-typing" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="cfab-badge" id="chatFabBadge">0</div>
+  <div class="cfab-hint" id="chatFabHint" aria-hidden="true">
+    <span class="cfab-hint-line">Bấm vào để sẵn sàng liên hệ CSKH</span>
+    <span class="cfab-hint-line">Chúng tôi luôn sẵn sàng hỗ trợ bạn</span>
+    <span class="cfab-hint-line"></span>
+  </div>
+</button>
+
+<div class="cpanel" id="cpanel">
+  <div class="ch">
+    <div class="ch-av ch-avs">
+      <div class="ch-av-main">
+        <img src="/images/cskh_avatar.png" alt="Nhân viên CSKH" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="ch-info">
+      <div class="ch-title ch-name" id="chName">CSKH Mạnh Lâm TaoBao</div>
+      <div class="ch-online ch-status" id="chStatusText"> Phản hồi trong chốc lát!!</div>
+    </div>
+    <button class="ch-x ch-act" onclick="togChat()" aria-label="Đóng chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
+  </div>
+
+  <div class="chat-pre" id="chatPreForm">
+    <div class="chat-form-inner">
+      <div class="pre-hero">
+        <div class="pre-hero-icon">👋</div>
+        <div class="chat-pre-title pre-hero-title">Bắt đầu phiên chat hỗ trợ</div>
+        <div class="chat-pre-sub pre-hero-sub">Vui lòng nhập thông tin trước khi gửi tin nhắn để admin quản lý chính xác theo mã phiên chơi.</div>
+      </div>
+      <div class="pre-form">
+        <div class="pre-field-wrap">
+          <div class="pre-label">Họ và tên</div>
+          <div class="pre-input-wrap">
+            <span class="pre-input-icon">👤</span>
+            <input class="chat-pre-input" id="chatCustomerName" type="text" placeholder="VD: Nguyễn Văn A" autocomplete="name" autocorrect="off" autocapitalize="words" inputmode="text">
+          </div>
+          <div class="chat-pre-err" id="chatCustomerNameErr"></div>
+        </div>
+
+        <div class="pre-field-wrap">
+          <div class="pre-label">Số điện thoại</div>
+          <div class="pre-input-wrap">
+            <span class="pre-input-icon">📱</span>
+            <input class="chat-pre-input" id="chatCustomerPhone" type="tel" placeholder="VD: 0901234567" autocomplete="tel" inputmode="tel">
+          </div>
+          <div class="chat-pre-err" id="chatCustomerPhoneErr"></div>
+        </div>
+
+        <div class="pre-field-wrap">
+          <div class="pre-label">Mã phiên chơi</div>
+          <div class="pre-input-wrap">
+            <span class="pre-input-icon">🎮</span>
+            <input class="chat-pre-input" id="chatGameSessionCode" type="text" placeholder="VD: 372YLM80" autocomplete="off" autocorrect="off" autocapitalize="characters">
+          </div>
+          <div class="chat-pre-err" id="chatGameSessionCodeErr"></div>
+        </div>
+
+        <button class="chat-pre-btn" type="button" onclick="startCustomerChat()">Bắt đầu chat ngay 💬</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cmsgs" id="cmsgs"></div>
+  <div class="cquick">
+    <button class="qbtn" onclick="qChat('Tôi cần hỗ trợ')">🙋 Tôi cần hỗ trợ</button>
+    <button class="qbtn" onclick="qChat('Khi nào nhận được quà?')">🎁 Nhận quà khi nào?</button>
+    <button class="qbtn" onclick="qChat('Rút tiền')">💸 Rút tiền</button>
+    <button class="qbtn" onclick="qChat('Liên hệ admin')">👨‍💼 Liên hệ admin</button>
+  </div>
+
+  <input id="chatAttachInput" type="file" style="display:none" onchange="handleChatFilePicked(event, 'file')">
+  <input id="chatImageInput" type="file" accept="image/*" style="display:none" onchange="handleChatFilePicked(event, 'image')">
+
+  <div class="cinput-wrap" id="cinputWrap" style="display:none">
+    <div class="ctools">
+      <button class="c-emoji c-tool ctool" type="button" title="Emoji" id="btnEmoji">😊</button>
+      <div class="ctool-divider"></div>
+      <button class="c-tool ctool" type="button" title="Đính kèm file" onclick="openChatFilePicker('file')">📎</button>
+      <button class="c-tool ctool" type="button" title="Gửi ảnh" onclick="openChatFilePicker('image')">🖼️</button>
+      <button class="c-tool ctool" type="button" title="Ghi âm" id="btnVoice" onclick="startVoiceRecording()">🎤</button>
+      <span class="voice-record-timer" id="voiceRecordTimer" style="display:none">🔴 00:00</span>
+      <div class="ctool-divider"></div>
+    </div>
+
+    <div class="cinp-row">
+      <textarea class="c-inp" id="cinp" rows="1" placeholder="Aa..." autocomplete="off" autocorrect="off" inputmode="text"></textarea>
+      <button class="c-send" onclick="sendC()" aria-label="Gửi tin nhắn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+    </div>
+    <div class="cinput-meta" id="cinputMeta" aria-live="polite">
+      <span class="cinput-hint" id="cinputHint">Đôi khi hệ thống bị nghẽn do lưu lượng cao, vui lòng thử reload trang.</span>
+      <span class="cinput-typing" id="cinputTypingState"></span>
+    </div>
+  </div>
+
+  <div class="chat-emoji-panel" id="chatEmojiPanel" style="display:none;">
+    <div class="chat-emoji-grid" id="chatEmojiGrid"></div>
+  </div>
+  <div class="chat-upload-progress" id="chatUploadProgress" style="display:none;">Đang tải 0%</div>
+  <div class="chat-drop-hint" id="chatDropHint" style="display:none;">Thả file hoặc ảnh vào đây để gửi</div>
+</div>

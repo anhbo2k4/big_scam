@@ -1,0 +1,226 @@
+<!-- Floating Chat Icon -->
+<div class="chat-float-icon" id="chatFloatIcon" onclick="toggleChat()">
+    <div class="chat-icon-wrapper">
+        <div class="chat-icon-inner">💬</div>
+        <div class="notification-badge" id="notificationBadge">0</div>
+        <div class="icon-ripple"></div>
+    </div>
+</div>
+
+<!-- Chat Box -->
+<div class="chat-box" id="chatBox">
+    <div class="chat-header">
+        <div class="chat-header-left">
+            <div class="chat-avatar">
+                <img id="chatHeaderAvatar" src="/images/support-avatar.png" alt="Support" onerror="this.src='https://ui-avatars.com/api/?name=TV&background=6366f1&color=fff&size=50'">
+                <div class="avatar-status" id="chatAvatarStatus"></div>
+            </div>
+            <div class="chat-title-group">
+                <div class="chat-title" id="chatHeaderTitleText">Tư vấn viên</div>
+                <div class="online-status" id="chatOnlineStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text" id="chatHeaderSubtitleText">Đang hoạt động</span>
+                </div>
+            </div>
+        </div>
+        <div class="chat-header-right">
+            <button class="chat-header-btn" id="chatSoundBtn" onclick="toggleClientSound()" title="Bật/tắt âm thanh" aria-label="Âm thanh">
+                <span id="chatSoundIcon" style="font-size:15px;">🔔</span>
+            </button>
+            <button class="chat-header-btn" id="chatMinimizeBtn" onclick="toggleChat()" title="Thu nhỏ" aria-label="Thu nhỏ">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <button class="close-chat" onclick="toggleChat()" aria-label="Đóng chat">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Connection Status Bar -->
+    <div class="chat-connection-bar" id="chatConnectionBar" style="display:none;">
+        <span class="connection-icon">⚡</span>
+        <span class="connection-text" id="chatConnectionText">Đang kết nối lại...</span>
+    </div>
+    
+    <div class="chat-messages" id="chatMessages">
+        <!-- Messages will be loaded here -->
+    </div>
+    
+    <div class="chat-typing" id="chatTyping" style="display: none;">
+        <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="typing-text">Admin đang nhập tin nhắn...</span>
+    </div>
+
+    <!-- Quick Reply Suggestions -->
+    <div class="chat-quick-replies" id="chatQuickReplies">
+        <button class="chat-qr-btn" data-msg="Xin chào, tôi cần hỗ trợ">👋 Xin chào</button>
+        <button class="chat-qr-btn" data-msg="Tôi muốn hỏi về giải thưởng">🎁 Giải thưởng</button>
+        <button class="chat-qr-btn" data-msg="Tôi gặp lỗi khi chơi">🐛 Báo lỗi</button>
+        <button class="chat-qr-btn" data-msg="Cảm ơn bạn! 💯">🙏 Cảm ơn</button>
+    </div>
+    
+    <div class="chat-input-container">
+        <input type="file" id="chatAttachmentInput" style="display:none" onchange="handleAttachmentSelected(event)">
+        <input type="file" id="chatImageInput" accept="image/*" style="display:none" onchange="handleImageSelected(event)">
+
+        <!-- QR Payment Panel -->
+        <div class="chat-qr-panel" id="chatQRPanel" data-open="0" style="display:none;">
+            <div class="chat-qr-panel-head">
+                <span>💳 Gửi mã QR thanh toán</span>
+                <button onclick="toggleChatQRPanel()" class="chat-qr-close">✕</button>
+            </div>
+            <div class="chat-qr-form">
+                <select id="chatQRBankSelect" class="chat-qr-input">
+                    <option value="">-- Chọn ngân hàng --</option>
+                </select>
+                <input id="chatQRAccount" class="chat-qr-input" type="text" placeholder="Số tài khoản / SĐT ví">
+                <input id="chatQRName" class="chat-qr-input" type="text" placeholder="Tên chủ tài khoản">
+                <input id="chatQRAmount" class="chat-qr-input" type="number" placeholder="Số tiền (VNĐ)" min="1000">
+                <input id="chatQRContent" class="chat-qr-input" type="text" placeholder="Nội dung chuyển khoản (tuỳ chọn)">
+                <button class="chat-qr-send-btn" onclick="sendChatQRPayment()">
+                    <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+                    Tạo & Gửi QR
+                </button>
+            </div>
+        </div>
+
+        <div class="chat-actions">
+            <button class="action-btn" title="Đính kèm file" onclick="handleAttachment()">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z"/>
+                    <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z"/>
+                </svg>
+            </button>
+            <button class="action-btn" title="Hình ảnh" onclick="handleImage()">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M1 5.25A2.25 2.25 0 013.25 3h13.5A2.25 2.25 0 0119 5.25v9.5A2.25 2.25 0 0116.75 17H3.25A2.25 2.25 0 011 14.75v-9.5zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 00.75-.75v-2.69l-2.22-2.219a.75.75 0 00-1.06 0l-3.97 3.97-1.22-1.22a.75.75 0 00-1.06 0l-3.47 3.47zm10.03-6.53a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" clip-rule="evenodd"/>
+                </svg>
+            </button>
+            <button class="action-btn" title="QR Thanh toán" onclick="toggleChatQRPanel()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/>
+                    <rect x="4" y="4" width="4" height="4" fill="currentColor" stroke="none"/><rect x="16" y="4" width="4" height="4" fill="currentColor" stroke="none"/><rect x="4" y="16" width="4" height="4" fill="currentColor" stroke="none"/>
+                    <path d="M14 14h2v2h-2zM18 14v2h2M14 18h4M20 18v2h-2"/>
+                </svg>
+            </button>
+            <button class="action-btn" title="Emoji" onclick="handleEmoji()">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clip-rule="evenodd"/>
+                </svg>
+            </button>
+        </div>
+        <div class="chat-input-wrapper">
+            <textarea
+                id="chatInput"
+                class="chat-input"
+                rows="1"
+                placeholder="Nhập tin nhắn... (Enter để gửi, Shift+Enter để xuống dòng)"
+                onkeydown="handleKeyPress(event)"
+                oninput="handleInputChange()"
+            ></textarea>
+            <button class="send-button" onclick="sendMessage()" id="sendButton">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" class="send-icon">
+                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Emoji Picker Panel -->
+    <div class="chat-emoji-panel" id="chatEmojiPanel" style="display:none;">
+        <div class="emoji-grid" id="emojiGrid"></div>
+    </div>
+</div>
+
+<!-- Chat scripts -->
+<link rel="stylesheet" href="/css/chat-enhancements.css?v=20260423-chatfix1">
+<script type="module" src="/build-modern/notificationSound.js?v=20260423-chatfix1" defer></script>
+<script nomodule src="/build-legacy/notificationSound.js?v=20260423-chatfix1" defer></script>
+<script type="module" src="/build-modern/tabNotification.js?v=20260423-chatfix1" defer></script>
+<script nomodule src="/build-legacy/tabNotification.js?v=20260423-chatfix1" defer></script>
+<script type="module" src="/build-modern/notification-system.js?v=20260423-chatfix1" defer></script>
+<script nomodule src="/build-legacy/notification-system.js?v=20260423-chatfix1" defer></script>
+<script type="module" src="/build-modern/chat.js?v=20260423-chatfix1" defer></script>
+<script nomodule src="/build-legacy/chat.js?v=20260423-chatfix1" defer></script>
+<script type="module" src="/build-modern/chat-advanced.js?v=20260423-chatfix1" defer></script>
+<script nomodule src="/build-legacy/chat-advanced.js?v=20260423-chatfix1" defer></script>
+<script type="module" src="/build-modern/chat-enhancements.js?v=20260423-chatfix1" defer></script>
+<script nomodule src="/build-legacy/chat-enhancements.js?v=20260423-chatfix1" defer></script>
+<script>
+// ── Sound toggle for client chat ─────────────────────────
+function toggleClientSound() {
+  if (!window.notificationSound) return;
+  var res = notificationSound.toggle();
+  var icon = document.getElementById('chatSoundIcon');
+  if (icon) icon.textContent = res.icon;
+  var btn = document.getElementById('chatSoundBtn');
+  if (btn) btn.style.opacity = res.muted ? '0.45' : '1';
+}
+
+// Init sound icon state
+(function () {
+  var update = function update() {
+    if (!window.notificationSound) return;
+    var muted = notificationSound.isMuted();
+    var icon = document.getElementById('chatSoundIcon');
+    if (icon) icon.textContent = muted ? '🔕' : '🔔';
+    var btn = document.getElementById('chatSoundBtn');
+    if (btn) btn.style.opacity = muted ? '0.45' : '1';
+  };
+  // Run after scripts load
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', update);else
+  setTimeout(update, 100);
+})();
+
+// Auto-request push notification permission + unlock AudioContext on first interaction
+document.addEventListener('click', function _firstClick() {
+  if (typeof requestPushPermission === 'function') requestPushPermission();
+  if (window.notificationSound) notificationSound.setAudioReady();
+}, { once: true });
+
+// Quick reply buttons
+document.querySelectorAll('.chat-qr-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var msg = btn.getAttribute('data-msg');
+    if (!msg) return;
+    var inp = document.getElementById('chatInput');
+    if (inp) {inp.value = msg;inp.focus();}
+    if (typeof handleInputChange === 'function') handleInputChange();
+    // Auto-hide quick replies after first use
+    var qrBox = document.getElementById('chatQuickReplies');
+    if (qrBox) qrBox.style.display = 'none';
+    if (typeof sendMessage === 'function') sendMessage();
+  });
+});
+
+// Emoji picker
+(function () {
+  var emojis = ['😊', '😂', '🤣', '❤️', '👍', '👏', '🙏', '🎉', '🔥', '💯', '⭐', '🎁', '💪', '🤝', '😍', '😎', '🥰', '😅', '🥳', '✅', '⏰', '📱', '💻', '🎮', '🏆', '💰', '📦', '🔔', '💬', '✨', '🌟', '👋', '💖', '🙌', '😇', '🤔', '👀', '💡', '🎯', '🛒'];
+  var grid = document.getElementById('emojiGrid');
+  if (grid) {
+    grid.innerHTML = emojis.map(function (e) {
+      return '<button class="emoji-item" type="button">' + e + '</button>';
+    }).join('');
+    grid.addEventListener('click', function (ev) {
+      var btn = ev.target.closest('.emoji-item');
+      if (!btn) return;
+      var inp = document.getElementById('chatInput');
+      if (inp) {inp.value += btn.textContent;inp.focus();}
+      if (typeof handleInputChange === 'function') handleInputChange();
+      document.getElementById('chatEmojiPanel').style.display = 'none';
+    });
+  }
+})();
+
+// Override handleEmoji to toggle panel
+window._origHandleEmoji = window.handleEmoji;
+window.handleEmoji = function () {
+  var panel = document.getElementById('chatEmojiPanel');
+  if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+};</script>

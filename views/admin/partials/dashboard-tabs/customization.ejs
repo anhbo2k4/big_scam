@@ -1,0 +1,1880 @@
+<!-- CUSTOMIZATION TAB -->
+  <div class="tab-panel" id="panel-customization">
+    <h1 style="font-size:18px;font-weight:700;margin-bottom:20px">Tùy chỉnh giao diện & Cấu hình(Không nên sử dụng chức năng văn bản)</h1>
+    <div class="custom-tabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;">
+      <button class="custom-tab active" onclick="showCustomTab('logo')"><i class="fas fa-image"></i> Logo</button>
+      <button class="custom-tab" onclick="showCustomTab('text')"><i class="fas fa-pen"></i> Văn bản</button>
+      <button class="custom-tab" onclick="showCustomTab('feature')"><i class="fas fa-cogs"></i> Chức năng</button>
+      <button class="custom-tab" onclick="showCustomTab('gamesettings')"><i class="fas fa-gamepad"></i> Game</button>
+      <button class="custom-tab" onclick="showCustomTab('boxsettings')"><i class="fas fa-box-open"></i> Hộp quà</button>
+      <button class="custom-tab" onclick="showCustomTab('popup')"><i class="fas fa-window-restore"></i> Popup</button>
+      <button class="custom-tab" onclick="showCustomTab('floating')"><i class="fas fa-bell"></i> Floating</button>
+      <button class="custom-tab" onclick="showCustomTab('pushnotif')"><i class="fas fa-paper-plane"></i> Push</button>
+      <button class="custom-tab" onclick="showCustomTab('usermsg')"><i class="fas fa-layer-group"></i> Modal</button>
+      <button class="custom-tab" onclick="showCustomTab('chatsettings')"><i class="fas fa-headset"></i> Chat</button>
+      <button class="custom-tab" onclick="showCustomTab('appearance')"><i class="fas fa-palette"></i> Giao diện</button>
+      <button class="custom-tab" onclick="showCustomTab('seo')"><i class="fas fa-search"></i> SEO</button>
+      <button class="custom-tab" onclick="showCustomTab('social')"><i class="fas fa-share-alt"></i> Liên hệ</button>
+      <button class="custom-tab" onclick="showCustomTab('security')"><i class="fas fa-shield-alt"></i> Bảo mật</button>
+      <button class="custom-tab" onclick="showCustomTab('emailsettings')"><i class="fas fa-at"></i> Email</button>
+      <button class="custom-tab" onclick="showCustomTab('watermark')"><i class="fas fa-copyright"></i> Watermark</button>
+      <button class="custom-tab" onclick="showCustomTab('advanced')"><i class="fas fa-sliders-h"></i> Nâng cao</button>
+      <button class="custom-tab" onclick="showCustomTab('script')"><i class="fas fa-code"></i> Scripts</button>
+      <button class="custom-tab" onclick="showCustomTab('i18n')"><i class="fas fa-globe"></i> Đa ngôn ngữ</button>
+      <button class="custom-tab" onclick="showCustomTab('animpresets')"><i class="fas fa-film"></i> Animation</button>
+      <button class="custom-tab" onclick="showCustomTab('boxtemplatelib')"><i class="fas fa-file-export"></i> Template Hộp</button>
+    </div>
+
+    <!-- LOGO TAB - UPGRADED -->
+    <div id="customTab-logo" class="custom-section">
+      <div class="custom-section-title">🎨 Tùy chỉnh Logo chi tiết</div>
+      <div class="custom-section-sub">Thay đổi logo trang game với khả năng tùy chỉnh chi tiết. Logo cũng sẽ được dùng làm <strong>Favicon</strong> trên thanh tab.</div>
+      <form id="logoForm">
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;">
+          <div>
+            <div class="cust-card" style="margin-bottom:14px;">
+              <div class="cust-card-title">📁 Nguồn Logo</div>
+              <label class="form-label">URL Logo</label>
+              <div class="logo-input-row">
+                <input class="form-input logo-input" id="logoUrlInput" placeholder="Nhập URL logo...">
+                <button type="button" class="btn-upload2" onclick="document.getElementById('logoFileInput').click()"><i class="fas fa-upload"></i> Upload</button>
+                <input type="file" id="logoFileInput" accept="image/*" style="display:none;">
+              </div>
+              <div style="margin-top:8px;padding:8px 12px;background:rgba(59,130,246,0.1);border-radius:8px;border:1px solid rgba(59,130,246,0.2);font-size:12px;color:var(--blue);">
+                <i class="fas fa-info-circle"></i> Logo sẽ tự động được cập nhật làm favicon (icon trên tab trình duyệt)
+              </div>
+            </div>
+
+            <div class="cust-card" style="margin-bottom:14px;">
+              <div class="cust-card-title">📐 Kích thước & Bố cục</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div>
+                  <div class="slider-label"><span>Chiều cao: <strong id="logoHeightValue">160</strong>px</span></div>
+                  <input type="range" id="logoHeightSlider" min="40" max="300" value="160" style="width:100%;cursor:pointer;">
+                  <input type="hidden" id="logoHeightInput" value="160">
+                </div>
+                <div>
+                  <div class="slider-label"><span>Chiều rộng tối đa: <strong id="logoMaxWidthValue">100</strong>%</span></div>
+                  <input type="range" id="logoMaxWidthSlider" min="20" max="100" value="100" style="width:100%;cursor:pointer;">
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                <div>
+                  <label class="form-label">Padding (px)</label>
+                  <input class="form-input" id="logoPadding" type="number" value="0" min="0" max="50" placeholder="0">
+                </div>
+                <div>
+                  <label class="form-label">Căn chỉnh</label>
+                  <select class="form-input" id="logoAlignment">
+                    <option value="center">Giữa</option>
+                    <option value="left">Trái</option>
+                    <option value="right">Phải</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="cust-card" style="margin-bottom:14px;">
+              <div class="cust-card-title">🎨 Hiệu ứng & Nền</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div>
+                  <div class="slider-label"><span>Bo góc: <strong id="logoBorderRadiusValue">50</strong>%</span></div>
+                  <input type="range" id="logoBorderRadiusSlider" min="0" max="50" value="50" style="width:100%;cursor:pointer;">
+                </div>
+                <div>
+                  <label class="form-label">Đổ bóng</label>
+                  <select class="form-input" id="logoShadow">
+                    <option value="none">Không</option>
+                    <option value="0 2px 8px rgba(0,0,0,0.15)">Nhẹ</option>
+                    <option value="0 4px 16px rgba(0,0,0,0.25)">Trung bình</option>
+                    <option value="0 8px 32px rgba(0,0,0,0.35)">Mạnh</option>
+                    <option value="0 0 20px rgba(59,130,246,0.5)">Phát sáng xanh</option>
+                    <option value="0 0 20px rgba(168,85,247,0.5)">Phát sáng tím</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                <div>
+                  <label class="form-label">Nền logo</label>
+                  <div class="color-picker-row"><input type="color" class="cust-color-picker" id="logoBgColor" value="#1a1a2e"><input class="form-input" id="logoBgColorText" value="transparent" placeholder="transparent" style="flex:1;font-size:12px;"></div>
+                </div>
+                <div>
+                  <label class="form-label">Viền</label>
+                  <input class="form-input" id="logoBorder" placeholder="none" value="none" style="font-size:12px;">
+                </div>
+              </div>
+            </div>
+
+            <div class="cust-card">
+              <div class="cust-card-title">🔗 Thuộc tính bổ sung</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div><label class="form-label">Alt text (SEO)</label><input class="form-input" id="logoAltText" placeholder="Logo thương hiệu" value="Logo"></div>
+                <div><label class="form-label">Link khi click logo</label><input class="form-input" id="logoLinkUrl" placeholder="/" value="/"></div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="cust-card" style="position:sticky;top:10px;">
+              <div class="cust-card-title">👁️ Xem trước Logo</div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div class="logo-preview" style="background:var(--bg4);padding:20px;border-radius:12px;text-align:center;">
+                  <div class="logo-preview-label" style="font-size:11px;color:var(--text3);margin-bottom:8px;">Nền tối</div>
+                  <img id="logoPreviewImg" src="" alt="Logo preview" style="width:160px;height:160px;object-fit:contain;border-radius:50%;display:none;">
+                  <div id="logoPlaceholder" style="width:160px;height:160px;background:var(--bg3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text3);margin:0 auto;">Logo</div>
+                </div>
+                <div style="background:#f8fafc;padding:20px;border-radius:12px;text-align:center;">
+                  <div style="font-size:11px;color:#64748b;margin-bottom:8px;">Nền sáng</div>
+                  <img id="logoPreviewImgLight" src="" alt="Logo preview light" style="width:120px;height:120px;object-fit:contain;border-radius:50%;display:none;">
+                  <div id="logoPlaceholderLight" style="width:120px;height:120px;background:#e2e8f0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#94a3b8;margin:0 auto;">Logo</div>
+                </div>
+                <div style="background:linear-gradient(135deg,#667eea,#764ba2);padding:16px;border-radius:12px;text-align:center;">
+                  <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:8px;">Favicon (32×32)</div>
+                  <img id="logoPreviewFavicon" src="" alt="Favicon" style="width:32px;height:32px;object-fit:contain;border-radius:4px;display:none;">
+                  <div id="faviconPlaceholder" style="width:32px;height:32px;background:rgba(255,255,255,0.2);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:#fff;">F</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="logo-actions" style="margin-top:20px;">
+          <button type="submit" class="cust-save-btn"><i class="fas fa-save"></i> Lưu logo & Favicon</button>
+          <button type="button" class="btn-delete-logo" id="deleteLogoBtn"><i class="fas fa-trash"></i> Xóa logo</button>
+          <button type="button" class="btn-test" onclick="refreshLogoPreview()"><i class="fas fa-eye"></i> Cập nhật preview</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- TEXT CONTENT TAB -->
+    <div id="customTab-text" class="custom-section" style="display:none;">
+      <div class="custom-section-title">📝 Nội dung văn bản</div>
+      <div class="custom-section-sub">Tùy chỉnh tất cả các dòng văn bản hiển thị trên trang game</div>
+      <div style="display:grid;gap:14px;">
+        <div class="cust-card">
+          <div class="cust-card-title">🏠 Trang chủ</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tên thương hiệu</label><input class="form-input" id="txtBrandName" placeholder="Mạnh Lâm TaoBao"></div>
+            <div><label class="form-label">Tiêu đề chính</label><input class="form-input" id="txtMainTitle" placeholder="Manh Lam Store"></div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">Title trong thẻ head</label><input class="form-input" id="txtHeadTitle" placeholder="Mạnh Lâm TaoBao - Mở Hộp Quà Bí Ẩn"></div>
+          <div style="margin-top:10px;"><label class="form-label">Mô tả chính</label><input class="form-input" id="txtMainDescription" placeholder="Tham gia chơi game nhận quà tặng hấp dẫn"></div>
+        </div>
+        <div class="cust-card">
+          <div class="cust-card-title">🎮 Trang Game</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề Hero</label><input class="form-input" id="txtHeroTitle" placeholder="Mở Hộp Quà Bí Ẩn"></div>
+            <div><label class="form-label">Phụ đề Hero</label><input class="form-input" id="txtHeroSubtitle" placeholder="Chọn một hộp quà bên dưới để thử vận may!"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+            <div>
+              <label class="form-label">Cỡ chữ Tiêu đề: <strong id="heroTitleSizeVal">60</strong>px</label>
+              <input type="range" id="txtHeroTitleSize" min="20" max="100" value="60" style="width:100%;cursor:pointer;" oninput="document.getElementById('heroTitleSizeVal').textContent=this.value">
+            </div>
+            <div>
+              <label class="form-label">Cỡ chữ Phụ đề: <strong id="heroSubtitleSizeVal">26</strong>px</label>
+              <input type="range" id="txtHeroSubtitleSize" min="12" max="48" value="26" style="width:100%;cursor:pointer;" oninput="document.getElementById('heroSubtitleSizeVal').textContent=this.value">
+            </div>
+          </div>
+        </div>
+        <div class="cust-card">
+          <div class="cust-card-title">🔐 Đăng nhập</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề</label><input class="form-input" id="txtLoginTitle" placeholder="Nhập mã phiên chơi"></div>
+            <div><label class="form-label">Placeholder</label><input class="form-input" id="txtLoginPlaceholder" placeholder="Nhập mã phiên..."></div>
+            <div><label class="form-label">Nút bấm</label><input class="form-input" id="txtLoginButton" placeholder="Bắt đầu chơi"></div>
+          </div>
+        </div>
+        <div class="cust-card">
+          <div class="cust-card-title">🎉 Kết quả</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Popup trúng thưởng</label><input class="form-input" id="txtWinPopupTitle" placeholder="🎉 Chúc mừng bạn!"></div>
+            <div><label class="form-label">Popup không trúng</label><input class="form-input" id="txtLosePopupTitle" placeholder="😢 Chúc bạn may mắn lần sau!"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+            <div><label class="form-label">Tiêu đề cảm ơn</label><input class="form-input" id="txtThankyouTitle" placeholder="Cảm ơn bạn!"></div>
+            <div><label class="form-label">Nội dung cảm ơn</label><input class="form-input" id="txtThankyouMessage" placeholder="Cảm ơn bạn đã tham gia..."></div>
+          </div>
+        </div>
+        <div class="cust-card">
+          <div class="cust-card-title">📌 Khác</div>
+          <div style="margin-top:0;"><label class="form-label">Footer</label><input class="form-input" id="txtFooterText" placeholder="© 2024 - All rights reserved."></div>
+          <div style="margin-top:10px;"><label class="form-label">Nội dung tùy chỉnh (HTML)</label><textarea class="form-input" id="customTextContent" style="min-height:80px;" placeholder="Nội dung hiện dưới phần nhập mã phiên chơi..."></textarea></div>
+          <div class="text-detail-block" style="margin-top:10px;">
+            <label class="form-label">Văn bản chi tiết theo khu vực</label>
+            <div class="text-detail-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div><label class="form-label">Nút về trang chủ</label><input class="form-input" id="txtNavHomeButton" placeholder="Về trang chủ"></div>
+              <div><label class="form-label">Nhãn ví</label><input class="form-input" id="txtWalletTotalLabel" placeholder="Ví điện tử Việt Nam"></div>
+              <div><label class="form-label">Gợi ý rút tiền</label><input class="form-input" id="txtwalletWithdrawHint" placeholder="Hãy liên hệ CSKH để được giúp đỡ."></div>
+              <div><label class="form-label">Nhãn tín nhiệm ví</label><input class="form-input" id="txtWalletTrustLabel" placeholder="Tín nhiệm"></div>
+              <div><label class="form-label">Nút mở ví phiên</label><input class="form-input" id="txtWalletOpenSessionButton" placeholder="Mở ví phiên"></div>
+              <div><label class="form-label">Nút rút tiền</label><input class="form-input" id="txtWalletWithdrawButton" placeholder="Rút tiền"></div>
+              <div><label class="form-label">Tab lịch sử rút tiền</label><input class="form-input" id="txtWithTabHistory" placeholder="Lịch sử rút tiền"></div>
+              <div><label class="form-label">Tab tạo lệnh mới</label><input class="form-input" id="txtWithTabCreate" placeholder="Tạo lệnh mới"></div>
+              <div><label class="form-label">Nhãn số dư khả dụng</label><input class="form-input" id="txtWithAvailableBalanceLabel" placeholder="Số dư khả dụng"></div>
+              <div><label class="form-label">Nhãn điểm tín nhiệm</label><input class="form-input" id="txtWithTrustScoreLabel" placeholder="Điểm tín nhiệm"></div>
+              <div><label class="form-label">Nút đóng popup rút tiền</label><input class="form-input" id="txtWithCloseButton" placeholder="Đóng"></div>
+              <div><label class="form-label">Badge popup trúng</label><input class="form-input" id="txtWinCongratsBadge" placeholder="✨ CHÚC MỪNG!"></div>
+              <div><label class="form-label">Nút chia sẻ nhanh</label><input class="form-input" id="txtWinShareButton" placeholder="Chia sẻ nhanh"></div>
+              <div><label class="form-label">Nút tải ảnh phần quà</label><input class="form-input" id="txtWinDownloadButton" placeholder="Tải ảnh phần quà"></div>
+              <div><label class="form-label">Nút chụp ảnh kết quả</label><input class="form-input" id="txtWinCaptureButton" placeholder="Chụp ảnh kết quả"></div>
+              <div><label class="form-label">Lời cảm ơn popup</label><input class="form-input" id="txtWinThanksText" placeholder="Cảm ơn Quý khách đã tham gia trò chơi!"></div>
+              <div><label class="form-label">Tiêu đề chờ duyệt</label><input class="form-input" id="txtApprovalWaitingTitle" placeholder="Chờ admin phê duyệt"></div>
+              <div><label class="form-label">Nhãn đang xử lý</label><input class="form-input" id="txtApprovalProcessingLabel" placeholder="Đang xử lý"></div>
+              <div><label class="form-label">Nhãn thời gian còn lại</label><input class="form-input" id="txtApprovalTimeLeftLabel" placeholder="⏱ Thời gian còn lại"></div>
+              <div><label class="form-label">Nút liên hệ CSKH</label><input class="form-input" id="txtApprovalSupportButton" placeholder="Liên hệ CSKH"></div>
+            </div>
+            <small style="color:var(--text3);display:block;margin-top:6px;">Các trường này được lưu tự động vào nhóm văn bản nâng cao, ưu tiên hơn text mặc định.</small>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label">Văn bản nâng cao bổ sung (mỗi dòng: key=value)</label>
+            <textarea class="form-input" id="txtAdvancedContentMap" style="min-height:140px;font-family:monospace;" placeholder="navHomeButton=Về trang chủ&#10;walletTotalLabel=Ví điện tử Việt Nam&#10;walletWithdrawHint=Hãy liên hệ CSKH để được giúp đỡ.&#10;withTabHistory=Lịch sử rút tiền&#10;withTabCreate=Tạo lệnh mới&#10;winCongratsBadge=✨ CHÚC MỪNG!&#10;approvalWaitingTitle=Chờ admin phê duyệt"></textarea>
+            <small style="color:var(--text3);display:block;margin-top:6px;">Dùng để chỉnh sâu mọi text trên homepage/game mà không cần sửa code. Dòng không hợp lệ sẽ tự bỏ qua.</small>
+          </div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveAllTextContent()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu tất cả văn bản</button>
+    </div>
+
+    <!-- FEATURES TAB -->
+    <div id="customTab-feature" class="custom-section" style="display:none;">
+      <div class="custom-section-title">⚙️ Quản lý chức năng</div>
+      <div class="custom-section-sub">Bật/tắt các chức năng chính của hệ thống</div>
+      <div style="display:grid;gap:12px;">
+        <div class="feature-toggle-card" style="--ft-c:59,130,246;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(59,130,246);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-money-bill-wave"></i> Rút tiền</div><small style="color:var(--text3);">Cho phép người chơi rút tiền về tài khoản</small></div><button type="button" class="cfg-toggle-btn on" id="featureWithdraw" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:16,185,129;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(16,185,129);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-gift"></i> Quà tặng</div><small style="color:var(--text3);">Cho phép người chơi nhận quà tặng</small></div><button type="button" class="cfg-toggle-btn on" id="featureGift" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:168,85,247;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(168,85,247);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-comments"></i> Chat hỗ trợ</div><small style="color:var(--text3);">Chat trực tiếp với khách hàng</small></div><button type="button" class="cfg-toggle-btn on" id="featureChat" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:245,158,11;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(245,158,11);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-bell"></i> Push Notification</div><small style="color:var(--text3);">Thông báo đẩy đến trình duyệt người dùng</small></div><button type="button" class="cfg-toggle-btn on" id="featurePushNotification" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:14,165,233;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(14,165,233);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-stream"></i> Floating Notification</div><small style="color:var(--text3);">Thông báo trôi nổi khi có người nhận thưởng</small></div><button type="button" class="cfg-toggle-btn on" id="featureFloatingNotification" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:34,197,94;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(34,197,94);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-circle"></i> Trạng thái Online</div><small style="color:var(--text3);">Hiển thị trạng thái hoạt động admin/user chat</small></div><button type="button" class="cfg-toggle-btn on" id="featureOnlineStatus" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:139,92,246;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(139,92,246);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-keyboard"></i> Typing Indicator</div><small style="color:var(--text3);">Hiển thị "đang nhập..." khi chat</small></div><button type="button" class="cfg-toggle-btn on" id="featureTypingIndicator" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:236,72,153;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(236,72,153);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-volume-up"></i> Hiệu ứng âm thanh</div><small style="color:var(--text3);">Phát âm thanh khi có thông báo mới</small></div><button type="button" class="cfg-toggle-btn on" id="featureSoundEffects" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:99,102,241;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(99,102,241);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-robot"></i> Tự động trả lời</div><small style="color:var(--text3);">Bot tự động trả lời khi admin chưa online</small></div><button type="button" class="cfg-toggle-btn on" id="featureAutoReply" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:239,68,68;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(239,68,68);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-tools"></i> Chế độ bảo trì</div><small style="color:var(--text3);">Tạm ngưng hệ thống, hiển thị thông báo bảo trì</small></div><button type="button" class="cfg-toggle-btn off2" id="featureMaintenanceMode" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:20,184,166;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(20,184,166);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-user-plus"></i> Đăng ký người chơi</div><small style="color:var(--text3);">Cho phép người chơi mới đăng ký</small></div><button type="button" class="cfg-toggle-btn on" id="featurePlayerRegistration" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:251,146,60;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(251,146,60);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-stopwatch"></i> Giới hạn lượt chơi/ngày</div><small style="color:var(--text3);">Giới hạn số lần chơi mỗi ngày</small></div><button type="button" class="cfg-toggle-btn off2" id="featureDailyLimit" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('dailyLimitConfig').style.display=this.classList.contains('on')?'block':'none'">❌ TẮT</button></div><div id="dailyLimitConfig" style="margin-top:10px;display:none;"><label class="form-label">Số lượt tối đa/ngày</label><input class="form-input" type="number" id="dailyPlayLimitInput" value="10" min="1" max="100" style="max-width:120px;"></div></div>
+
+        <div style="margin:8px 0 4px;font-weight:700;color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:1px;border-top:1px solid var(--border);padding-top:12px;">📺 Hiển thị & Giao diện</div>
+        <div class="feature-toggle-card" style="--ft-c:234,179,8;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(234,179,8);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-hourglass-start"></i> Đếm ngược</div><small style="color:var(--text3);">Hiển thị đồng hồ đếm ngược trên trang game</small></div><button type="button" class="cfg-toggle-btn off2" id="featureCountdown" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('featureCountdownCfg').style.display=this.classList.contains('on')?'block':'none'">❌ TẮT</button></div><div id="featureCountdownCfg" style="margin-top:10px;display:none;"><label class="form-label">Ngày hết hạn (để trống = ẩn)</label><input class="form-input" type="datetime-local" id="featureCountdownDate"></div></div>
+        <div class="feature-toggle-card" style="--ft-c:132,204,22;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(132,204,22);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-users"></i> Số lượng người xem</div><small style="color:var(--text3);">Hiển thị số người đang xem trang cho khách</small></div><button type="button" class="cfg-toggle-btn on" id="featureVisitorCounter" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:59,130,246;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(59,130,246);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-share-alt"></i> Nút chia sẻ MXH</div><small style="color:var(--text3);">Nút chia sẻ Facebook, Zalo, Telegram, Copy link</small></div><button type="button" class="cfg-toggle-btn off2" id="featureShareButton" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:168,85,247;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(168,85,247);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-star"></i> Hệ thống đánh giá</div><small style="color:var(--text3);">Cho phép người chơi đánh giá sao sau khi chơi</small></div><button type="button" class="cfg-toggle-btn off2" id="featureRatingSystem" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:236,72,153;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(236,72,153);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-birthday-cake"></i> Hiệu ứng confetti</div><small style="color:var(--text3);">Mưa confetti khi người chơi trúng thưởng</small></div><button type="button" class="cfg-toggle-btn on" id="featureConfettiEffect" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+
+        <div style="margin:8px 0 4px;font-weight:700;color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:1px;border-top:1px solid var(--border);padding-top:12px;">🎮 Chức năng Game</div>
+        <div class="feature-toggle-card" style="--ft-c:239,68,68;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(239,68,68);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-dice"></i> Chế độ hộp ngẫu nhiên</div><small style="color:var(--text3);">Admin kiểm soát kết quả mở hộp qua server</small></div><button type="button" class="cfg-toggle-btn on" id="featureRandomBoxMode" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:16,185,129;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(16,185,129);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-broadcast-tower"></i> SSE Realtime Game</div><small style="color:var(--text3);">Sự kiện thời gian thực trong phiên game (SSE)</small></div><button type="button" class="cfg-toggle-btn on" id="featureGameEventSSE" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:245,158,11;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(245,158,11);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-megaphone"></i> Admin Broadcast</div><small style="color:var(--text3);">Admin gửi thông báo đến tất cả người chơi đang online</small></div><button type="button" class="cfg-toggle-btn on" id="featureAdminBroadcast" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+
+        <div style="margin:8px 0 4px;font-weight:700;color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:1px;border-top:1px solid var(--border);padding-top:12px;">🔒 Bảo mật & Kiểm soát</div>
+        <div class="feature-toggle-card" style="--ft-c:99,102,241;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(99,102,241);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-user-secret"></i> Chơi không đăng nhập</div><small style="color:var(--text3);">Cho phép khách chơi mà không cần tài khoản</small></div><button type="button" class="cfg-toggle-btn on" id="featureGuestPlay" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:20,184,166;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(20,184,166);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-shield-alt"></i> Chặn IP spam</div><small style="color:var(--text3);">Tự động phát hiện và chặn IP truy cập spam</small></div><button type="button" class="cfg-toggle-btn on" id="featureIpBan" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:239,68,68;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(239,68,68);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-clock"></i> Hết hạn phiên tự động</div><small style="color:var(--text3);">Tự động đăng xuất phiên không hoạt động</small></div><button type="button" class="cfg-toggle-btn on" id="featureSessionTimeout" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('sessionTimeoutCfg').style.display=this.classList.contains('on')?'block':'none'">✅ BẬT</button></div><div id="sessionTimeoutCfg" style="margin-top:10px;"><label class="form-label">Thời gian không hoạt động (phút)</label><input class="form-input" type="number" id="featureSessionTimeoutMinutes" value="30" min="5" max="1440" style="max-width:120px;"></div></div>
+
+        <div style="margin:8px 0 4px;font-weight:700;color:var(--text2);font-size:11px;text-transform:uppercase;letter-spacing:1px;border-top:1px solid var(--border);padding-top:12px;">📊 Theo dõi & Phân tích</div>
+        <div class="feature-toggle-card" style="--ft-c:251,146,60;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(251,146,60);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-map-marker-alt"></i> Theo dõi IP Join</div><small style="color:var(--text3);">Lưu lại IP khách join phiên chơi để phân tích</small></div><button type="button" class="cfg-toggle-btn on" id="featurePlayerJoinTracking" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+        <div class="feature-toggle-card" style="--ft-c:14,165,233;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:rgb(14,165,233);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-history"></i> Lịch sử phiên chơi</div><small style="color:var(--text3);">Lưu và hiển thị lịch sử đầy đủ phiên game</small></div><button type="button" class="cfg-toggle-btn on" id="featureSessionHistory" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+      </div>
+      <button class="cust-save-btn" onclick="saveAllFeatureToggles()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu tất cả cấu hình</button>
+    </div>
+
+    <!-- GAME SETTINGS TAB - EXPANDED -->
+    <div id="customTab-gamesettings" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🎮 Cài đặt chức năng game</div>
+      <div class="custom-section-sub">Tùy chỉnh hành vi, hiệu ứng và luật chơi trong game</div>
+      <div style="display:grid;gap:14px;">
+        <div class="cust-card"><div class="cust-card-title">🎯 Hiệu ứng game</div>
+          <div style="display:grid;gap:12px;">
+            <div class="feature-toggle-card" style="--ft-c:250,204,21;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#facc15;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-sad-tear"></i> Popup UNLUCKY</div><small style="color:var(--text3);">Popup chúc mừng cho giải không trúng</small></div><button type="button" class="cfg-toggle-btn off2" id="gameShowUnluckyPopup" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+            <div class="feature-toggle-card" style="--ft-c:59,130,246;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:var(--blue);display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-redo"></i> Xem lại popup kết quả</div><small style="color:var(--text3);">Nhấn hộp đã mở để xem lại kết quả</small></div><button type="button" class="cfg-toggle-btn on" id="gameAllowReopenPopup" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+            <div class="feature-toggle-card" style="--ft-c:236,72,153;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#ec4899;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-magic"></i> Hiệu ứng chúc mừng</div><small style="color:var(--text3);">Pháo hoa, confetti khi trúng thưởng</small></div><button type="button" class="cfg-toggle-btn on" id="gameShowCelebrationEffects" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+            <div class="feature-toggle-card" style="--ft-c:14,165,233;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#0ea5e9;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-cube"></i> Hộp quà hiệu ứng động</div><small style="color:var(--text3);">Hộp quà có animation khi hiển thị</small></div><button type="button" class="cfg-toggle-btn on" id="gameAnimatedBoxes" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🎲 Luật chơi</div>
+          <div style="display:grid;gap:12px;">
+            <div class="feature-toggle-card" style="--ft-c:168,85,247;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#a855f7;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-boxes"></i> Mở nhiều hộp/phiên</div><small style="color:var(--text3);">Cho phép mở nhiều hộp quà trong 1 phiên</small></div><button type="button" class="cfg-toggle-btn off2" id="gameMultipleBoxOpen" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('gameMaxBoxesWrap').style.display=this.classList.contains('on')?'block':'none'">❌ TẮT</button></div><div id="gameMaxBoxesWrap" style="margin-top:10px;display:none;"><label class="form-label">Số hộp tối đa/phiên</label><input class="form-input" type="number" id="gameMaxBoxesPerSession" value="1" min="1" max="12" style="max-width:120px;"></div></div>
+            <div class="feature-toggle-card" style="--ft-c:251,146,60;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#fb923c;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-eye"></i> Xem trước hộp quà</div><small style="color:var(--text3);">Cho phép người chơi xem trước quà trong hộp</small></div><button type="button" class="cfg-toggle-btn off2" id="gameBoxPreview" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+            <div class="feature-toggle-card" style="--ft-c:34,197,94;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#22c55e;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-lightbulb"></i> Gợi ý chọn hộp</div><small style="color:var(--text3);">Hiện gợi ý nhỏ trên hộp quà</small></div><button type="button" class="cfg-toggle-btn off2" id="gameHintSystem" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+            <div class="feature-toggle-card" style="--ft-c:14,165,233;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+                <div style="flex:1;">
+                  <div style="font-weight:600;color:#0ea5e9;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-coins"></i> Tỷ lệ quy đổi ngoại tệ</div>
+                  <small style="color:var(--text3);">Áp dụng khi người chơi gửi yêu cầu quy đổi USD/NDT sang VND.</small>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+                    <div>
+                      <label class="form-label">1 USD = ? VND</label>
+                      <input class="form-input" type="number" id="gameRateUsd" value="26000" min="1" step="1" style="max-width:180px;">
+                    </div>
+                    <div>
+                      <label class="form-label">1 NDT = ? VND</label>
+                      <input class="form-input" type="number" id="gameRateNdt" value="3800" min="1" step="1" style="max-width:180px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🏆 Tính năng nâng cao</div>
+          <div style="display:grid;gap:12px;">
+            <div class="feature-toggle-card" style="--ft-c:245,158,11;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#f59e0b;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-fire"></i> Streak Bonus</div><small style="color:var(--text3);">Thưởng thêm khi chơi liên tiếp</small></div><button type="button" class="cfg-toggle-btn off2" id="gameStreakBonus" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('gameStreakCfg').style.display=this.classList.contains('on')?'block':'none'">❌ TẮT</button></div><div id="gameStreakCfg" style="margin-top:10px;display:none;"><label class="form-label">Số lần liên tiếp để bonus</label><input class="form-input" type="number" id="gameStreakThreshold" value="3" min="2" max="10" style="max-width:120px;"></div></div>
+            <div class="feature-toggle-card" style="--ft-c:16,185,129;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#10b981;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-user-friends"></i> Giới thiệu bạn bè</div><small style="color:var(--text3);">Nhận thưởng khi mời bạn bè tham gia</small></div><button type="button" class="cfg-toggle-btn off2" id="gameReferral" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('gameReferralCfg').style.display=this.classList.contains('on')?'block':'none'">❌ TẮT</button></div><div id="gameReferralCfg" style="margin-top:10px;display:none;"><label class="form-label">Thưởng giới thiệu</label><input class="form-input" id="gameReferralReward" placeholder="VD: Thêm 1 lượt chơi miễn phí"></div></div>
+            <div class="feature-toggle-card" style="--ft-c:99,102,241;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#6366f1;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-trophy"></i> Bảng xếp hạng</div><small style="color:var(--text3);">Hiển thị bảng xếp hạng người chơi</small></div><button type="button" class="cfg-toggle-btn off2" id="gameLeaderboard" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('gameLbCfg').style.display=this.classList.contains('on')?'block':'none'">❌ TẮT</button></div><div id="gameLbCfg" style="margin-top:10px;display:none;"><label class="form-label">Số người hiển thị</label><input class="form-input" type="number" id="gameLeaderboardSize" value="10" min="5" max="100" style="max-width:120px;"></div></div>
+            <div class="feature-toggle-card" style="--ft-c:236,72,153;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#ec4899;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-medal"></i> Thành tựu</div><small style="color:var(--text3);">Hệ thống huy hiệu/thành tựu cho người chơi</small></div><button type="button" class="cfg-toggle-btn off2" id="gameAchievements" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+            <div class="feature-toggle-card" style="--ft-c:239,68,68;"><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;"><div style="flex:1;"><div style="font-weight:600;color:#ef4444;display:flex;gap:8px;align-items:center;margin-bottom:4px;"><i class="fas fa-hourglass-half"></i> Thử thách thời gian</div><small style="color:var(--text3);">Đếm ngược thời gian chọn hộp quà</small></div><button type="button" class="cfg-toggle-btn off2" id="gameTimerChallenge" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('gameTimerCfg').style.display=this.classList.contains('on')?'block':'none'">❌ TẮT</button></div><div id="gameTimerCfg" style="margin-top:10px;display:none;"><label class="form-label">Thời gian (giây)</label><input class="form-input" type="number" id="gameTimerDuration" value="30" min="5" max="120" style="max-width:120px;"></div></div>
+          </div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveGameSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu cài đặt game</button>
+    </div>
+
+    <!-- BOX SETTINGS TAB -->
+    <div id="customTab-boxsettings" class="custom-section" style="display:none;">
+      <div class="custom-section-title">📦 Cài đặt hộp quà</div>
+      <div class="custom-section-sub">Tùy chỉnh số lượng, kích thước, hiệu ứng mở hộp quà</div>
+      <div style="display:grid;gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label">Số lượng hộp</label><input class="form-input" type="number" id="boxTotalBoxes" value="3" min="1" max="12"></div>
+          <div class="cust-card"><label class="form-label">Kích thước</label><select class="cust-select" id="boxSize"><option value="small">Nhỏ</option><option value="medium" selected>Trung bình</option><option value="large">Lớn</option></select></div>
+          <div class="cust-card"><label class="form-label">Thời gian mở (ms)</label><input class="form-input" type="number" id="boxOpenDuration" value="2000" min="500" max="5000" step="100"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label">Hiệu ứng mở hộp</label><select class="cust-select" id="boxOpenAnimation"><option value="shake">🫨 Rung lắc</option><option value="flip">🔄 Lật</option><option value="bounce">⬆️ Nhảy</option><option value="explode">💥 Nổ tung</option><option value="fade">✨ Mờ dần</option></select></div>
+          <div class="cust-card"><label class="form-label">Màu phát sáng hộp</label>
+            <div class="color-picker-row"><input type="color" class="cust-color-picker" id="boxGlowColor" value="#fbbf24"><input class="form-input" id="boxGlowColorText" value="#fbbf24" style="flex:1;font-family:monospace;">
+            <div class="color-presets" data-target="boxGlowColor"><span style="background:#fbbf24" data-color="#fbbf24"></span><span style="background:#ef4444" data-color="#ef4444"></span><span style="background:#3b82f6" data-color="#3b82f6"></span><span style="background:#22c55e" data-color="#22c55e"></span><span style="background:#a855f7" data-color="#a855f7"></span><span style="background:#ec4899" data-color="#ec4899"></span><span style="background:#f97316" data-color="#f97316"></span><span style="background:#06b6d4" data-color="#06b6d4"></span></div></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label">Icon hộp chưa mở</label><input class="form-input" id="boxIcon" value="🎁" style="font-size:20px;text-align:center;max-width:100px;"></div>
+          <div class="cust-card"><label class="form-label">Icon hộp đã mở</label><input class="form-input" id="boxOpenedIcon" value="📦" style="font-size:20px;text-align:center;max-width:100px;"></div>
+        </div>
+        <div class="cust-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-list-ol" style="color:var(--blue);"></i> <strong>Hiện số thứ tự hộp</strong></div>
+          <button type="button" class="cfg-toggle-btn off2" id="boxShowNumber" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div>
+        </div>
+        <div class="cust-card">
+          <label class="form-label">Màu sắc hộp quà (mỗi dòng 1 mã màu hex)</label>
+          <textarea class="form-input" id="boxColors" style="min-height:60px;font-family:monospace;" placeholder="#fbbf24&#10;#f472b6&#10;#34d399"></textarea>
+          <small style="color:var(--text3);display:block;margin-top:4px;">Mỗi dòng một mã màu. Số dòng nên bằng số hộp quà.</small>
+        </div>
+        <div class="cust-card">
+          <div class="cust-card-title">🧩 Cấu trúc hộp mặc định</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-cubes" style="color:#a855f7;"></i> <strong>Hiệu ứng 3D hộp</strong></div><button type="button" class="cfg-toggle-btn off2" id="boxEnable3d" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-arrows-alt" style="color:#06b6d4;"></i> <strong>Kéo thả sắp xếp hộp</strong></div><button type="button" class="cfg-toggle-btn off2" id="boxEnableDragDrop" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label">Danh sách animation mở hộp khả dụng (mỗi dòng 1 key)</label>
+            <textarea class="form-input" id="boxExtraAnimations" style="min-height:60px;font-family:monospace;font-size:12px;" placeholder="shake&#10;flip&#10;bounce&#10;explode&#10;fade&#10;spin3d&#10;warp"></textarea>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label">HTML khung hộp tùy chỉnh (dùng biến {boxNumber} {subtitle} {title} {hint})</label>
+            <textarea class="form-input" id="boxTemplateHtml" style="min-height:120px;font-family:monospace;font-size:12px;" placeholder="Để trống để dùng cấu trúc mặc định"></textarea>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label">CSS hộp tùy chỉnh</label>
+            <textarea class="form-input" id="boxTemplateCss" style="min-height:110px;font-family:monospace;font-size:12px;" placeholder=".gcard.gift-card.custom-box-template { ... }"></textarea>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label">JavaScript tùy chỉnh hộp (chạy sau khi render hộp)</label>
+            <textarea class="form-input" id="boxTemplateJs" style="min-height:110px;font-family:monospace;font-size:12px;" placeholder="(row, state) => { /* custom logic */ }"></textarea>
+          </div>
+          <div style="margin-top:12px;">
+            <div class="cust-card-title" data-i18n="adminCanvasTitle">🧱 Canvas kéo-thả cấu trúc hộp 3D</div>
+            <div class="custom-section-sub" style="margin-bottom:10px;">Kéo từng phần nắp, thân, ribbon để chỉnh vị trí trực quan. Cấu hình được lưu theo template hộp.</div>
+            <input type="hidden" id="boxPartLayoutJson" value="">
+            <input type="hidden" id="boxPartPresetLibraryJson" value="[]">
+            <div class="box-part-editor-wrap">
+              <div id="boxPartCanvas" class="box-part-canvas" aria-label="Box part canvas">
+                <div class="box-part-item lid" data-part="lid">Nắp</div>
+                <div class="box-part-item body" data-part="body">Thân</div>
+                <div class="box-part-item ribbon" data-part="ribbon">Ribbon</div>
+              </div>
+              <div class="box-part-controls">
+                <div><label class="form-label">Phần đang chọn</label><select class="cust-select" id="boxPartSelected"><option value="lid">Nắp</option><option value="body">Thân</option><option value="ribbon">Ribbon</option></select></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                  <div><label class="form-label">X</label><input class="form-input" id="boxPartX" type="number" value="0"></div>
+                  <div><label class="form-label">Y</label><input class="form-input" id="boxPartY" type="number" value="0"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                  <div><label class="form-label">Rotate</label><input class="form-input" id="boxPartRotate" type="number" value="0"></div>
+                  <div><label class="form-label">Scale</label><input class="form-input" id="boxPartScale" type="number" min="0.3" max="2" step="0.05" value="1"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                  <button type="button" class="btn-test" onclick="applyBoxPartNumeric()"><i class="fas fa-check"></i> Áp dụng số</button>
+                  <button type="button" class="btn-test" onclick="resetBoxPartLayout()"><i class="fas fa-undo"></i> Reset</button>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                  <button type="button" class="btn-test" onclick="applyBoxPartPreset('classic')" data-i18n="adminCanvasPresetClassic">Classic</button>
+                  <button type="button" class="btn-test" onclick="applyBoxPartPreset('tall')" data-i18n="adminCanvasPresetTall">Tall Box</button>
+                  <button type="button" class="btn-test" onclick="applyBoxPartPreset('flat')" data-i18n="adminCanvasPresetFlat">Flat Box</button>
+                  <button type="button" class="btn-test" onclick="applyBoxPartPreset('ribbonHeavy')" data-i18n="adminCanvasPresetRibbonHeavy">Ribbon Heavy</button>
+                </div>
+                <div style="margin-top:4px;border-top:1px dashed var(--border);padding-top:8px;">
+                  <label class="form-label" data-i18n="adminPresetCustom">Preset tùy biến</label>
+                  <div style="display:flex;gap:6px;">
+                    <input class="form-input" id="boxPartPresetName" placeholder="Tên preset" data-i18n-placeholder="adminPresetName" style="flex:1;">
+                    <button type="button" class="btn-test" onclick="saveCurrentBoxPartPreset()"><i class="fas fa-save"></i></button>
+                  </div>
+                  <div style="display:flex;gap:6px;margin-top:6px;">
+                    <button type="button" class="btn-test" onclick="exportBoxPartPresetLibrary()" style="flex:1;"><i class="fas fa-file-export"></i> <span data-i18n="adminPresetExport">Export</span></button>
+                    <button type="button" class="btn-test" onclick="document.getElementById('boxPartPresetImport').click()" style="flex:1;"><i class="fas fa-file-import"></i> <span data-i18n="adminPresetImport">Import</span></button>
+                    <input type="file" id="boxPartPresetImport" accept=".json" style="display:none;">
+                  </div>
+                  <div id="boxPartPresetList" style="display:grid;gap:6px;max-height:140px;overflow:auto;margin-top:8px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveBoxSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu hộp quà</button>
+    </div>
+
+    <!-- POPUP SETTINGS TAB -->
+    <div id="customTab-popup" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🪟 Cài đặt Popup kết quả</div>
+      <div class="custom-section-sub">Tùy chỉnh popup hiện ra sau khi mở hộp quà (trúng/không trúng)</div>
+      <div style="display:grid;gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label">🎉 Nền popup trúng (CSS gradient)</label><input class="form-input" id="popupWinBg" placeholder="linear-gradient(135deg, #667eea, #764ba2)" style="font-family:monospace;font-size:12px;"></div>
+          <div class="cust-card"><label class="form-label">😢 Nền popup không trúng</label><input class="form-input" id="popupLoseBg" placeholder="linear-gradient(135deg, #434343, #000)" style="font-family:monospace;font-size:12px;"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-magic" style="color:#ec4899;"></i> <strong>Confetti</strong></div><button type="button" class="cfg-toggle-btn on" id="popupShowConfetti" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+          <div class="cust-card"><label class="form-label">Thời gian confetti (ms)</label><input class="form-input" type="number" id="popupConfettiDuration" value="3000" min="1000" max="10000" step="500"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+          <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-image" style="color:var(--blue);"></i> <strong>Ảnh giải</strong></div><button type="button" class="cfg-toggle-btn on" id="popupShowPrizeImage" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅':'❌'">✅</button></div></div>
+          <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-hand-pointer" style="color:#22c55e;"></i> <strong>Nút nhận</strong></div><button type="button" class="cfg-toggle-btn on" id="popupShowClaimBtn" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅':'❌'">✅</button></div></div>
+          <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-share" style="color:#8b5cf6;"></i> <strong>Nút chia sẻ</strong></div><button type="button" class="cfg-toggle-btn off2" id="popupShowShareBtn" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅':'❌'">❌</button></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-clock" style="color:#f59e0b;"></i> <strong>Tự đóng popup</strong></div><button type="button" class="cfg-toggle-btn off2" id="popupAutoClose" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('popupAutoCloseDelayWrap').style.display=this.classList.contains('on')?'block':'none'">❌ TẮT</button></div></div>
+          <div class="cust-card" id="popupAutoCloseDelayWrap" style="display:none;"><label class="form-label">Tự đóng sau (ms)</label><input class="form-input" type="number" id="popupAutoCloseDelay" value="10000" min="3000" max="60000" step="1000"></div>
+        </div>
+        <div class="cust-card"><label class="form-label">HTML tùy chỉnh popup trúng</label><textarea class="form-input" id="popupCustomWinHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+        <div class="cust-card"><label class="form-label">HTML tùy chỉnh popup không trúng</label><textarea class="form-input" id="popupCustomLoseHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+      </div>
+      <button class="cust-save-btn" onclick="savePopupSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu Popup</button>
+    </div>
+
+    <!-- FLOATING NOTIFICATION TAB - UPGRADED -->
+    <div id="customTab-floating" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🔔 Thông báo Floating</div>
+      <div class="custom-section-sub">Thông báo trôi nổi khi có người nhận thưởng</div>
+      <div style="display:grid;gap:16px;">
+        <div class="cust-card"><div class="cust-card-title">📐 Bố cục</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div><label class="form-label">Vị trí</label><select class="cust-select" id="floatingPosition"><option value="left">⬅️ Bên trái</option><option value="right">➡️ Bên phải</option></select></div>
+            <div><label class="form-label">Thời gian hiển thị (ms)</label><input class="form-input" type="number" id="floatingDuration" value="6000" min="2000" max="30000" step="1000"></div>
+            <div><label class="form-label">Số thông báo tối đa</label><input class="form-input" type="number" id="floatingMaxVisible" value="3" min="1" max="10"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;">
+            <div><label class="form-label">Interval tối thiểu (ms)</label><input class="form-input" type="number" id="floatingIntervalMin" value="1800" min="300" max="30000" step="100"></div>
+            <div><label class="form-label">Interval tối đa (ms)</label><input class="form-input" type="number" id="floatingIntervalMax" value="3200" min="500" max="60000" step="100"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:20px;"><div><i class="fas fa-infinity" style="color:#f59e0b;"></i> <strong>Luôn chạy mọi màn hình</strong></div><button type="button" class="cfg-toggle-btn on" id="floatingAlwaysOn" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅':'❌'">✅</button></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-user" style="color:var(--blue);"></i> <strong>Hiện tên người nhận</strong></div><button type="button" class="cfg-toggle-btn on" id="floatingShowName" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅':'❌'">✅</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-gift" style="color:var(--green);"></i> <strong>Hiện tên phần quà</strong></div><button type="button" class="cfg-toggle-btn on" id="floatingShowPrize" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅':'❌'">✅</button></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+            <button type="button" class="btn-test" onclick="applyFloatingPreset('continuous')"><i class="fas fa-bolt"></i> Preset liên tục</button>
+            <button type="button" class="btn-test" onclick="applyFloatingPreset('balanced')"><i class="fas fa-sliders-h"></i> Preset cân bằng</button>
+            <button type="button" class="btn-test" onclick="applyFloatingPreset('gentle')"><i class="fas fa-feather"></i> Preset nhẹ</button>
+            <button type="button" class="btn-test" onclick="resetFloatingSettings()"><i class="fas fa-undo"></i> Reset floating</button>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🎨 Giao diện</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div><label class="form-label">Màu nền</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="floatingBgColor" value="#1e1b38"><input class="form-input" id="floatingBgColorText" value="rgba(30,27,56,0.95)" style="flex:1;font-family:monospace;font-size:11px;"></div>
+            </div>
+            <div><label class="form-label">Màu chữ</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="floatingTextColor" value="#e8e6ff"><input class="form-input" id="floatingTextColorText" value="#e8e6ff" style="flex:1;font-family:monospace;font-size:11px;"></div>
+            </div>
+            <div><label class="form-label">Màu viền</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="floatingBorderColor" value="#7c3aed"><input class="form-input" id="floatingBorderColorText" value="rgba(124,58,237,0.3)" style="flex:1;font-family:monospace;font-size:11px;"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+            <div><label class="form-label">Hiệu ứng</label><select class="cust-select" id="floatingAnimationType"><option value="slideIn">↗ Slide In</option><option value="fadeIn">✨ Fade In</option><option value="bounceIn">⬆ Bounce In</option><option value="zoomIn">🔍 Zoom In</option></select></div>
+            <div style="display:flex;align-items:center;gap:12px;padding-top:20px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex:1;"><div><i class="fas fa-user-circle" style="color:#a855f7;"></i> <strong>Hiện avatar</strong></div><button type="button" class="cfg-toggle-btn on" id="floatingShowAvatar" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅':'❌'">✅</button></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+            <div>
+              <label class="form-label">Kiểu hiển thị</label>
+              <select class="cust-select" id="floatingVisualMode">
+                <option value="auto">⚙️ Tự động (ảnh nếu có, lỗi thì icon)</option>
+                <option value="image">🖼️ Ưu tiên ảnh</option>
+                <option value="icon">🎁 Chỉ icon</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Icon dự phòng</label>
+              <input class="form-input" id="floatingCustomIcon" placeholder="🎁" value="🎁" maxlength="8">
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label">Ảnh floating (URL hoặc upload)</label>
+            <div style="display:flex;gap:8px;">
+              <input class="form-input" id="floatingCustomImageUrl" placeholder="https://... hoặc /uploads/..." style="flex:1;">
+              <button type="button" class="btn-upload2" onclick="document.getElementById('floatingImageUpload').click()" style="padding:8px 12px;"><i class="fas fa-upload"></i></button>
+              <input type="file" id="floatingImageUpload" accept="image/*" style="display:none;">
+            </div>
+            <div style="font-size:12px;color:var(--text3);margin-top:6px;">Nếu ảnh lỗi hoặc để trống, hệ thống sẽ tự dùng icon 🎁.</div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">✏️ Tin nhắn tùy chỉnh</div>
+          <!-- Variable explanation box -->
+          <div style="background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(79,70,229,0.08));border:1px solid rgba(124,58,237,0.3);border-radius:10px;padding:12px 14px;margin-bottom:12px;">
+            <div style="font-size:12px;font-weight:700;color:#c4b5fd;margin-bottom:8px;">🔖 Biến động có thể dùng trong tin nhắn:</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.25);border:1px solid rgba(196,181,253,0.2);border-radius:7px;padding:5px 10px;">
+                <code style="font-size:13px;font-weight:800;color:#a78bfa;letter-spacing:0.02em;">{name}</code>
+                <span style="font-size:11px;color:#94a3b8;">→</span>
+                <span style="font-size:12px;color:#e2e8f0;">Tên người nhận</span>
+                <span style="font-size:11px;color:#64748b;">(VD: Nguyễn M*** A***)</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.25);border:1px solid rgba(196,181,253,0.2);border-radius:7px;padding:5px 10px;">
+                <code style="font-size:13px;font-weight:800;color:#f59e0b;letter-spacing:0.02em;">{prize}</code>
+                <span style="font-size:11px;color:#94a3b8;">→</span>
+                <span style="font-size:12px;color:#e2e8f0;">Tên phần quà</span>
+                <span style="font-size:11px;color:#64748b;">(VD: Lì xì 88,888 NDT)</span>
+              </div>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:#94a3b8;">
+              <span style="color:#fde68a;font-weight:600;">Ví dụ kết quả:</span>
+              &nbsp;<span style="color:#c4b5fd;">🔥 <span style="text-decoration:underline;text-decoration-style:dotted;">Nguyễn M*** A***</span> mở hộp quà và trúng <span style="text-decoration:underline;text-decoration-style:dotted;">Lì xì 88,888 NDT</span>!</span>
+            </div>
+          </div>
+          <div><label class="form-label">Template mặc định</label><input class="form-input" id="floatingTemplate" placeholder="🎁 {name} vừa nhận được {prize}!" value="🎁 {name} vừa nhận được {prize}!"></div>
+          <div id="floatingMessagesList" style="display:grid;gap:8px;margin:12px 0;"></div>
+          <div style="display:flex;gap:8px;"><input class="form-input" id="newFloatingMessage" placeholder="VD: 🎉 {name} vừa nhận được {prize}!" style="flex:1;"><button type="button" class="cust-save-btn" onclick="addFloatingMessage()" style="white-space:nowrap;padding:8px 16px;"><i class="fas fa-plus"></i> Thêm</button></div>
+          <div style="margin-top:10px;display:grid;gap:8px;">
+            <div style="font-size:12px;color:var(--text3);">Mẫu nhanh — bấm để điền vào ô nhập:</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="btn-test" onclick="useFloatingTemplateSample('🎁 {name} vừa nhận được {prize}!')" style="padding:6px 10px;" title="🎁 {name} vừa nhận được {prize}!">Mẫu 1 — Cơ bản</button>
+              <button type="button" class="btn-test" onclick="useFloatingTemplateSample('🔥 {name} mở hộp quà và trúng {prize}!')" style="padding:6px 10px;" title="🔥 {name} mở hộp quà và trúng {prize}!">Mẫu 2 — Nổi bật</button>
+              <button type="button" class="btn-test" onclick="useFloatingTemplateSample('🏆 Chúc mừng {name} đã săn được {prize}!')" style="padding:6px 10px;" title="🏆 Chúc mừng {name} đã săn được {prize}!">Mẫu 3 — Chúc mừng</button>
+              <button type="button" class="btn-test" onclick="useFloatingTemplateSample('✨ May mắn đã mỉm cười với {name}: {prize}')" style="padding:6px 10px;" title="✨ May mắn đã mỉm cười với {name}: {prize}">Mẫu 4 — May mắn</button>
+              <button type="button" class="btn-test" onclick="addAllFloatingTemplateSamples()" style="padding:6px 10px;"><i class="fas fa-layer-group"></i> Thêm tất cả vào danh sách</button>
+            </div>
+            <!-- Preview row shows the full template text on hover / always -->
+            <div id="floatingTemplateSamplePreview" style="display:none;font-size:12px;background:rgba(0,0,0,0.25);border:1px dashed rgba(196,181,253,0.25);border-radius:8px;padding:8px 12px;color:#c4b5fd;"></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="btn-test" onclick="previewFloatingTemplateNow()"><i class="fas fa-eye"></i> Xem thử template</button>
+              <button type="button" class="btn-test" onclick="testFloatingNow()"><i class="fas fa-play"></i> Chạy thử floating</button>
+              <button type="button" class="btn-test" onclick="seedFloatingMessagePack()"><i class="fas fa-layer-group"></i> Thêm bộ mẫu mở rộng</button>
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <label class="form-label">Kho phần quà ngẫu nhiên (mỗi dòng 1 phần quà)</label>
+            <textarea class="form-input" id="floatingPrizePool" style="min-height:120px;" placeholder="Lì xì trị giá 88,888 NDT&#10;Lì xì trị giá 3,888 USD&#10;1 cây vàng SJC 9999&#10;Xe máy SH&#10;Điện thoại iPhone 17 Pro Max"></textarea>
+            <div style="font-size:12px;color:var(--text3);margin-top:6px;">Mẹo: thêm cả giải nhỏ và giải lớn để luồng thông báo tự nhiên hơn.</div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">👁️ Xem trước</div>
+          <div id="floatingPreview" style="position:relative;min-height:80px;background:rgba(0,0,0,0.2);border-radius:8px;padding:12px;overflow:hidden;">
+            <div style="display:flex;align-items:center;gap:10px;background:var(--card);padding:10px 14px;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,0.12);max-width:320px;animation:slideInLeft 0.4s ease;"><span style="font-size:24px;">🎁</span><div><div style="font-weight:600;font-size:13px;color:var(--text);">Nguyen M*** A***</div><div style="font-size:12px;color:var(--text3);">vừa nhận Voucher 500K</div></div></div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">📋 Danh sách thông báo sẽ hiển thị</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+            <button type="button" class="btn-test" onclick="refreshFloatingUnifiedPreview()"><i class="fas fa-sync-alt"></i> Làm mới danh sách</button>
+            <button type="button" class="btn-test" onclick="buildFloatingUnifiedPreview(true)"><i class="fas fa-wand-magic-sparkles"></i> Tạo lại từ cấu hình hiện tại</button>
+          </div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:8px;">Bao gồm cả thông báo mẫu đang cấu hình và thông báo từ khách hàng trúng quà thật.</div>
+          <div id="floatingUnifiedPreviewMeta" style="font-size:12px;color:var(--text3);margin-bottom:8px;"></div>
+          <div id="floatingUnifiedFeedList" style="display:grid;gap:8px;max-height:280px;overflow:auto;"></div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveFloatingSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu Floating</button>
+    </div>
+
+    <!-- PUSH NOTIFICATION TAB - UPGRADED -->
+    <div id="customTab-pushnotif" class="custom-section" style="display:none;">
+      <div class="custom-section-title">📲 Push Notification & Thông báo Server</div>
+      <div class="custom-section-sub">Gửi thông báo đẩy đến trình duyệt người dùng</div>
+      <div style="display:grid;gap:16px;">
+        <div style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(245,158,11,0.05));padding:16px;border-radius:10px;border:1px solid rgba(245,158,11,0.2);">
+          <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-info-circle" style="color:#f59e0b;font-size:20px;"></i><div><strong>Web Push Notification</strong><div style="font-size:12px;color:var(--text3);margin-top:2px;">Người dùng cần cho phép nhận thông báo. Hoạt động trên PC và mobile.</div></div></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">⚙️ Cấu hình cơ bản</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề thông báo</label><input class="form-input" id="pushNotifTitle" placeholder="Manh Lam Store"></div>
+            <div><label class="form-label">URL Icon</label>
+              <div style="display:flex;gap:8px;"><input class="form-input" id="pushNotifIcon" placeholder="URL icon..." style="flex:1;"><button type="button" class="btn-upload2" onclick="document.getElementById('pushIconUpload').click()" style="padding:8px 12px;"><i class="fas fa-upload"></i></button><input type="file" id="pushIconUpload" accept="image/*" style="display:none;"></div>
+            </div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">Tin nhắn mặc định</label><input class="form-input" id="pushNotifDefaultMsg" placeholder="Bạn có thông báo mới!"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-volume-up" style="color:var(--blue);"></i> <strong>Âm thanh</strong></div><button type="button" class="cfg-toggle-btn on" id="pushNotifSound" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-mobile-alt" style="color:#a855f7;"></i> <strong>Rung</strong></div><button type="button" class="cfg-toggle-btn on" id="pushNotifVibrate" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">📤 Gửi thông báo ngay</div>
+          <div style="display:grid;gap:10px;"><input class="form-input" id="pushSendTitle" placeholder="Tiêu đề thông báo..."><textarea class="form-input" id="pushSendMessage" placeholder="Nội dung thông báo..." style="min-height:80px;"></textarea><div style="display:flex;gap:8px;"><button class="cust-save-btn" onclick="sendPushNotification()" style="flex:1;"><i class="fas fa-paper-plane"></i> Gửi tất cả</button><button class="btn-test" onclick="testPushNotification()"><i class="fas fa-bell"></i> Test</button></div></div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="savePushNotifSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu Push Notification</button>
+    </div>
+
+    <!-- MODAL EDITOR TAB -->
+    <div id="customTab-usermsg" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🪟 Chỉnh sửa Modal</div>
+      <div class="custom-section-sub">Tùy chỉnh giao diện và nội dung tất cả popup/modal trong website</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+        <button class="custom-tab active" onclick="showModalEditorSub('winPopup')">🎉 Popup trúng</button>
+        <button class="custom-tab" onclick="showModalEditorSub('celebrate')">🎊 Chúc mừng</button>
+        <button class="custom-tab" onclick="showModalEditorSub('withdrawal')">💰 Rút tiền</button>
+        <button class="custom-tab" onclick="showModalEditorSub('approvalWait')">⏳ Chờ duyệt</button>
+        <button class="custom-tab" onclick="showModalEditorSub('thankYou')">🙏 Cảm ơn</button>
+        <button class="custom-tab" onclick="showModalEditorSub('hub')">📋 Hub phiên</button>
+        <button class="custom-tab" onclick="showModalEditorSub('sessionDetail')">🔍 Chi tiết phiên</button>
+        <button class="custom-tab" onclick="showModalEditorSub('claimModal')">🎁 Nhận quà</button>
+        <button class="custom-tab" onclick="showModalEditorSub('chatPreForm')">💬 Chat form</button>
+        <button class="custom-tab" onclick="showModalEditorSub('lightbox')">🖼️ Lightbox</button>
+      </div>
+
+      <!-- Win Popup -->
+      <div id="modalSub-winPopup" class="modal-editor-sub">
+        <div class="cust-card"><div class="cust-card-title">🎉 Popup kết quả trúng thưởng (#winOv)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Nền gradient</label><input class="form-input" id="meWinBgGradient" placeholder="linear-gradient(135deg, #667eea, #764ba2)" style="font-family:monospace;font-size:12px;"></div>
+            <div><label class="form-label">Badge text</label><input class="form-input" id="meWinBadgeText" placeholder="✨ CHÚC MỪNG!"></div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">Lời cảm ơn</label><input class="form-input" id="meWinThanksText" placeholder="Cảm ơn Quý khách đã tham gia trò chơi!"></div>
+          <div style="margin-top:10px;"><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meWinCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder=".wov-modal { ... }"></textarea></div>
+          <div style="margin-top:10px;"><label class="form-label">HTML tùy chỉnh (ghi đè nội dung)</label><textarea class="form-input" id="meWinHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+        </div>
+      </div>
+
+      <!-- Celebrate -->
+      <div id="modalSub-celebrate" class="modal-editor-sub" style="display:none;">
+        <div class="cust-card"><div class="cust-card-title">🎊 Overlay chúc mừng (#celebrate)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Badge text</label><input class="form-input" id="meCelebrateBadgeText" placeholder="🎉 CHÚC MỪNG!"></div>
+            <div><label class="form-label">Nền gradient</label><input class="form-input" id="meCelebrateBgGradient" placeholder="linear-gradient(135deg,#1a1a2e,#16213e)" style="font-family:monospace;font-size:12px;"></div>
+          </div>
+          <div style="display:grid;gap:10px;margin-top:10px;">
+            <div><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meCelebrateCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder=".celebrate-card { ... }"></textarea></div>
+            <div><label class="form-label">HTML tùy chỉnh</label><textarea class="form-input" id="meCelebrateHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Withdrawal -->
+      <div id="modalSub-withdrawal" class="modal-editor-sub" style="display:none;">
+        <div class="cust-card"><div class="cust-card-title">💰 Modal rút tiền (#modalOv)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề modal</label><input class="form-input" id="meWithdrawalTitleText" placeholder="💰 Yêu cầu rút tiền"></div>
+            <div><label class="form-label">Màu nút xác nhận</label>
+              <div style="display:flex;gap:6px;align-items:center;"><input type="color" class="cust-color-picker" id="meWithdrawalButtonColor" value="#22c55e"><input class="form-input" id="meWithdrawalButtonColorText" placeholder="#22c55e" style="flex:1;font-family:monospace;font-size:12px;"></div>
+            </div>
+          </div>
+          <div style="display:grid;gap:10px;margin-top:10px;">
+            <div><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meWithdrawalCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder=".mbox { ... }"></textarea></div>
+            <div><label class="form-label">HTML tùy chỉnh</label><textarea class="form-input" id="meWithdrawalHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approval Wait -->
+      <div id="modalSub-approvalWait" class="modal-editor-sub" style="display:none;">
+        <div class="cust-card"><div class="cust-card-title">⏳ Màn hình chờ duyệt (#approvalWaitScreen)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề</label><input class="form-input" id="meApprovalTitleText" placeholder="⏳ Đang chờ phê duyệt"></div>
+            <div><label class="form-label">Văn bản chờ đợi</label><input class="form-input" id="meApprovalWaitingText" placeholder="Vui lòng chờ trong giây lát..."></div>
+          </div>
+          <div style="display:grid;gap:10px;margin-top:10px;">
+            <div><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meApprovalCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder=".aws-card { ... }"></textarea></div>
+            <div><label class="form-label">HTML tùy chỉnh</label><textarea class="form-input" id="meApprovalHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thank You -->
+      <div id="modalSub-thankYou" class="modal-editor-sub" style="display:none;">
+        <div class="cust-card"><div class="cust-card-title">🙏 Modal cảm ơn (#thankYouOv)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề</label><input class="form-input" id="meThankYouTitleText" placeholder="🙏 Cảm ơn bạn!"></div>
+            <div><label class="form-label">Nội dung tin nhắn</label><input class="form-input" id="meThankYouMessageText" placeholder="Chúng tôi sẽ liên hệ sớm."></div>
+          </div>
+          <div style="display:grid;gap:10px;margin-top:10px;">
+            <div><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meThankYouCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder=".mbox { ... }"></textarea></div>
+            <div><label class="form-label">HTML tùy chỉnh</label><textarea class="form-input" id="meThankYouHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hub -->
+      <div id="modalSub-hub" class="modal-editor-sub" style="display:none;">
+        <div class="cust-card"><div class="cust-card-title">📋 Hub phiên (#hubOv)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề Hub</label><input class="form-input" id="meHubTitleText" placeholder="📋 Chọn phiên chơi"></div>
+            <div><label class="form-label">Phụ đề Hub</label><input class="form-input" id="meHubSubtitle" placeholder="Vui lòng chọn phiên bạn muốn tham gia"></div>
+          </div>
+          <div style="display:grid;gap:10px;margin-top:10px;">
+            <div><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meHubCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder=".hub-box { ... }"></textarea></div>
+            <div><label class="form-label">HTML tùy chỉnh</label><textarea class="form-input" id="meHubHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Session Detail -->
+      <div id="modalSub-sessionDetail" class="modal-editor-sub" style="display:none;">
+        <div class="cust-card"><div class="cust-card-title">🔍 Chi tiết phiên (#sessionDetailOv)</div>
+          <div style="margin-bottom:10px;">
+            <label class="form-label">Tiêu đề modal</label><input class="form-input" id="meSessionDetailTitleText" placeholder="🔍 Thông tin phiên chơi">
+          </div>
+          <div style="display:grid;gap:10px;">
+            <div><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meSessionDetailCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder=".session-detail-box { ... }"></textarea></div>
+            <div><label class="form-label">HTML tùy chỉnh</label><textarea class="form-input" id="meSessionDetailHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Claim Modal -->
+      <div id="modalSub-claimModal" class="modal-editor-sub" style="display:none;">
+        <div class="cust-card"><div class="cust-card-title">🎁 Form nhận quà (#claimModal)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề form</label><input class="form-input" id="meClaimTitleText" placeholder="🎁 Điền thông tin nhận quà"></div>
+            <div><label class="form-label">Text nút xác nhận</label><input class="form-input" id="meClaimButtonText" placeholder="✅ Xác nhận nhận quà"></div>
+          </div>
+          <div style="display:grid;gap:10px;margin-top:10px;">
+            <div><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meClaimCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="#claimModal { ... }"></textarea></div>
+            <div><label class="form-label">HTML tùy chỉnh</label><textarea class="form-input" id="meClaimHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Pre Form -->
+      <div id="modalSub-chatPreForm" class="modal-editor-sub" style="display:none;">
+        <div class="cust-card"><div class="cust-card-title">💬 Form chat (#chatPreForm)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề form</label><input class="form-input" id="meChatPreTitleText" placeholder="💬 Bắt đầu cuộc trò chuyện"></div>
+            <div><label class="form-label">Phụ đề</label><input class="form-input" id="meChatPreSubtitle" placeholder="Điền thông tin để được hỗ trợ nhanh hơn"></div>
+          </div>
+          <div style="display:grid;gap:10px;margin-top:10px;">
+            <div><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meChatPreCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="#chatPreForm { ... }"></textarea></div>
+            <div><label class="form-label">HTML tùy chỉnh</label><textarea class="form-input" id="meChatPreHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lightbox -->
+      <div id="modalSub-lightbox" class="modal-editor-sub" style="display:none;">
+        <div class="cust-card"><div class="cust-card-title">🖼️ Lightbox ảnh giải (#wovLightbox)</div>
+          <div style="margin-bottom:10px;">
+            <label class="form-label">Màu nền overlay</label>
+            <div style="display:flex;gap:6px;align-items:center;"><input type="color" class="cust-color-picker" id="meLightboxBgOverlay" value="#000000"><input class="form-input" id="meLightboxBgOverlayText" placeholder="rgba(0,0,0,0.9)" style="flex:1;font-family:monospace;font-size:12px;"></div>
+          </div>
+          <div><label class="form-label">CSS tùy chỉnh</label><textarea class="form-input" id="meLightboxCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder=".wov-lightbox { ... }"></textarea></div>
+          <div style="margin-top:10px;"><label class="form-label">HTML tùy chỉnh</label><textarea class="form-input" id="meLightboxHtml" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<!-- Để trống để dùng mặc định -->"></textarea></div>
+        </div>
+      </div>
+
+      <div class="cust-card" style="margin-top:14px;">
+        <div class="cust-card-title" data-i18n="adminModalEditorTitle">🧪 Preview modal trực tiếp trong admin</div>
+        <div class="custom-section-sub" style="margin-bottom:10px;">Chọn tab modal phía trên rồi bấm nút để xem trước ngay mà không cần sang trang player.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="btn-test" onclick="previewActiveModalFromAdmin()"><i class="fas fa-eye"></i> <span data-i18n="adminModalPreviewCurrent">Preview modal đang chọn</span></button>
+          <button type="button" class="btn-test" onclick="startModalCarouselPreview()"><i class="fas fa-images"></i> <span data-i18n="adminModalPreviewAll">Preview tất cả modal</span></button>
+        </div>
+      </div>
+
+      <button class="cust-save-btn" onclick="saveModalEditorSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu tất cả modal</button>
+    </div>
+
+    <!-- CHAT SETTINGS TAB - FULLY UPGRADED -->
+    <div id="customTab-chatsettings" class="custom-section" style="display:none;">
+      <div class="custom-section-title">💬 Cài đặt Chat hỗ trợ</div>
+      <div class="custom-section-sub">Tùy chỉnh toàn diện widget chat khách hàng</div>
+      <div style="display:grid;gap:14px;">
+        <div class="cust-card"><div class="cust-card-title">👤 Thông tin Admin/Agent</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tên hiển thị Admin</label><input class="form-input" id="chatAdminName" placeholder="Hỗ trợ viên"></div>
+            <div><label class="form-label">Avatar Admin</label>
+              <div style="display:flex;gap:8px;align-items:center;"><input class="form-input" id="chatAdminAvatar" placeholder="URL ảnh avatar..." style="flex:1;"><button type="button" class="btn-upload2" onclick="document.getElementById('chatAvatarUpload').click()" style="padding:8px 12px;"><i class="fas fa-upload"></i></button><input type="file" id="chatAvatarUpload" accept="image/*" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">📝 Nội dung</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Tiêu đề header</label><input class="form-input" id="chatHeaderTitle" placeholder="Hỗ trợ trực tuyến"></div>
+            <div><label class="form-label">Phụ đề header</label><input class="form-input" id="chatHeaderSubtitle" placeholder="Chúng tôi sẵn sàng giúp bạn"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+            <div><label class="form-label">Placeholder ô nhập</label><input class="form-input" id="chatPlaceholder" placeholder="Nhập tin nhắn..."></div>
+            <div><label class="form-label">Vị trí widget</label><select class="cust-select" id="chatPosition"><option value="right">Bên phải ➡️</option><option value="left">⬅️ Bên trái</option></select></div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">Lời chào khi mở chat</label><textarea class="form-input" id="chatWelcomeText" style="min-height:50px;" placeholder="Xin chào! Bạn cần hỗ trợ gì?"></textarea></div>
+          <div style="margin-top:10px;"><label class="form-label">Tin nhắn khi offline</label><textarea class="form-input" id="chatOfflineText" style="min-height:50px;" placeholder="Hiện tại không có nhân viên trực."></textarea></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🎨 Giao diện Chat</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div><label class="form-label">Màu nút chat</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="chatBubbleColor" value="#3b82f6"><input class="form-input" id="chatBubbleColorText" value="#3b82f6" style="flex:1;font-family:monospace;font-size:12px;">
+              <div class="color-presets" data-target="chatBubbleColor"><span style="background:#3b82f6" data-color="#3b82f6"></span><span style="background:#8b5cf6" data-color="#8b5cf6"></span><span style="background:#22c55e" data-color="#22c55e"></span><span style="background:#ef4444" data-color="#ef4444"></span><span style="background:#f59e0b" data-color="#f59e0b"></span><span style="background:#ec4899" data-color="#ec4899"></span></div></div>
+            </div>
+            <div><label class="form-label">Màu nền header</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="chatHeaderBgColor" value="#1e1b38"><input class="form-input" id="chatHeaderBgColorText" value="" style="flex:1;font-family:monospace;font-size:12px;" placeholder="Mặc định"></div>
+            </div>
+            <div><label class="form-label">Màu chữ header</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="chatHeaderTextColor" value="#ffffff"><input class="form-input" id="chatHeaderTextColorText" value="" style="flex:1;font-family:monospace;font-size:12px;" placeholder="Mặc định"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+            <div><label class="form-label">Màu chữ chat</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="chatTextColor" value="#ffffff"><input class="form-input" id="chatTextColorText" value="#ffffff" style="flex:1;font-family:monospace;font-size:12px;"></div>
+            </div>
+            <div><label class="form-label">Nền chung CSKH + card phiên</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="chatCskhBgColor" value="#111827"><input class="form-input" id="chatCskhBgColorText" value="#111827" style="flex:1;font-family:monospace;font-size:12px;"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+            <div>
+              <label class="form-label">Icon nút chat</label>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input class="form-input" id="chatBubbleIcon" value="💬" style="font-size:20px;text-align:center;max-width:80px;">
+                <button type="button" class="btn-test" onclick="toggleChatIconPicker()" style="padding:8px 12px;">Chọn icon</button>
+              </div>
+            </div>
+            <div><label class="form-label">Delay lời chào (ms)</label><input class="form-input" type="number" id="chatAutoGreetingDelay" value="3000" min="0" max="30000" step="1000"></div>
+          </div>
+          <div id="chatIconPickerWrap" style="display:none;margin-top:10px;background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:10px;">
+            <div style="font-size:12px;color:var(--text3);margin-bottom:8px;">Bấm vào icon để chọn nhanh cho nút chat</div>
+            <div id="chatIconGrid" style="display:grid;grid-template-columns:repeat(10,minmax(30px,1fr));gap:6px;"></div>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label">Danh sách icon chat cho admin quản lý (cách nhau bằng dấu phẩy hoặc xuống dòng)</label>
+            <textarea class="form-input" id="chatIconLibrary" style="min-height:58px;font-family:monospace;font-size:12px;" placeholder="💬, 🎧, 🛟, 📞, 🧑‍💻"></textarea>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🔧 Tính năng Chat</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-hand-sparkles" style="color:#f59e0b;"></i> <strong>Auto chào hỏi</strong></div><button type="button" class="cfg-toggle-btn on" id="chatAutoGreeting" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-file" style="color:var(--blue);"></i> <strong>Upload file</strong></div><button type="button" class="cfg-toggle-btn on" id="chatEnableFile" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-image" style="color:#22c55e;"></i> <strong>Upload ảnh</strong></div><button type="button" class="cfg-toggle-btn on" id="chatEnableImage" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-smile" style="color:#f59e0b;"></i> <strong>Emoji</strong></div><button type="button" class="cfg-toggle-btn on" id="chatEnableEmoji" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-check-double" style="color:#3b82f6;"></i> <strong>Đã đọc</strong></div><button type="button" class="cfg-toggle-btn on" id="chatReadReceipts" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-reply" style="color:#a855f7;"></i> <strong>Quick replies</strong></div><button type="button" class="cfg-toggle-btn on" id="chatQuickReplies" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">Kích thước file tối đa (MB)</label><input class="form-input" type="number" id="chatMaxFileSize" value="5" min="1" max="50" style="max-width:120px;"></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">⚡ Câu trả lời nhanh</div>
+          <div id="chatQuickReplyList" style="display:grid;gap:6px;margin-bottom:10px;"></div>
+          <div style="display:flex;gap:8px;"><input class="form-input" id="newQuickReply" placeholder="VD: Cảm ơn bạn đã liên hệ!" style="flex:1;"><button type="button" class="cust-save-btn" onclick="addQuickReply()" style="white-space:nowrap;padding:8px 16px;"><i class="fas fa-plus"></i></button></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">📋 Form thu thập thông tin trước khi chat</div>
+          <div style="display:grid;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-user" style="color:#3b82f6;"></i> <strong>Yêu cầu nhập Tên</strong></div><select class="cust-select" id="chatFormName" style="width:140px;"><option value="required">Bắt buộc</option><option value="optional">Tuỳ chọn</option><option value="hidden">Ẩn</option></select></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-phone" style="color:#22c55e;"></i> <strong>Yêu cầu nhập Số điện thoại</strong></div><select class="cust-select" id="chatFormPhone" style="width:140px;"><option value="required">Bắt buộc</option><option value="optional">Tuỳ chọn</option><option value="hidden">Ẩn</option></select></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-envelope" style="color:#f59e0b;"></i> <strong>Yêu cầu nhập Email</strong></div><select class="cust-select" id="chatFormEmail" style="width:140px;"><option value="optional">Tuỳ chọn</option><option value="required">Bắt buộc</option><option value="hidden">Ẩn</option></select></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-gamepad" style="color:#a855f7;"></i> <strong>Yêu cầu nhập Mã phiên</strong></div><select class="cust-select" id="chatFormGameCode" style="width:140px;"><option value="optional">Tuỳ chọn</option><option value="required">Bắt buộc</option><option value="hidden">Ẩn</option></select></div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🚫 Lọc nội dung chat</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div><i class="fas fa-filter" style="color:#ef4444;"></i> <strong>Bật lọc từ cấm</strong></div><button type="button" class="cfg-toggle-btn off2" id="chatFilterEnabled" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div>
+          <div><label class="form-label">Danh sách từ cấm (mỗi dòng 1 từ)</label><textarea class="form-input" id="chatForbiddenWords" style="min-height:70px;font-family:monospace;font-size:12px;" placeholder="từ_cấm_1&#10;từ_cấm_2&#10;bad_word"></textarea></div>
+          <div style="margin-top:10px;"><label class="form-label">Tin nhắn thay thế khi phát hiện</label><input class="form-input" id="chatFilterReplacement" value="[Nội dung bị lọc]" placeholder="[Nội dung bị lọc]"></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🕐 Lịch làm việc / Giờ hỗ trợ</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div><i class="fas fa-calendar-check" style="color:#22c55e;"></i> <strong>Bật lịch làm việc</strong></div><button type="button" class="cfg-toggle-btn off2" id="chatScheduleEnabled" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT';document.getElementById('chatScheduleCfg').style.display=this.classList.contains('on')?'block':'none'">❌ TẮT</button></div>
+          <div id="chatScheduleCfg" style="display:none;gap:10px;display:grid;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div><label class="form-label">Giờ mở cửa</label><input class="form-input" type="time" id="chatScheduleOpen" value="08:00"></div>
+              <div><label class="form-label">Giờ đóng cửa</label><input class="form-input" type="time" id="chatScheduleClose" value="22:00"></div>
+            </div>
+            <div><label class="form-label">Múi giờ</label><select class="cust-select" id="chatScheduleTimezone"><option value="Asia/Ho_Chi_Minh">🇻🇳 Asia/Ho_Chi_Minh (GMT+7)</option><option value="Asia/Shanghai">🇨🇳 Asia/Shanghai (GMT+8)</option><option value="UTC">UTC (GMT+0)</option></select></div>
+            <div><label class="form-label">Ngày làm việc trong tuần</label><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+              <label style="display:flex;gap:4px;align-items:center;cursor:pointer;"><input type="checkbox" class="chat-workday" value="1" checked> T2</label>
+              <label style="display:flex;gap:4px;align-items:center;cursor:pointer;"><input type="checkbox" class="chat-workday" value="2" checked> T3</label>
+              <label style="display:flex;gap:4px;align-items:center;cursor:pointer;"><input type="checkbox" class="chat-workday" value="3" checked> T4</label>
+              <label style="display:flex;gap:4px;align-items:center;cursor:pointer;"><input type="checkbox" class="chat-workday" value="4" checked> T5</label>
+              <label style="display:flex;gap:4px;align-items:center;cursor:pointer;"><input type="checkbox" class="chat-workday" value="5" checked> T6</label>
+              <label style="display:flex;gap:4px;align-items:center;cursor:pointer;"><input type="checkbox" class="chat-workday" value="6"> T7</label>
+              <label style="display:flex;gap:4px;align-items:center;cursor:pointer;"><input type="checkbox" class="chat-workday" value="0"> CN</label>
+            </div></div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🎵 Âm thanh thông báo chat</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-bell" style="color:#f59e0b;"></i> <strong>Âm thanh khi nhận tin</strong></div><button type="button" class="cfg-toggle-btn on" id="chatSoundEnabled" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-paper-plane" style="color:#3b82f6;"></i> <strong>Âm thanh khi gửi tin</strong></div><button type="button" class="cfg-toggle-btn off2" id="chatSoundSend" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">Loại âm thanh</label><select class="cust-select" id="chatSoundType"><option value="ping">🔔 Ping nhẹ</option><option value="chime">🎵 Chime</option><option value="bubble">🫧 Bubble pop</option><option value="ding">✨ Ding</option><option value="custom">🔗 URL tùy chỉnh</option></select></div>
+          <div style="margin-top:8px;" id="chatSoundCustomUrlWrap" style="display:none;"><label class="form-label">URL file âm thanh (.mp3 / .ogg)</label><input class="form-input" id="chatSoundCustomUrl" placeholder="https://..."></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🎨 Giao diện chat Widget</div>
+          <div><label class="form-label">Chủ đề giao diện</label>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px;">
+              <button type="button" class="chat-theme-btn active" data-theme="default" onclick="selectChatTheme('default',this)" style="padding:10px 6px;border-radius:8px;background:linear-gradient(135deg,#1e1b38,#3b82f6);color:#fff;font-size:11px;border:2px solid #3b82f6;cursor:pointer;">🌌 Default</button>
+              <button type="button" class="chat-theme-btn" data-theme="dark" onclick="selectChatTheme('dark',this)" style="padding:10px 6px;border-radius:8px;background:linear-gradient(135deg,#1a1a1a,#111);color:#fff;font-size:11px;border:2px solid var(--border);cursor:pointer;">🌑 Dark</button>
+              <button type="button" class="chat-theme-btn" data-theme="light" onclick="selectChatTheme('light',this)" style="padding:10px 6px;border-radius:8px;background:linear-gradient(135deg,#f0f4f8,#e0e7ef);color:#111;font-size:11px;border:2px solid var(--border);cursor:pointer;">☀️ Light</button>
+              <button type="button" class="chat-theme-btn" data-theme="rose" onclick="selectChatTheme('rose',this)" style="padding:10px 6px;border-radius:8px;background:linear-gradient(135deg,#4c0519,#9f1239);color:#fff;font-size:11px;border:2px solid var(--border);cursor:pointer;">🌹 Rose</button>
+            </div>
+          </div>
+          <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div><label class="form-label">Chiều rộng widget (px)</label><input class="form-input" type="number" id="chatWidgetWidth" value="360" min="280" max="600"></div>
+            <div><label class="form-label">Bo góc widget (px)</label><input class="form-input" type="number" id="chatWidgetRadius" value="16" min="0" max="32"></div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">CSS tùy chỉnh widget</label><textarea class="form-input" id="chatWidgetCustomCss" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="#cpanel { ... }"></textarea></div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveChatSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu Chat</button>
+    </div>
+
+    <!-- APPEARANCE TAB -->
+    <div id="customTab-appearance" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🎨 Tùy chỉnh giao diện người chơi</div>
+      <div class="custom-section-sub">Thay đổi màu sắc, font chữ, nền, hiệu ứng trên toàn trang game</div>
+      <div style="display:grid;gap:14px;">
+        <div class="cust-card"><div class="cust-card-title">🎨 Màu sắc</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Màu chính (Primary)</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="appearPrimaryColor" value="#3b82f6"><input class="form-input" id="appearPrimaryColorText" value="#3b82f6" style="flex:1;font-family:monospace;">
+              <div class="color-presets" data-target="appearPrimaryColor"><span style="background:#3b82f6" data-color="#3b82f6"></span><span style="background:#8b5cf6" data-color="#8b5cf6"></span><span style="background:#ef4444" data-color="#ef4444"></span><span style="background:#f59e0b" data-color="#f59e0b"></span><span style="background:#22c55e" data-color="#22c55e"></span><span style="background:#ec4899" data-color="#ec4899"></span><span style="background:#06b6d4" data-color="#06b6d4"></span><span style="background:#6366f1" data-color="#6366f1"></span></div></div>
+            </div>
+            <div><label class="form-label">Màu nhấn (Accent)</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="appearAccentColor" value="#10b981"><input class="form-input" id="appearAccentColorText" value="#10b981" style="flex:1;font-family:monospace;">
+              <div class="color-presets" data-target="appearAccentColor"><span style="background:#10b981" data-color="#10b981"></span><span style="background:#22c55e" data-color="#22c55e"></span><span style="background:#f59e0b" data-color="#f59e0b"></span><span style="background:#ef4444" data-color="#ef4444"></span><span style="background:#3b82f6" data-color="#3b82f6"></span><span style="background:#a855f7" data-color="#a855f7"></span><span style="background:#ec4899" data-color="#ec4899"></span><span style="background:#06b6d4" data-color="#06b6d4"></span></div></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+            <div><label class="form-label">Màu phát sáng hộp</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="appearBoxGlowColor" value="#fbbf24"><input class="form-input" id="appearBoxGlowColorText" value="#fbbf24" style="flex:1;font-family:monospace;">
+              <div class="color-presets" data-target="appearBoxGlowColor"><span style="background:#fbbf24" data-color="#fbbf24"></span><span style="background:#ef4444" data-color="#ef4444"></span><span style="background:#3b82f6" data-color="#3b82f6"></span><span style="background:#22c55e" data-color="#22c55e"></span><span style="background:#a855f7" data-color="#a855f7"></span><span style="background:#ec4899" data-color="#ec4899"></span></div></div>
+            </div>
+            <div><label class="form-label">Màu nav-icon-box</label>
+              <div class="color-picker-row"><input type="color" class="cust-color-picker" id="appearNavIconBoxColor" value="#7c3aed"><input class="form-input" id="appearNavIconBoxColorText" value="#7c3aed" style="flex:1;font-family:monospace;"></div>
+            </div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">Viền card</label><input class="form-input" id="appearCardBorderColor" value="rgba(255,255,255,0.12)" style="font-family:monospace;font-size:12px;"></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🖼️ Nền trang</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Loại nền</label><select class="cust-select" id="appearBgType"><option value="aurora">🌌 Aurora</option><option value="gradient">🎨 Gradient</option><option value="solid">⬛ Đơn sắc</option><option value="image">🖼️ Ảnh nền</option></select></div>
+            <div><label class="form-label">Độ mờ overlay: <strong id="appearOverlayVal">40</strong>%</label><input type="range" id="appearBgOverlayOpacity" min="0" max="100" value="40" style="width:100%;cursor:pointer;"></div>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label">Preset giao diện Homepage mặc định</label>
+            <select class="cust-select" id="appearHomepageTheme">
+              <option value="new_homepage.html">Giao diện 1</option>
+              <option value="background_upgraded.html">Giao diện 2</option>
+              <option value="background.html">Giao diện 3</option>
+              <option value="background-alt.html">Giao diện 4</option>
+              <option value="background (1).html">Giao diện 5</option>
+              <option value="card_v3_purple.html">Giao diện 6</option>
+              <option value="card_v4_cyber.html">Giao diện 7</option>
+              <option value="card_v4_cyber (1).html">Giao diện 8</option>
+              <option value="card_v5_baroque.html">Giao diện 9</option>
+              <option value="b10-card.html">Giao diện 10</option>
+              <option value="boxes-redesign.html">Giao diện 11</option>
+              <option value="gift-boxes (1).html">Giao diện 12</option>
+              <option value="mo-hop-qua (1).html">Giao diện 13</option>
+            </select>
+          </div>
+          <div style="margin-top:10px;">
+            <label class="form-label">Nhãn hiển thị cho danh sách giao diện Homepage</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div><label class="form-label">Nhãn giao diện 1</label><input class="form-input" id="appearThemeLabel1" placeholder="Giao diện 1"></div>
+              <div><label class="form-label">Nhãn giao diện 2</label><input class="form-input" id="appearThemeLabel2" placeholder="Giao diện 2"></div>
+              <div><label class="form-label">Nhãn giao diện 3</label><input class="form-input" id="appearThemeLabel3" placeholder="Giao diện 3"></div>
+              <div><label class="form-label">Nhãn giao diện 4</label><input class="form-input" id="appearThemeLabel4" placeholder="Giao diện 4"></div>
+              <div><label class="form-label">Nhãn giao diện 5</label><input class="form-input" id="appearThemeLabel5" placeholder="Giao diện 5"></div>
+              <div><label class="form-label">Nhãn giao diện 6</label><input class="form-input" id="appearThemeLabel6" placeholder="Giao diện 6"></div>
+              <div><label class="form-label">Nhãn giao diện 7</label><input class="form-input" id="appearThemeLabel7" placeholder="Giao diện 7"></div>
+              <div><label class="form-label">Nhãn giao diện 8</label><input class="form-input" id="appearThemeLabel8" placeholder="Giao diện 8"></div>
+              <div><label class="form-label">Nhãn giao diện 9</label><input class="form-input" id="appearThemeLabel9" placeholder="Giao diện 9"></div>
+              <div><label class="form-label">Nhãn giao diện 10</label><input class="form-input" id="appearThemeLabel10" placeholder="Giao diện 10"></div>
+              <div><label class="form-label">Nhãn giao diện 11</label><input class="form-input" id="appearThemeLabel11" placeholder="Giao diện 11"></div>
+              <div><label class="form-label">Nhãn giao diện 12</label><input class="form-input" id="appearThemeLabel12" placeholder="Giao diện 12"></div>
+              <div><label class="form-label">Nhãn giao diện 13</label><input class="form-input" id="appearThemeLabel13" placeholder="Giao diện 13"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px;">
+            <div><label class="form-label">Màu nền 1</label><input type="color" id="appearBgColor1" value="#0f0c29" style="width:100%;height:36px;border:none;cursor:pointer;border-radius:8px;"></div>
+            <div><label class="form-label">Màu nền 2</label><input type="color" id="appearBgColor2" value="#302b63" style="width:100%;height:36px;border:none;cursor:pointer;border-radius:8px;"></div>
+            <div><label class="form-label">Màu nền 3</label><input type="color" id="appearBgColor3" value="#24243e" style="width:100%;height:36px;border:none;cursor:pointer;border-radius:8px;"></div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">URL ảnh nền (nếu chọn ảnh nền)</label><input class="form-input" id="appearBgImage" placeholder="https://..."></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">✏️ Typography & Style</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div style="grid-column:1/-1"><label class="form-label">Font chữ</label><select class="cust-select" id="appearFontFamily" onchange="adminPreviewFont(this.value)"><optgroup label="── Sans-serif hiện đại ──"><option value="Poppins">Poppins</option><option value="Inter">Inter</option><option value="DM Sans">DM Sans</option><option value="Outfit">Outfit</option><option value="Plus Jakarta Sans">Plus Jakarta Sans</option><option value="Figtree">Figtree</option><option value="Sora">Sora</option><option value="Nunito">Nunito</option><option value="Nunito Sans">Nunito Sans</option><option value="Open Sans">Open Sans</option><option value="Roboto">Roboto</option><option value="Lato">Lato</option><option value="Montserrat">Montserrat</option><option value="Ubuntu">Ubuntu</option><option value="Quicksand">Quicksand</option></optgroup><optgroup label="── Hỗ trợ tiếng Việt tốt ──"><option value="Be Vietnam Pro">Be Vietnam Pro ⭐</option><option value="Source Sans 3">Source Sans 3</option><option value="Lexend">Lexend</option></optgroup><optgroup label="── Display / Heading ──"><option value="Raleway">Raleway</option><option value="Josefin Sans">Josefin Sans</option><option value="Exo 2">Exo 2</option><option value="Orbitron">Orbitron</option><option value="Space Grotesk">Space Grotesk</option><option value="Cinzel">Cinzel</option><option value="Bebas Neue">Bebas Neue</option></optgroup><optgroup label="── Serif ──"><option value="Playfair Display">Playfair Display</option><option value="Merriweather">Merriweather</option><option value="EB Garamond">EB Garamond</option><option value="Libre Baskerville">Libre Baskerville</option></optgroup><optgroup label="── Chữ viết tay ──"><option value="Dancing Script">Dancing Script</option><option value="Pacifico">Pacifico</option><option value="Caveat">Caveat</option><option value="Kaushan Script">Kaushan Script</option></optgroup><optgroup label="── Monospace ──"><option value="JetBrains Mono">JetBrains Mono</option><option value="Fira Code">Fira Code</option><option value="Source Code Pro">Source Code Pro</option></optgroup></select><div id="fontPreviewBox" style="margin-top:8px;padding:10px 14px;background:var(--bg4);border-radius:8px;border:1px solid var(--border);font-size:17px;line-height:1.6;color:var(--text1);transition:font-family .4s;">Aa Bb — Hộp Quà Bí Ẩn 123 &nbsp;|&nbsp; Chúc bạn may mắn!</div></div>
+            <div><label class="form-label">Cỡ chữ: <strong id="appearFontVal">14</strong>px</label><input type="range" id="appearFontSize" min="12" max="20" value="14" style="width:100%;cursor:pointer;"></div>
+            <div><label class="form-label">Bo góc: <strong id="appearRadiusVal">12</strong>px</label><input type="range" id="appearRadius" min="0" max="24" value="12" style="width:100%;cursor:pointer;"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+            <div><label class="form-label">Tốc độ animation</label><select class="cust-select" id="appearAnimSpeed"><option value="slow">🐢 Chậm</option><option value="normal" selected>⚡ Bình thường</option><option value="fast">🚀 Nhanh</option><option value="none">🚫 Tắt</option></select></div>
+            <div style="display:flex;align-items:center;gap:12px;padding-top:20px;"><label class="form-label" style="margin:0;">Dark Mode:</label><button type="button" class="cfg-toggle-btn off2" id="appearDarkMode" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'🌙 BẬT':'☀️ TẮT'">☀️ TẮT</button></div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🃏 Kiểu dáng</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div><label class="form-label">Kiểu navbar</label><select class="cust-select" id="appearNavStyle"><option value="glass">Glass</option><option value="solid">Solid</option><option value="transparent">Trong suốt</option></select></div>
+            <div><label class="form-label">Kiểu nút</label><select class="cust-select" id="appearButtonStyle"><option value="gradient">Gradient</option><option value="solid">Solid</option><option value="outline">Outline</option><option value="glow">Glow</option></select></div>
+            <div><label class="form-label">Kiểu popup</label><select class="cust-select" id="appearPopupStyle"><option value="glass">Glass</option><option value="solid">Solid</option><option value="minimal">Minimal</option></select></div>
+          </div>
+          <div style="margin-top:10px;"><label class="form-label">Background card</label><input class="form-input" id="appearCardBg" value="rgba(255,255,255,0.08)" style="font-family:monospace;font-size:12px;"></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🧪 Tùy chỉnh toàn diện UI người chơi</div>
+          <div><label class="form-label">CSS riêng cho giao diện người chơi</label><textarea class="form-input" id="appearPlayerCustomCss" style="min-height:110px;font-family:monospace;font-size:12px;" placeholder="/* CSS chỉ áp dụng cho trang người chơi */"></textarea></div>
+          <div style="margin-top:10px;"><label class="form-label">JavaScript riêng cho giao diện người chơi</label><textarea class="form-input" id="appearPlayerCustomJs" style="min-height:130px;font-family:monospace;font-size:12px;" placeholder="// JS chạy trên trang người chơi"></textarea></div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveAppearanceSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu giao diện</button>
+    </div>
+
+    <!-- SEO TAB -->
+    <div id="customTab-seo" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🔍 SEO & Meta Tags</div>
+      <div class="custom-section-sub">Tối ưu hóa cho công cụ tìm kiếm, chia sẻ mạng xã hội</div>
+      <div style="display:grid;gap:14px;">
+        <div class="cust-card"><label class="form-label">Tiêu đề trang (Title tag)</label><input class="form-input" id="seoPageTitle" placeholder="Mở Hộp Quà Bí Ẩn - Nhận Thưởng Hấp Dẫn"><small style="color:var(--text3);display:block;margin-top:4px;">Tiêu đề hiển thị trên tab trình duyệt và kết quả tìm kiếm</small></div>
+        <div class="cust-card"><label class="form-label">Meta Description</label><textarea class="form-input" id="seoMetaDesc" style="min-height:60px;" placeholder="Tham gia mở hộp quà bí ẩn để nhận những phần thưởng hấp dẫn."></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label">Keywords</label><input class="form-input" id="seoKeywords" placeholder="hộp quà, trúng thưởng, may mắn"></div>
+          <div class="cust-card"><label class="form-label">Favicon URL</label><input class="form-input" id="seoFavicon" placeholder="/favicon.ico"></div>
+        </div>
+        <div class="cust-card"><label class="form-label">OG Image (ảnh khi chia sẻ trên MXH)</label><input class="form-input" id="seoOgImage" placeholder="https://..."><small style="color:var(--text3);display:block;margin-top:4px;">Kích thước khuyến nghị: 1200x630px</small></div>
+      </div>
+      <button class="cust-save-btn" onclick="saveSeoSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu SEO</button>
+    </div>
+
+    <!-- SOCIAL TAB -->
+    <div id="customTab-social" class="custom-section" style="display:none;">
+      <div class="custom-section-title">📱 Liên hệ & Mạng xã hội</div>
+      <div class="custom-section-sub">Đường dẫn mạng xã hội và thông tin liên hệ hiển thị trên trang</div>
+      <div style="display:grid;gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label"><i class="fab fa-facebook" style="color:#1877f2;"></i> Facebook</label><input class="form-input" id="socialFacebook" placeholder="https://facebook.com/..."></div>
+          <div class="cust-card"><label class="form-label"><i class="fas fa-comment-dots" style="color:#0068ff;"></i> Zalo</label><input class="form-input" id="socialZalo" placeholder="https://zalo.me/..."></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label"><i class="fab fa-telegram" style="color:#0088cc;"></i> Telegram</label><input class="form-input" id="socialTelegram" placeholder="https://t.me/..."></div>
+          <div class="cust-card"><label class="form-label"><i class="fas fa-globe" style="color:var(--blue);"></i> Website</label><input class="form-input" id="socialWebsite" placeholder="https://..."></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label"><i class="fas fa-phone" style="color:#22c55e;"></i> Số điện thoại</label><input class="form-input" id="socialPhone" placeholder="0901234567"></div>
+          <div class="cust-card"><label class="form-label"><i class="fas fa-envelope" style="color:#f59e0b;"></i> Email liên hệ</label><input class="form-input" id="socialEmail" placeholder="support@example.com"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-columns" style="color:var(--blue);"></i> <strong>Hiện ở Footer</strong></div><button type="button" class="cfg-toggle-btn on" id="socialShowInFooter" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+          <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-comment" style="color:#8b5cf6;"></i> <strong>Hiện trong Chat</strong></div><button type="button" class="cfg-toggle-btn off2" id="socialShowInChat" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveSocialSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu liên hệ</button>
+    </div>
+
+    <!-- SECURITY TAB -->
+    <div id="customTab-security" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🛡️ Bảo mật</div>
+      <div class="custom-section-sub">Cấu hình bảo mật, rate limit, chặn IP, session timeout</div>
+      <div style="display:grid;gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label">Số lần đăng nhập sai tối đa</label><input class="form-input" type="number" id="secMaxLoginAttempts" value="5" min="1" max="20"></div>
+          <div class="cust-card"><label class="form-label">Thời gian khóa (phút)</label><input class="form-input" type="number" id="secLockoutDuration" value="15" min="1" max="120"></div>
+          <div class="cust-card"><label class="form-label">Session timeout (phút)</label><input class="form-input" type="number" id="secSessionTimeout" value="60" min="5" max="1440"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-tachometer-alt" style="color:#f59e0b;"></i> <strong>Rate Limit</strong></div><button type="button" class="cfg-toggle-btn on" id="secEnableRateLimit" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">✅ BẬT</button></div></div>
+          <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-robot" style="color:#8b5cf6;"></i> <strong>Captcha</strong></div><button type="button" class="cfg-toggle-btn off2" id="secEnableCaptcha" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label">Giới hạn request</label><input class="form-input" type="number" id="secRateLimit" value="100" min="10" max="1000"></div>
+          <div class="cust-card"><label class="form-label">Cửa sổ thời gian (phút)</label><input class="form-input" type="number" id="secRateLimitWindow" value="15" min="1" max="60"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label">Điểm tín nhiệm tối thiểu để rút tiền (0-100)</label><input class="form-input" type="number" id="secMinTrustScoreForWithdrawal" value="90" min="0" max="100"></div>
+        </div>
+        <div class="cust-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div><i class="fas fa-ban" style="color:#ef4444;"></i> <strong>Chặn IP</strong></div><button type="button" class="cfg-toggle-btn off2" id="secEnableIPBlock" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div>
+          <label class="form-label">Danh sách IP bị chặn (mỗi dòng 1 IP)</label>
+          <textarea class="form-input" id="secBlockedIPs" style="min-height:60px;font-family:monospace;" placeholder="192.168.1.100&#10;10.0.0.50"></textarea>
+        </div>
+        <div class="cust-card"><label class="form-label">Allowed Origins (CORS) - mỗi dòng 1 origin</label><textarea class="form-input" id="secAllowedOrigins" style="min-height:60px;font-family:monospace;" placeholder="*"></textarea></div>
+      </div>
+      <button class="cust-save-btn" onclick="saveSecuritySettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu bảo mật</button>
+    </div>
+
+    <!-- EMAIL TAB -->
+    <div id="customTab-emailsettings" class="custom-section" style="display:none;">
+      <div class="custom-section-title">📧 Cài đặt Email</div>
+      <div class="custom-section-sub">Cấu hình SMTP để gửi email thông báo cho người chơi</div>
+      <div style="display:grid;gap:14px;">
+        <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-envelope" style="color:var(--blue);"></i> <strong>Bật gửi email</strong></div><button type="button" class="cfg-toggle-btn off2" id="emailEnabled" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+        <div class="cust-card"><div class="cust-card-title">🔧 SMTP Server</div>
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;">
+            <div><label class="form-label">SMTP Host</label><input class="form-input" id="emailSmtpHost" placeholder="smtp.gmail.com"></div>
+            <div><label class="form-label">Port</label><input class="form-input" type="number" id="emailSmtpPort" value="587" min="1" max="65535"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+            <div><label class="form-label">Username</label><input class="form-input" id="emailSmtpUser" placeholder="your@email.com"></div>
+            <div><label class="form-label">Password</label><input class="form-input" type="password" id="emailSmtpPass" placeholder="••••••••"></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="cust-card"><label class="form-label">Tên người gửi</label><input class="form-input" id="emailFromName" placeholder="Manh Lam Store"></div>
+          <div class="cust-card"><label class="form-label">Email người gửi</label><input class="form-input" id="emailFromEmail" placeholder="noreply@example.com"></div>
+        </div>
+        <div class="cust-card"><label class="form-label">Template email trúng thưởng (HTML)</label><textarea class="form-input" id="emailWinTemplate" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<h1>Chúc mừng {name}!</h1><p>Bạn đã nhận được {prize}.</p>"></textarea><small style="color:var(--text3);display:block;margin-top:4px;">Biến: {name}, {prize}, {date}</small></div>
+        <div class="cust-card"><label class="form-label">Template email rút tiền (HTML)</label><textarea class="form-input" id="emailWithdrawTemplate" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder="<h1>Yêu cầu rút tiền</h1><p>Số tiền: {amount}</p>"></textarea></div>
+      </div>
+      <button class="cust-save-btn" onclick="saveEmailSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu Email</button>
+    </div>
+
+    <!-- WATERMARK TAB - UPGRADED WITH IMAGE SUPPORT -->
+    <div id="customTab-watermark" class="custom-section" style="display:none;">
+      <div class="custom-section-title">©️ Watermark</div>
+      <div class="custom-section-sub">Hiển thị watermark (chữ hoặc ảnh) trên trang game</div>
+      <div style="display:grid;gap:14px;">
+        <div class="cust-card"><div style="display:flex;justify-content:space-between;align-items:center;"><div><i class="fas fa-stamp" style="color:var(--blue);"></i> <strong>Bật watermark</strong></div><button type="button" class="cfg-toggle-btn off2" id="watermarkEnabled" onclick="this.classList.toggle('on');this.classList.toggle('off2');this.innerHTML=this.classList.contains('on')?'✅ BẬT':'❌ TẮT'">❌ TẮT</button></div></div>
+        <div class="cust-card"><div class="cust-card-title">📋 Loại Watermark</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label class="form-label">Kiểu</label><select class="cust-select" id="watermarkType" onchange="document.getElementById('wmTextSection').style.display=this.value==='text'?'block':'none';document.getElementById('wmImageSection').style.display=this.value==='image'?'block':'none'"><option value="text">✏️ Chữ</option><option value="image">🖼️ Ảnh</option></select></div>
+            <div><label class="form-label">Vị trí</label><select class="cust-select" id="watermarkPosition"><option value="bottom-right">Dưới phải ↘️</option><option value="bottom-left">Dưới trái ↙️</option><option value="top-right">Trên phải ↗️</option><option value="top-left">Trên trái ↖️</option><option value="center">Giữa</option></select></div>
+          </div>
+          <div id="wmTextSection" style="margin-top:12px;">
+            <label class="form-label">Nội dung watermark</label><input class="form-input" id="watermarkText" placeholder="© My Brand 2026">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+              <div><label class="form-label">Độ mờ: <strong id="watermarkOpacityVal">30</strong>%</label><input type="range" id="watermarkOpacity" min="5" max="100" value="30" style="width:100%;cursor:pointer;"></div>
+              <div><label class="form-label">Cỡ chữ: <strong id="watermarkFontVal">12</strong>px</label><input type="range" id="watermarkFontSize" min="8" max="24" value="12" style="width:100%;cursor:pointer;"></div>
+            </div>
+          </div>
+          <div id="wmImageSection" style="margin-top:12px;display:none;">
+            <label class="form-label">URL ảnh watermark</label>
+            <div style="display:flex;gap:8px;"><input class="form-input" id="watermarkImageUrl" placeholder="https://... hoặc /uploads/watermark.png" style="flex:1;"><button type="button" class="btn-upload2" onclick="document.getElementById('wmImageUpload').click()" style="padding:8px 12px;"><i class="fas fa-upload"></i></button><input type="file" id="wmImageUpload" accept="image/*" style="display:none;"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;">
+              <div><label class="form-label">Độ mờ: <strong id="watermarkImgOpacityVal">30</strong>%</label><input type="range" id="watermarkImgOpacity" min="5" max="100" value="30" style="width:100%;cursor:pointer;"></div>
+              <div><label class="form-label">Kích thước ảnh: <strong id="watermarkImgSizeVal">60</strong>px</label><input type="range" id="watermarkImageSize" min="20" max="200" value="60" style="width:100%;cursor:pointer;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveWatermarkSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu watermark</button>
+    </div>
+
+    <!-- ADVANCED TAB -->
+    <div id="customTab-advanced" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🔧 Cài đặt nâng cao</div>
+      <div class="custom-section-sub">Cấu hình nâng cao cho hệ thống</div>
+      <div style="display:grid;gap:16px;">
+        <div class="cust-card"><label class="form-label"><i class="fas fa-clock" style="color:var(--blue);"></i> Xoá phiên cũ sau (ngày)</label><input class="form-input" type="number" id="advAutoDeleteDays" value="15" min="1" max="365" style="max-width:120px;"></div>
+        <div style="background:linear-gradient(135deg,rgba(239,68,68,0.1),rgba(239,68,68,0.05));padding:16px;border-radius:10px;border:1px solid rgba(239,68,68,0.2);">
+          <div style="font-weight:600;font-size:14px;color:#ef4444;margin-bottom:10px;"><i class="fas fa-tools"></i> Bảo trì</div>
+          <div style="margin-bottom:10px;"><label class="form-label">Tin nhắn bảo trì</label><textarea class="form-input" id="advMaintenanceMsg" style="min-height:60px;" placeholder="Hệ thống đang bảo trì..."></textarea></div>
+          <div><label class="form-label">Thời gian dự kiến</label><input class="form-input" id="advMaintenanceTime" placeholder="VD: 30 phút" style="max-width:200px;"></div>
+        </div>
+        <div class="cust-card">
+          <div style="font-weight:600;font-size:14px;margin-bottom:10px;"><i class="fas fa-database"></i> Xuất/Nhập cấu hình</div>
+          <div style="display:flex;gap:8px;"><button class="cust-save-btn" onclick="exportAllSettings()"><i class="fas fa-download"></i> Xuất</button><button class="btn-test" onclick="document.getElementById('importSettingsFile').click()"><i class="fas fa-upload"></i> Nhập</button><input type="file" id="importSettingsFile" accept=".json" style="display:none;" onchange="importSettings(event)"></div>
+        </div>
+        <div class="cust-card">
+          <div style="font-weight:600;font-size:14px;margin-bottom:8px;"><i class="fas fa-undo"></i> Khôi phục mặc định</div>
+          <div style="color:var(--text3);font-size:13px;margin-bottom:8px;">Đặt lại tất cả về mặc định</div>
+          <button class="btn-delete-logo" onclick="resetAllSettings()"><i class="fas fa-undo"></i> Khôi phục</button>
+        </div>
+        <div class="cust-card" style="background:linear-gradient(135deg,rgba(34,197,94,0.1),rgba(59,130,246,0.1));border-color:rgba(34,197,94,0.2);">
+          <div style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-bottom:4px;"><i class="fas fa-database" style="color:#22c55e;"></i> Lưu trữ Database</div>
+          <div style="font-size:12px;color:var(--text3);">✅ Settings được lưu trữ trên database (MySQL) với backup file JSON tự động.</div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveAdvancedSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu nâng cao</button>
+    </div>
+
+    <!-- SCRIPTS TAB -->
+    <div id="customTab-script" class="custom-section" style="display:none;">
+      <div class="custom-section-title">💻 Tùy chỉnh Scripts</div>
+      <div class="custom-section-sub">Thêm mã CSS và JavaScript tùy chỉnh (nhà phát triển)</div>
+      <label class="form-label">Mã CSS tùy chỉnh</label>
+      <textarea class="form-input" id="customCSSContent" style="font-family:monospace;min-height:120px;font-size:12px;" placeholder="/* Nhập mã CSS tùy chỉnh tại đây */&#10;"></textarea>
+      <small style="color:var(--text3);display:block;margin-top:8px;">🎨 CSS sẽ được áp dụng cho trang người chơi</small>
+      <div style="margin-top:14px;">
+        <label class="form-label">Mã JavaScript</label>
+        <textarea class="form-input" id="customScriptContent" style="font-family:monospace;min-height:200px;font-size:12px;" placeholder="// Nhập mã JavaScript của bạn tại đây&#10;"></textarea>
+      </div>
+      <small style="color:var(--text3);display:block;margin-top:8px;">⚠️ Cẩn thận: Mã này sẽ được thực thi trên mọi trang</small>
+      <button class="cust-save-btn" onclick="saveCustomScript()" style="margin-top:16px;"><i class="fas fa-save"></i> Lưu Scripts</button>
+    </div>
+
+    <!-- I18N TAB -->
+    <div id="customTab-i18n" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🌐 Đa ngôn ngữ (i18n)</div>
+      <div class="custom-section-sub">Cấu hình hệ thống đa ngôn ngữ: Tiếng Việt, English, 中文</div>
+      <div style="display:grid;gap:16px;">
+        <div class="cust-card"><div class="cust-card-title">⚙️ Cài đặt chung</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div>
+              <label class="form-label">Ngôn ngữ mặc định</label>
+              <select class="form-input" id="i18nDefaultLang">
+                <option value="vi">🇻🇳 Tiếng Việt</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="zh">🇨🇳 中文</option>
+              </select>
+            </div>
+            <div><label class="form-label">Tự động phát hiện ngôn ngữ (IP/Browser)</label>
+              <div class="switch-toggle" style="margin-top:6px;"><input type="checkbox" id="i18nAutoDetect" checked><label for="i18nAutoDetect"><span></span></label></div>
+            </div>
+            <div><label class="form-label">Hiện nút chuyển ngôn ngữ</label>
+              <div class="switch-toggle" style="margin-top:6px;"><input type="checkbox" id="i18nShowSwitcher" checked><label for="i18nShowSwitcher"><span></span></label></div>
+            </div>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">📝 Tùy chỉnh bản dịch</div>
+          <div class="custom-section-sub" style="margin-bottom:12px;">Ghi đè bản dịch mặc định. Chọn ngôn ngữ và nhập key-value.</div>
+          <div style="display:flex;gap:8px;margin-bottom:12px;">
+            <select class="form-input" id="i18nEditLang" style="max-width:160px;">
+              <option value="vi">🇻🇳 Tiếng Việt</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="zh">🇨🇳 中文</option>
+            </select>
+            <input class="form-input" id="i18nEditKey" placeholder="Key (VD: heroTitle)" style="flex:1;">
+            <input class="form-input" id="i18nEditValue" placeholder="Giá trị dịch" style="flex:2;">
+            <button type="button" class="cust-save-btn" onclick="addI18nOverride()" style="padding:8px 16px;"><i class="fas fa-plus"></i></button>
+          </div>
+          <div id="i18nOverridesList" style="max-height:250px;overflow-y:auto;"></div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">🔍 Xem bản dịch hiện tại</div>
+          <div style="display:flex;gap:8px;margin-bottom:10px;">
+            <select class="form-input" id="i18nPreviewLang" onchange="previewI18nTranslations(); if(window.applyAdminLanguage){window.applyAdminLanguage(this.value);}" style="max-width:160px;">
+              <option value="vi">🇻🇳 Tiếng Việt</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="zh">🇨🇳 中文</option>
+            </select>
+            <button type="button" class="btn-test" onclick="previewI18nTranslations()"><i class="fas fa-eye"></i> Xem</button>
+          </div>
+          <div id="i18nPreviewArea" style="max-height:300px;overflow-y:auto;font-size:12px;font-family:monospace;background:var(--bg4);padding:12px;border-radius:8px;"></div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveI18nSettings()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu cài đặt ngôn ngữ</button>
+    </div>
+
+    <!-- ANIMATION PRESETS TAB -->
+    <div id="customTab-animpresets" class="custom-section" style="display:none;">
+      <div class="custom-section-title">🎬 Quản lý Animation Preset</div>
+      <div class="custom-section-sub">Tạo và xem trước các hiệu ứng animation cho hộp quà</div>
+      <div style="display:grid;gap:16px;">
+        <div class="cust-card"><div class="cust-card-title">📋 Danh sách Presets</div>
+          <div id="animPresetsList" style="display:grid;gap:10px;"></div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+            <div class="cust-card-title">➕ Thêm preset mới</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 120px;gap:8px;">
+              <input class="form-input" id="newPresetName" placeholder="Tên preset (VD: shake)">
+              <input class="form-input" id="newPresetLabel" placeholder="Nhãn hiển thị (VD: Rung lắc)">
+              <input class="form-input" id="newPresetDuration" placeholder="1s" value="1s">
+            </div>
+            <div style="margin-top:8px;"><label class="form-label">CSS @keyframes</label>
+              <textarea class="form-input" id="newPresetCss" style="min-height:100px;font-family:monospace;font-size:12px;" placeholder="@keyframes myPreset { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }"></textarea>
+            </div>
+            <button type="button" class="cust-save-btn" onclick="addAnimPreset()" style="margin-top:8px;padding:8px 16px;"><i class="fas fa-plus"></i> Thêm preset</button>
+            <button type="button" class="btn-test" onclick="loadBuiltinAnimPresets()" style="margin-top:8px;padding:8px 16px;"><i class="fas fa-magic"></i> Tải presets mẫu</button>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">👁️ Xem trước Animation</div>
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;">
+            <select class="form-input" id="animPreviewSelect" style="max-width:200px;"></select>
+            <button type="button" class="btn-test" onclick="previewAnimation()"><i class="fas fa-play"></i> Chạy thử</button>
+          </div>
+          <div style="display:flex;justify-content:center;padding:30px;background:var(--bg4);border-radius:12px;">
+            <div id="animPreviewBox" style="width:100px;height:100px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;">🎁</div>
+          </div>
+        </div>
+      </div>
+      <button class="cust-save-btn" onclick="saveAnimPresets()" style="margin-top:20px;"><i class="fas fa-save"></i> Lưu Animation Presets</button>
+    </div>
+
+    <!-- BOX TEMPLATE LIBRARY TAB -->
+    <div id="customTab-boxtemplatelib" class="custom-section" style="display:none;">
+      <div class="custom-section-title">📤 Template Hộp Quà</div>
+      <div class="custom-section-sub">Xuất, nhập và quản lý thư viện template hộp quà</div>
+      <div style="display:grid;gap:16px;">
+        <div class="cust-card"><div class="cust-card-title">📤 Xuất template hiện tại</div>
+          <div style="display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:end;">
+            <div><label class="form-label">Tên template</label><input class="form-input" id="exportTemplateName" placeholder="VD: Template Tết 2025"></div>
+            <button type="button" class="cust-save-btn" onclick="exportBoxTemplateOnly()" style="padding:10px 18px;"><i class="fas fa-download"></i> <span data-i18n="adminTemplateOnly">Template-only</span></button>
+            <button type="button" class="cust-save-btn" onclick="exportBoxTemplateWithModalSkin()" style="padding:10px 18px;"><i class="fas fa-layer-group"></i> <span data-i18n="adminTemplateWithModalSkin">Template + Modal Skin</span></button>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">📥 Nhập template</div>
+          <div style="display:flex;gap:8px;align-items:end;">
+            <div style="flex:1;"><label class="form-label">Upload file JSON</label><input type="file" id="importTemplateFile" accept=".json" class="form-input"></div>
+            <button type="button" class="cust-save-btn" onclick="importBoxTemplate()" style="padding:10px 20px;"><i class="fas fa-upload"></i> Nhập</button>
+          </div>
+          <div style="margin-top:8px;"><label class="form-label">Hoặc dán JSON</label>
+            <textarea class="form-input" id="importTemplateJson" style="min-height:80px;font-family:monospace;font-size:12px;" placeholder='{"type":"giftbox-template","name":"...","boxSettings":{...},"animationPresets":{"presets":[...]}}'></textarea>
+            <button type="button" class="btn-test" onclick="importBoxTemplateFromJson()" style="margin-top:6px;"><i class="fas fa-paste"></i> Nhập từ JSON</button>
+          </div>
+        </div>
+        <div class="cust-card"><div class="cust-card-title">📚 Thư viện Templates</div>
+          <div id="boxTemplateLibList" style="display:grid;gap:10px;"></div>
+          <div id="boxTemplateLibEmpty" style="text-align:center;padding:30px;color:var(--text3);">Chưa có template nào. Hãy xuất template đầu tiên!</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <style>
+    .feature-toggle-card{background:linear-gradient(135deg,rgba(var(--ft-c,59,130,246),0.1),rgba(var(--ft-c,59,130,246),0.03));padding:14px 16px;border-radius:10px;border:1px solid rgba(var(--ft-c,59,130,246),0.2);transition:transform .15s,box-shadow .15s;}
+    .feature-toggle-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(var(--ft-c,59,130,246),0.1);}
+    #panel-customization .custom-tabs .custom-tab{padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;font-size:12px;font-weight:500;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+    #panel-customization .custom-tabs .custom-tab:hover{background:var(--bg4);border-color:var(--blue);color:var(--blue);}
+    #panel-customization .custom-tabs .custom-tab.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+    .cust-card{background:var(--bg3);padding:16px;border-radius:10px;border:1px solid var(--border);transition:box-shadow .15s;}
+    .cust-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+    .cust-card-title{font-weight:600;font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+    @keyframes slideInLeft{from{opacity:0;transform:translateX(-30px);}to{opacity:1;transform:translateX(0);}}
+
+    /* ===== PROMINENT SAVE BUTTON ===== */
+    .cust-save-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:12px 28px;font-size:14px;font-weight:700;
+      background:linear-gradient(135deg,#22c55e,#16a34a);
+      color:#fff;border:none;border-radius:10px;cursor:pointer;
+      box-shadow:0 4px 14px rgba(34,197,94,0.35);
+      transition:all .2s ease;letter-spacing:0.3px;
+    }
+    .cust-save-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(34,197,94,0.45);filter:brightness(1.08);}
+    .cust-save-btn:active{transform:translateY(0);box-shadow:0 2px 8px rgba(34,197,94,0.3);}
+
+    /* ===== SELECT/OPTION FIX - READABLE ON DARK BG ===== */
+    .cust-select,
+    #panel-customization select{
+      background:var(--bg4,#1a1a2e) !important;
+      color:#e2e8f0 !important;
+      border:1px solid rgba(255,255,255,0.15) !important;
+      border-radius:8px;padding:9px 12px;
+      appearance:none;-webkit-appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a0aec0' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E") !important;
+      background-repeat:no-repeat !important;
+      background-position:right 10px center !important;
+      padding-right:30px;cursor:pointer;width:100%;font-size:13px;
+    }
+    .cust-select:focus,
+    #panel-customization select:focus{
+      border-color:rgba(59,130,246,0.65) !important;
+      box-shadow:0 0 0 3px rgba(59,130,246,0.15);outline:none;
+    }
+    .cust-select option,
+    #panel-customization select option{
+      background:#1e1b38;color:#e2e8f0;padding:8px;
+    }
+
+    /* ===== COLOR PICKER WITH PRESETS ===== */
+    .color-picker-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+    .cust-color-picker{width:40px;height:36px;border:2px solid rgba(255,255,255,0.15);cursor:pointer;border-radius:8px;padding:2px;}
+    .cust-color-picker:hover{border-color:rgba(255,255,255,0.35);}
+    .color-presets{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;width:100%;}
+    .color-presets span{width:22px;height:22px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;display:inline-block;}
+    .color-presets span:hover{transform:scale(1.2);border-color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
+    .modal-editor-sub{animation:slideInLeft .2s ease;}
+    .box-part-editor-wrap{display:grid;grid-template-columns:minmax(320px,1fr) 260px;gap:12px;}
+    .box-part-canvas{position:relative;min-height:230px;border:1px dashed var(--border);border-radius:12px;background:radial-gradient(circle at 40% 30%,rgba(124,58,237,.15),rgba(15,23,42,.15));overflow:hidden;}
+    .box-part-item{position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:grab;user-select:none;border:1px solid rgba(255,255,255,.2);box-shadow:0 8px 18px rgba(0,0,0,.2);}
+    .box-part-item.lid{width:140px;height:40px;left:92px;top:26px;border-radius:9px;background:linear-gradient(135deg,#8b5cf6,#4c1d95);}
+    .box-part-item.body{width:160px;height:94px;left:82px;top:84px;border-radius:12px;background:linear-gradient(145deg,#5b21b6,#2e1065);}
+    .box-part-item.ribbon{width:34px;height:150px;left:146px;top:30px;border-radius:8px;background:linear-gradient(145deg,#f59e0b,#b45309);}
+    .box-part-item.active{outline:2px solid #22d3ee;outline-offset:2px;}
+    .box-part-controls{display:grid;gap:8px;align-content:start;}
+    @media (max-width: 980px){.box-part-editor-wrap{grid-template-columns:1fr;}}
+    .admin-modal-preview-ov{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:10050;background:rgba(2,6,23,.72);backdrop-filter:blur(3px);}
+    .admin-modal-preview-card{width:min(920px,95vw);max-height:90vh;overflow:auto;background:var(--bg2);border:1px solid var(--border);border-radius:14px;box-shadow:0 24px 70px rgba(2,6,23,.45);padding:14px;}
+    .admin-modal-preview-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;}
+    .admin-modal-preview-stage{background:radial-gradient(circle at 20% 10%,rgba(99,102,241,.22),rgba(15,23,42,.35));border:1px dashed rgba(148,163,184,.4);border-radius:12px;min-height:350px;padding:18px;position:relative;overflow:hidden;}
+    .admin-modal-preview-surface{position:relative;z-index:1;max-width:100%;}
+  </style>
+
+  <div id="adminModalPreviewOv" class="admin-modal-preview-ov" onclick="if(event.target===this) closeAdminModalPreview()">
+    <div class="admin-modal-preview-card">
+      <div class="admin-modal-preview-head">
+        <div style="font-weight:700;font-size:15px;" id="adminModalPreviewTitle">Preview modal</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button type="button" class="btn-test" id="adminModalPrevBtn" onclick="previewPrevModalInCarousel()" style="display:none;"><i class="fas fa-chevron-left"></i></button>
+          <button type="button" class="btn-test" id="adminModalNextBtn" onclick="previewNextModalInCarousel()" style="display:none;"><i class="fas fa-chevron-right"></i></button>
+          <button type="button" class="btn-test" onclick="closeAdminModalPreview()"><i class="fas fa-times"></i> <span data-i18n="adminModalPreviewClose">Đóng</span></button>
+        </div>
+      </div>
+      <div class="admin-modal-preview-stage">
+        <style id="adminModalPreviewStyle"></style>
+        <div id="adminModalPreviewSurface" class="admin-modal-preview-surface"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>function _regenerator() {
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */var e,t,r = "function" == typeof Symbol ? Symbol : {},n = r.iterator || "@@iterator",o = r.toStringTag || "@@toStringTag";function i(r, n, o, i) {var c = n && n.prototype instanceof Generator ? n : Generator,u = Object.create(c.prototype);return _regeneratorDefine2(u, "_invoke", function (r, n, o) {var i,c,u,f = 0,p = o || [],y = !1,G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) {return i = t, c = 0, u = e, G.n = r, a;} };function d(r, n) {for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) {var o,i = p[t],d = G.p,l = i[2];r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0));}if (o || r > 1) return a;throw y = !0, n;}return function (o, p, l) {if (f > 1) throw TypeError("Generator is already running");for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) {i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u);try {if (f = 2, i) {if (c || (o = "next"), t = i[o]) {if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object");if (!t.done) return t;u = t.value, c < 2 && (c = 0);} else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1);i = e;} else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break;} catch (t) {i = e, c = 1, u = t;} finally {f = 1;}}return { value: t, done: y };};}(r, o, i), !0), u;}var a = {};function Generator() {}function GeneratorFunction() {}function GeneratorFunctionPrototype() {}t = Object.getPrototypeOf;var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () {return this;}), t),u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c);function f(e) {return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e;}return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () {return this;}), _regeneratorDefine2(u, "toString", function () {return "[object Generator]";}), (_regenerator = function _regenerator() {return { w: i, m: f };})();}function _regeneratorDefine2(e, r, n, t) {var i = Object.defineProperty;try {i({}, "", {});} catch (e) {i = 0;}_regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) {function o(r, n) {_regeneratorDefine2(e, r, function (e) {return this._invoke(r, n, e);});}r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2));}, _regeneratorDefine2(e, r, n, t);}function asyncGeneratorStep(n, t, e, r, o, a, c) {try {var i = n[a](c),u = i.value;} catch (n) {return void e(n);}i.done ? t(u) : Promise.resolve(u).then(r, o);}function _asyncToGenerator(n) {return function () {var t = this,e = arguments;return new Promise(function (r, o) {var a = n.apply(t, e);function _next(n) {asyncGeneratorStep(a, r, o, _next, _throw, "next", n);}function _throw(n) {asyncGeneratorStep(a, r, o, _next, _throw, "throw", n);}_next(void 0);});};}function _typeof(o) {"@babel/helpers - typeof";return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {return typeof o;} : function (o) {return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;}, _typeof(o);}function ownKeys(e, r) {var t = Object.keys(e);if (Object.getOwnPropertySymbols) {var o = Object.getOwnPropertySymbols(e);r && (o = o.filter(function (r) {return Object.getOwnPropertyDescriptor(e, r).enumerable;})), t.push.apply(t, o);}return t;}function _objectSpread(e) {for (var r = 1; r < arguments.length; r++) {var t = null != arguments[r] ? arguments[r] : {};r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {_defineProperty(e, r, t[r]);}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));});}return e;}function _defineProperty(e, r, t) {return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e;}function _toPropertyKey(t) {var i = _toPrimitive(t, "string");return "symbol" == _typeof(i) ? i : i + "";}function _toPrimitive(t, r) {if ("object" != _typeof(t) || !t) return t;var e = t[Symbol.toPrimitive];if (void 0 !== e) {var i = e.call(t, r || "default");if ("object" != _typeof(i)) return i;throw new TypeError("@@toPrimitive must return a primitive value.");}return ("string" === r ? String : Number)(t);}(function () {
+  var _GF = {
+    'Poppins': 'Poppins:wght@300;400;500;600;700;800',
+    'Inter': 'Inter:wght@300;400;500;600;700',
+    'DM Sans': 'DM+Sans:wght@300;400;500;600;700',
+    'Outfit': 'Outfit:wght@300;400;500;600;700;800',
+    'Plus Jakarta Sans': 'Plus+Jakarta+Sans:wght@300;400;500;600;700;800',
+    'Figtree': 'Figtree:wght@300;400;500;600;700;800',
+    'Sora': 'Sora:wght@300;400;500;600;700;800',
+    'Nunito': 'Nunito:wght@300;400;500;600;700;800;900',
+    'Nunito Sans': 'Nunito+Sans:wght@300;400;500;600;700;800',
+    'Open Sans': 'Open+Sans:wght@300;400;500;600;700',
+    'Roboto': 'Roboto:wght@300;400;500;700',
+    'Lato': 'Lato:wght@300;400;700',
+    'Montserrat': 'Montserrat:wght@300;400;500;600;700;800',
+    'Ubuntu': 'Ubuntu:wght@300;400;500;700',
+    'Quicksand': 'Quicksand:wght@300;400;500;600;700',
+    'Be Vietnam Pro': 'Be+Vietnam+Pro:wght@300;400;500;600;700;800',
+    'Source Sans 3': 'Source+Sans+3:wght@300;400;500;600;700',
+    'Lexend': 'Lexend:wght@300;400;500;600;700;800',
+    'Raleway': 'Raleway:wght@300;400;500;600;700;800',
+    'Josefin Sans': 'Josefin+Sans:wght@300;400;500;600;700',
+    'Exo 2': 'Exo+2:wght@300;400;500;600;700;800',
+    'Orbitron': 'Orbitron:wght@400;500;600;700;800',
+    'Space Grotesk': 'Space+Grotesk:wght@300;400;500;600;700',
+    'Cinzel': 'Cinzel:wght@400;500;600;700',
+    'Bebas Neue': 'Bebas+Neue',
+    'Playfair Display': 'Playfair+Display:wght@400;500;600;700;800',
+    'Merriweather': 'Merriweather:wght@300;400;700',
+    'EB Garamond': 'EB+Garamond:wght@400;500;600;700',
+    'Libre Baskerville': 'Libre+Baskerville:wght@400;700',
+    'Dancing Script': 'Dancing+Script:wght@400;500;600;700',
+    'Pacifico': 'Pacifico',
+    'Caveat': 'Caveat:wght@400;500;600;700',
+    'Kaushan Script': 'Kaushan+Script',
+    'JetBrains Mono': 'JetBrains+Mono:wght@300;400;500;600;700',
+    'Fira Code': 'Fira+Code:wght@300;400;500;600;700',
+    'Source Code Pro': 'Source+Code+Pro:wght@300;400;500;600;700'
+  };
+  window.adminPreviewFont = function (name) {
+    if (!name) return;
+    var slug = _GF[name];
+    if (slug) {
+      var id = 'gfp_' + name.replace(/[^a-z0-9]/gi, '-');
+      if (!document.getElementById(id)) {
+        var l = document.createElement('link');
+        l.id = id;l.rel = 'stylesheet';
+        l.href = 'https://fonts.googleapis.com/css2?family=' + slug + '&display=swap';
+        document.head.appendChild(l);
+      }
+    }
+    var p = document.getElementById('fontPreviewBox');
+    if (p) p.style.fontFamily = "'" + name + "',sans-serif";
+  };
+  // Auto-preview current value after DOM ready
+  document.addEventListener('DOMContentLoaded', function () {
+    var s = document.getElementById('appearFontFamily');
+    if (s && s.value) window.adminPreviewFont(s.value);
+  }, { once: true });
+})();
+
+/* ===== Modal Editor Sub-tab Switcher ===== */
+window.showModalEditorSub = function (name) {
+  document.querySelectorAll('.modal-editor-sub').forEach(function (el) {return el.style.display = 'none';});
+  var target = document.getElementById('modalSub-' + name);
+  if (target) target.style.display = 'block';
+  var btns = document.querySelectorAll('#customTab-usermsg .custom-tab');
+  btns.forEach(function (b) {return b.classList.remove('active');});
+  btns.forEach(function (b) {
+    if ((b.getAttribute('onclick') || '').includes("'" + name + "'")) b.classList.add('active');
+  });
+};
+
+window.closeAdminModalPreview = function () {
+  var ov = document.getElementById('adminModalPreviewOv');
+  if (ov) ov.style.display = 'none';
+  if (window._modalCarousel) {
+    window._modalCarousel.active = false;
+    window._modalCarousel.index = -1;
+  }
+  var prev = document.getElementById('adminModalPrevBtn');
+  var next = document.getElementById('adminModalNextBtn');
+  if (prev) prev.style.display = 'none';
+  if (next) next.style.display = 'none';
+};
+
+window.previewActiveModalFromAdmin = function () {
+  var active = document.querySelector('#customTab-usermsg .custom-tab.active');
+  if (!active) return;
+  var oc = active.getAttribute('onclick') || '';
+  var m = oc.match(/showModalEditorSub\('([^']+)'\)/);
+  if (!m || !m[1]) return;
+  window.previewModalFromAdmin(m[1]);
+};
+
+window.previewModalFromAdmin = function (name) {var _document$getElementB, _document$getElementB2;
+  var map = {
+    winPopup: {
+      title: 'Preview: Popup trúng',
+      cssId: 'meWinCss',
+      htmlId: 'meWinHtml',
+      fallback: '<div class="wov-modal" style="max-width:560px;margin:20px auto;background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:16px;padding:20px;color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.35)"><div style="font-weight:800;font-size:20px;margin-bottom:10px">✨ CHÚC MỪNG!</div><div style="opacity:.95">Bạn vừa mở trúng phần quà giá trị.</div></div>'
+    },
+    celebrate: {
+      title: 'Preview: Modal chúc mừng',
+      cssId: 'meCelebrateCss',
+      htmlId: 'meCelebrateHtml',
+      fallback: '<div class="celebrate-card" style="max-width:520px;margin:32px auto;background:#111827;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:22px;color:#f8fafc;text-align:center"><div style="font-size:30px">🎉</div><div style="font-weight:700;margin-top:8px">Chúc mừng bạn!</div></div>'
+    },
+    withdrawal: {
+      title: 'Preview: Modal rút tiền',
+      cssId: 'meWithdrawalCss',
+      htmlId: 'meWithdrawalHtml',
+      fallback: '<div class="mbox" style="max-width:520px;margin:26px auto;background:#0f172a;border:1px solid rgba(148,163,184,.25);border-radius:14px;padding:18px;color:#e2e8f0"><div style="font-weight:700">Quản lý rút tiền</div><div style="font-size:13px;opacity:.85;margin-top:8px">Nội dung preview form rút tiền.</div></div>'
+    },
+    approvalWait: {
+      title: 'Preview: Modal chờ duyệt',
+      cssId: 'meApprovalCss',
+      htmlId: 'meApprovalHtml',
+      fallback: '<div class="aws-card" style="max-width:560px;margin:20px auto;background:#111827;border:1px solid rgba(99,102,241,.45);border-radius:16px;padding:20px;color:#e2e8f0"><div style="font-weight:800">Chờ admin phê duyệt</div><div style="opacity:.8;margin-top:8px">Đang xử lý yêu cầu của bạn...</div></div>'
+    },
+    thankYou: {
+      title: 'Preview: Modal cảm ơn',
+      cssId: 'meThankYouCss',
+      htmlId: 'meThankYouHtml',
+      fallback: '<div class="mbox" style="max-width:500px;margin:24px auto;background:#052e16;border:1px solid rgba(34,197,94,.45);border-radius:14px;padding:18px;color:#dcfce7"><div style="font-weight:700">Cảm ơn bạn!</div><div style="opacity:.9;margin-top:6px">Yêu cầu đã được ghi nhận.</div></div>'
+    },
+    hub: {
+      title: 'Preview: Modal hub phiên',
+      cssId: 'meHubCss',
+      htmlId: 'meHubHtml',
+      fallback: '<div class="hub-box" style="max-width:620px;margin:18px auto;background:#0b1220;border-radius:16px;padding:18px;border:1px solid rgba(148,163,184,.3);color:#e2e8f0"><div style="font-weight:700">Quản lý phiên</div></div>'
+    },
+    sessionDetail: {
+      title: 'Preview: Modal chi tiết phiên',
+      cssId: 'meSessionDetailCss',
+      htmlId: 'meSessionDetailHtml',
+      fallback: '<div class="session-detail-box" style="max-width:620px;margin:18px auto;background:#0b1220;border-radius:16px;padding:18px;border:1px solid rgba(59,130,246,.35);color:#dbeafe"><div style="font-weight:700">Chi tiết phiên chơi</div></div>'
+    },
+    claimModal: {
+      title: 'Preview: Modal nhận quà',
+      cssId: 'meClaimCss',
+      htmlId: 'meClaimHtml',
+      fallback: '<div class="claim-inner" style="max-width:560px;margin:20px auto;background:#1f2937;border:1px solid rgba(251,191,36,.35);border-radius:14px;padding:18px;color:#fef3c7"><div style="font-weight:700">Thông tin nhận quà</div></div>'
+    },
+    chatPreForm: {
+      title: 'Preview: Modal form chat',
+      cssId: 'meChatPreCss',
+      htmlId: 'meChatPreHtml',
+      fallback: '<div class="chat-form-inner" style="max-width:500px;margin:22px auto;background:#111827;border-radius:14px;padding:16px;border:1px solid rgba(236,72,153,.35);color:#fce7f3"><div style="font-weight:700">Thông tin trước khi chat</div></div>'
+    },
+    lightbox: {
+      title: 'Preview: Lightbox ảnh giải',
+      cssId: 'meLightboxCss',
+      htmlId: 'meLightboxHtml',
+      fallback: '<div class="wov-lb-inner" style="max-width:560px;margin:18px auto;background:#000;border-radius:12px;padding:14px;color:#fff;text-align:center"><img src="/images/logo.png" alt="preview" style="max-width:320px;width:100%;border-radius:8px;opacity:.92"></div>'
+    }
+  };
+  var cfg = map[name];
+  if (!cfg) return;
+  var html = (((_document$getElementB = document.getElementById(cfg.htmlId)) === null || _document$getElementB === void 0 ? void 0 : _document$getElementB.value) || '').trim() || cfg.fallback;
+  var css = (((_document$getElementB2 = document.getElementById(cfg.cssId)) === null || _document$getElementB2 === void 0 ? void 0 : _document$getElementB2.value) || '').trim();
+  var title = document.getElementById('adminModalPreviewTitle');
+  var surf = document.getElementById('adminModalPreviewSurface');
+  var style = document.getElementById('adminModalPreviewStyle');
+  var ov = document.getElementById('adminModalPreviewOv');
+  if (title) title.textContent = cfg.title;
+  if (surf) surf.innerHTML = html;
+  if (style) style.textContent = css;
+  if (ov) ov.style.display = 'flex';
+};
+
+window._modalCarousel = { list: ['winPopup', 'celebrate', 'withdrawal', 'approvalWait', 'thankYou', 'hub', 'sessionDetail', 'claimModal', 'chatPreForm', 'lightbox'], index: -1, active: false };
+
+function updateModalCarouselButtons() {
+  var prev = document.getElementById('adminModalPrevBtn');
+  var next = document.getElementById('adminModalNextBtn');
+  var active = window._modalCarousel.active === true;
+  if (prev) prev.style.display = active ? '' : 'none';
+  if (next) next.style.display = active ? '' : 'none';
+}
+
+window.startModalCarouselPreview = function () {
+  window._modalCarousel.active = true;
+  window._modalCarousel.index = 0;
+  updateModalCarouselButtons();
+  window.previewModalFromAdmin(window._modalCarousel.list[0]);
+};
+
+window.previewPrevModalInCarousel = function () {
+  if (!window._modalCarousel.active) return;
+  var list = window._modalCarousel.list;
+  window._modalCarousel.index = (window._modalCarousel.index - 1 + list.length) % list.length;
+  window.previewModalFromAdmin(list[window._modalCarousel.index]);
+};
+
+window.previewNextModalInCarousel = function () {
+  if (!window._modalCarousel.active) return;
+  var list = window._modalCarousel.list;
+  window._modalCarousel.index = (window._modalCarousel.index + 1) % list.length;
+  window.previewModalFromAdmin(list[window._modalCarousel.index]);
+};
+
+/* ===== Logo Preview Helpers ===== */
+window.refreshLogoPreview = function () {var _document$getElementB3, _document$getElementB4, _document$getElementB5, _document$getElementB6, _document$getElementB7, _document$getElementB8, _document$getElementB9;
+  var url = (_document$getElementB3 = document.getElementById('logoUrlInput')) === null || _document$getElementB3 === void 0 ? void 0 : _document$getElementB3.value;
+  var h = ((_document$getElementB4 = document.getElementById('logoHeightSlider')) === null || _document$getElementB4 === void 0 ? void 0 : _document$getElementB4.value) || 160;
+  var maxW = ((_document$getElementB5 = document.getElementById('logoMaxWidthSlider')) === null || _document$getElementB5 === void 0 ? void 0 : _document$getElementB5.value) || 100;
+  var br = ((_document$getElementB6 = document.getElementById('logoBorderRadiusSlider')) === null || _document$getElementB6 === void 0 ? void 0 : _document$getElementB6.value) || 50;
+  var shadow = ((_document$getElementB7 = document.getElementById('logoShadow')) === null || _document$getElementB7 === void 0 ? void 0 : _document$getElementB7.value) || 'none';
+  var bg = ((_document$getElementB8 = document.getElementById('logoBgColorText')) === null || _document$getElementB8 === void 0 ? void 0 : _document$getElementB8.value) || 'transparent';
+  var border = ((_document$getElementB9 = document.getElementById('logoBorder')) === null || _document$getElementB9 === void 0 ? void 0 : _document$getElementB9.value) || 'none';
+  ['logoPreviewImg', 'logoPreviewImgLight', 'logoPreviewFavicon'].forEach(function (id) {
+    var img = document.getElementById(id);
+    if (!img) return;
+    if (url) {
+      img.src = url;img.style.display = 'block';
+      img.style.borderRadius = br + '%';
+      img.style.boxShadow = shadow;
+      img.style.background = bg;
+      img.style.border = border;
+      if (id === 'logoPreviewFavicon') {img.style.width = '32px';img.style.height = '32px';} else
+      if (id === 'logoPreviewImgLight') {img.style.width = '120px';img.style.height = '120px';} else
+      {img.style.width = h + 'px';img.style.height = h + 'px';img.style.maxWidth = maxW + '%';}
+    } else {img.style.display = 'none';}
+  });
+  ['logoPlaceholder', 'logoPlaceholderLight', 'faviconPlaceholder'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = url ? 'none' : '';
+  });
+};
+// Auto-update logo preview on slider changes
+['logoHeightSlider', 'logoMaxWidthSlider', 'logoBorderRadiusSlider'].forEach(function (id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', function () {
+    var valId = id.replace('Slider', 'Value');
+    var valEl = document.getElementById(valId);
+    if (valEl) valEl.textContent = this.value;
+    if (id === 'logoHeightSlider') {
+      var hidden = document.getElementById('logoHeightInput');
+      if (hidden) hidden.value = this.value;
+    }
+    window.refreshLogoPreview();
+  });
+});
+
+/* ===== Box 3D Part Canvas Editor ===== */
+window._boxPartLayout = {
+  lid: { x: 0, y: 0, rotate: 0, scale: 1 },
+  body: { x: 0, y: 0, rotate: 0, scale: 1 },
+  ribbon: { x: 0, y: 0, rotate: 0, scale: 1 }
+};
+
+function updateBoxPartHiddenField() {
+  var hidden = document.getElementById('boxPartLayoutJson');
+  if (hidden) hidden.value = JSON.stringify(window._boxPartLayout || {});
+}
+
+function updateBoxPartNumericInputs() {var _document$getElementB0;
+  var key = ((_document$getElementB0 = document.getElementById('boxPartSelected')) === null || _document$getElementB0 === void 0 ? void 0 : _document$getElementB0.value) || 'lid';
+  var cfg = (window._boxPartLayout || {})[key] || { x: 0, y: 0, rotate: 0, scale: 1 };
+  var x = document.getElementById('boxPartX');
+  var y = document.getElementById('boxPartY');
+  var r = document.getElementById('boxPartRotate');
+  var s = document.getElementById('boxPartScale');
+  if (x) x.value = cfg.x;
+  if (y) y.value = cfg.y;
+  if (r) r.value = cfg.rotate;
+  if (s) s.value = cfg.scale;
+  document.querySelectorAll('#boxPartCanvas .box-part-item').forEach(function (el) {return el.classList.toggle('active', el.dataset.part === key);});
+}
+
+function renderBoxPartCanvas() {
+  var layout = window._boxPartLayout || {};
+  document.querySelectorAll('#boxPartCanvas .box-part-item').forEach(function (el) {
+    var key = el.dataset.part;
+    var cfg = layout[key] || { x: 0, y: 0, rotate: 0, scale: 1 };
+    el.style.transform = 'translate(' + cfg.x + 'px,' + cfg.y + 'px) rotate(' + cfg.rotate + 'deg) scale(' + cfg.scale + ')';
+  });
+  updateBoxPartNumericInputs();
+  updateBoxPartHiddenField();
+}
+
+window.applyBoxPartNumeric = function () {var _document$getElementB1, _document$getElementB10, _document$getElementB11, _document$getElementB12, _document$getElementB13;
+  var key = ((_document$getElementB1 = document.getElementById('boxPartSelected')) === null || _document$getElementB1 === void 0 ? void 0 : _document$getElementB1.value) || 'lid';
+  window._boxPartLayout[key] = {
+    x: parseFloat(((_document$getElementB10 = document.getElementById('boxPartX')) === null || _document$getElementB10 === void 0 ? void 0 : _document$getElementB10.value) || '0'),
+    y: parseFloat(((_document$getElementB11 = document.getElementById('boxPartY')) === null || _document$getElementB11 === void 0 ? void 0 : _document$getElementB11.value) || '0'),
+    rotate: parseFloat(((_document$getElementB12 = document.getElementById('boxPartRotate')) === null || _document$getElementB12 === void 0 ? void 0 : _document$getElementB12.value) || '0'),
+    scale: parseFloat(((_document$getElementB13 = document.getElementById('boxPartScale')) === null || _document$getElementB13 === void 0 ? void 0 : _document$getElementB13.value) || '1')
+  };
+  renderBoxPartCanvas();
+};
+
+window.resetBoxPartLayout = function () {
+  window._boxPartLayout = {
+    lid: { x: 0, y: 0, rotate: 0, scale: 1 },
+    body: { x: 0, y: 0, rotate: 0, scale: 1 },
+    ribbon: { x: 0, y: 0, rotate: 0, scale: 1 }
+  };
+  renderBoxPartCanvas();
+};
+
+window._boxPartPresetLibrary = [];
+
+function syncBoxPartPresetLibraryHidden() {
+  var hidden = document.getElementById('boxPartPresetLibraryJson');
+  if (hidden) hidden.value = JSON.stringify(window._boxPartPresetLibrary || []);
+}
+
+function renderBoxPartPresetLibrary() {
+  var list = document.getElementById('boxPartPresetList');
+  if (!list) return;
+  if (!window._boxPartPresetLibrary.length) {
+    list.innerHTML = '<div style="color:var(--text3);font-size:12px;">Chưa có preset tùy biến</div>';
+    syncBoxPartPresetLibraryHidden();
+    return;
+  }
+  list.innerHTML = window._boxPartPresetLibrary.map(function (p, i) {return (
+      '<div style="display:flex;gap:6px;align-items:center;background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:6px 8px;">' +
+      '<div style="flex:1;font-size:12px;font-weight:600;">' + p.name + '</div>' +
+      '<button type="button" class="btn-test" onclick="loadCustomBoxPartPreset(' + i + ')" style="padding:4px 7px;"><i class="fas fa-upload"></i></button>' +
+      '<button type="button" class="btn-test" onclick="deleteCustomBoxPartPreset(' + i + ')" style="padding:4px 7px;"><i class="fas fa-trash"></i></button>' +
+      '</div>');}
+  ).join('');
+  syncBoxPartPresetLibraryHidden();
+}
+
+window.loadBoxPartPresetLibrary = function (arr) {
+  window._boxPartPresetLibrary = Array.isArray(arr) ? arr : [];
+  renderBoxPartPresetLibrary();
+};
+
+window.saveCurrentBoxPartPreset = function () {var _document$getElementB14;
+  var name = (((_document$getElementB14 = document.getElementById('boxPartPresetName')) === null || _document$getElementB14 === void 0 ? void 0 : _document$getElementB14.value) || '').trim();
+  if (!name) return;
+  var payload = JSON.parse(JSON.stringify(window._boxPartLayout || {}));
+  var idx = window._boxPartPresetLibrary.findIndex(function (x) {return String(x.name).toLowerCase() === name.toLowerCase();});
+  if (idx >= 0) window._boxPartPresetLibrary[idx] = { name: name, layout: payload };else
+  window._boxPartPresetLibrary.push({ name: name, layout: payload });
+  document.getElementById('boxPartPresetName').value = '';
+  renderBoxPartPresetLibrary();
+};
+
+window.loadCustomBoxPartPreset = function (idx) {
+  var p = window._boxPartPresetLibrary[idx];
+  if (!p || !p.layout) return;
+  window.loadBoxPartLayout(p.layout);
+};
+
+window.deleteCustomBoxPartPreset = function (idx) {
+  window._boxPartPresetLibrary.splice(idx, 1);
+  renderBoxPartPresetLibrary();
+};
+
+window.exportBoxPartPresetLibrary = function () {
+  var payload = {
+    type: 'box-part-preset-library',
+    version: 1,
+    items: window._boxPartPresetLibrary || []
+  };
+  var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'box-part-presets.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+window.applyBoxPartPreset = function (name) {
+  var presets = {
+    classic: {
+      lid: { x: 0, y: 0, rotate: 0, scale: 1 },
+      body: { x: 0, y: 0, rotate: 0, scale: 1 },
+      ribbon: { x: 0, y: 0, rotate: 0, scale: 1 }
+    },
+    tall: {
+      lid: { x: 0, y: -10, rotate: 0, scale: 1.08 },
+      body: { x: 0, y: 6, rotate: 0, scale: 1.15 },
+      ribbon: { x: 0, y: -4, rotate: 0, scale: 1.16 }
+    },
+    flat: {
+      lid: { x: 0, y: 12, rotate: 0, scale: 0.95 },
+      body: { x: 0, y: -8, rotate: 0, scale: 0.86 },
+      ribbon: { x: 0, y: 8, rotate: 0, scale: 0.9 }
+    },
+    ribbonHeavy: {
+      lid: { x: 0, y: 0, rotate: 0, scale: 1 },
+      body: { x: 0, y: 0, rotate: 0, scale: 1 },
+      ribbon: { x: 0, y: 0, rotate: 0, scale: 1.42 }
+    }
+  };
+  var p = presets[name];
+  if (!p) return;
+  window._boxPartLayout = {
+    lid: _objectSpread({}, p.lid),
+    body: _objectSpread({}, p.body),
+    ribbon: _objectSpread({}, p.ribbon)
+  };
+  renderBoxPartCanvas();
+};
+
+window.loadBoxPartLayout = function (layout) {var _layout$lid, _layout$lid2, _layout$lid3, _layout$lid4, _layout$body, _layout$body2, _layout$body3, _layout$body4, _layout$ribbon, _layout$ribbon2, _layout$ribbon3, _layout$ribbon4;
+  if (!layout || _typeof(layout) !== 'object') return;
+  window._boxPartLayout = {
+    lid: { x: Number(((_layout$lid = layout.lid) === null || _layout$lid === void 0 ? void 0 : _layout$lid.x) || 0), y: Number(((_layout$lid2 = layout.lid) === null || _layout$lid2 === void 0 ? void 0 : _layout$lid2.y) || 0), rotate: Number(((_layout$lid3 = layout.lid) === null || _layout$lid3 === void 0 ? void 0 : _layout$lid3.rotate) || 0), scale: Number(((_layout$lid4 = layout.lid) === null || _layout$lid4 === void 0 ? void 0 : _layout$lid4.scale) || 1) },
+    body: { x: Number(((_layout$body = layout.body) === null || _layout$body === void 0 ? void 0 : _layout$body.x) || 0), y: Number(((_layout$body2 = layout.body) === null || _layout$body2 === void 0 ? void 0 : _layout$body2.y) || 0), rotate: Number(((_layout$body3 = layout.body) === null || _layout$body3 === void 0 ? void 0 : _layout$body3.rotate) || 0), scale: Number(((_layout$body4 = layout.body) === null || _layout$body4 === void 0 ? void 0 : _layout$body4.scale) || 1) },
+    ribbon: { x: Number(((_layout$ribbon = layout.ribbon) === null || _layout$ribbon === void 0 ? void 0 : _layout$ribbon.x) || 0), y: Number(((_layout$ribbon2 = layout.ribbon) === null || _layout$ribbon2 === void 0 ? void 0 : _layout$ribbon2.y) || 0), rotate: Number(((_layout$ribbon3 = layout.ribbon) === null || _layout$ribbon3 === void 0 ? void 0 : _layout$ribbon3.rotate) || 0), scale: Number(((_layout$ribbon4 = layout.ribbon) === null || _layout$ribbon4 === void 0 ? void 0 : _layout$ribbon4.scale) || 1) }
+  };
+  renderBoxPartCanvas();
+};
+
+(function initBoxPartCanvasDnD() {
+  var canvas = document.getElementById('boxPartCanvas');
+  if (!canvas) return;
+  var active = null;
+  var startX = 0;
+  var startY = 0;
+  var initX = 0;
+  var initY = 0;
+
+  canvas.querySelectorAll('.box-part-item').forEach(function (item) {
+    item.addEventListener('pointerdown', function (e) {
+      active = item;
+      active.setPointerCapture(e.pointerId);
+      var key = active.dataset.part;
+      var cfg = (window._boxPartLayout || {})[key] || { x: 0, y: 0 };
+      startX = e.clientX;
+      startY = e.clientY;
+      initX = cfg.x;
+      initY = cfg.y;
+      var sel = document.getElementById('boxPartSelected');
+      if (sel) sel.value = key;
+      updateBoxPartNumericInputs();
+    });
+    item.addEventListener('pointermove', function (e) {
+      if (!active) return;
+      var key = active.dataset.part;
+      var dx = Math.round(e.clientX - startX);
+      var dy = Math.round(e.clientY - startY);
+      window._boxPartLayout[key].x = initX + dx;
+      window._boxPartLayout[key].y = initY + dy;
+      renderBoxPartCanvas();
+    });
+    item.addEventListener('pointerup', function () {active = null;});
+    item.addEventListener('pointercancel', function () {active = null;});
+  });
+
+  var select = document.getElementById('boxPartSelected');
+  if (select) select.addEventListener('change', updateBoxPartNumericInputs);
+  var importInput = document.getElementById('boxPartPresetImport');
+  if (importInput) {
+    importInput.addEventListener('change', /*#__PURE__*/function () {var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(e) {var _e$target$files;var file, text, json, items, _t;return _regenerator().w(function (_context) {while (1) switch (_context.p = _context.n) {case 0:
+              file = (_e$target$files = e.target.files) === null || _e$target$files === void 0 ? void 0 : _e$target$files[0];if (
+              file) {_context.n = 1;break;}return _context.a(2);case 1:_context.p = 1;_context.n = 2;return (
+
+                file.text());case 2:text = _context.v;
+              json = JSON.parse(text);
+              items = Array.isArray(json === null || json === void 0 ? void 0 : json.items) ? json.items : [];
+              window._boxPartPresetLibrary = items;
+              renderBoxPartPresetLibrary();_context.n = 4;break;case 3:_context.p = 3;_t = _context.v;case 4:
+
+              e.target.value = '';case 5:return _context.a(2);}}, _callee, null, [[1, 3]]);}));return function (_x) {return _ref.apply(this, arguments);};}()
+    );
+  }
+  renderBoxPartPresetLibrary();
+  renderBoxPartCanvas();
+})();</script>

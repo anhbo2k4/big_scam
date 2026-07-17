@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'Theo Dõi Session' %></title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --bg-soft: #111a2e;
+      --panel: rgba(15, 23, 42, 0.92);
+      --line: rgba(148, 163, 184, 0.18);
+      --text: #e5eefc;
+      --muted: #93a4bf;
+      --blue: #60a5fa;
+      --green: #34d399;
+      --amber: #fbbf24;
+      --red: #f87171;
+      --chip: rgba(96, 165, 250, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.18), transparent 26%),
+        linear-gradient(180deg, #07101d 0%, #0b1220 100%);
+      color: var(--text);
+    }
+
+    .shell {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .title-wrap h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.72);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      border-color: rgba(96, 165, 250, 0.45);
+      color: #fff;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 50px rgba(2, 8, 23, 0.28);
+    }
+
+    .stat-card {
+      padding: 16px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .filters {
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      background: var(--bg-soft);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      outline: none;
+    }
+
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .table-wrap {
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1180px;
+    }
+
+    th, td {
+      padding: 14px 14px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      position: sticky;
+      top: 0;
+      background: rgba(9, 15, 28, 0.98);
+    }
+
+    td {
+      font-size: 13px;
+    }
+
+    .mono {
+      font-family: Consolas, "Courier New", monospace;
+      word-break: break-all;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: var(--chip);
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .chip.active { color: #b6ffe1; background: rgba(16, 185, 129, 0.14); border-color: rgba(16, 185, 129, 0.36); }
+    .chip.logged_out { color: #ffd4d4; background: rgba(239, 68, 68, 0.14); border-color: rgba(239, 68, 68, 0.32); }
+    .chip.admin { color: #d8c0ff; background: rgba(168, 85, 247, 0.14); border-color: rgba(168, 85, 247, 0.32); }
+    .chip.authenticated { color: #cde7ff; background: rgba(59, 130, 246, 0.14); border-color: rgba(59, 130, 246, 0.32); }
+    .chip.game { color: #ffe8b0; background: rgba(245, 158, 11, 0.14); border-color: rgba(245, 158, 11, 0.32); }
+    .chip.guest { color: #d4d4d8; background: rgba(148, 163, 184, 0.14); border-color: rgba(148, 163, 184, 0.28); }
+
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; line-height: 1.45; }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 16px;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+      flex-wrap: wrap;
+    }
+
+    .empty {
+      padding: 26px 16px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 211, 153, 0.26);
+      background: rgba(16, 185, 129, 0.08);
+      color: #baf7df;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.55);
+      animation: livePulse 1.8s infinite;
+    }
+
+    .live-badge.offline {
+      border-color: rgba(248, 113, 113, 0.26);
+      background: rgba(239, 68, 68, 0.08);
+      color: #ffc8c8;
+    }
+
+    .live-badge.offline .live-dot {
+      background: var(--red);
+      animation: none;
+      box-shadow: none;
+    }
+
+    @keyframes livePulse {
+      0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.55); }
+      70% { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+    }
+
+    @media (max-width: 980px) {
+      .filter-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        padding: 18px 12px 28px;
+      }
+
+      .title-wrap h1 {
+        font-size: 24px;
+      }
+
+      .filter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .actions,
+      .topbar {
+        width: 100%;
+      }
+
+      .actions .btn {
+        flex: 1 1 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="title-wrap">
+        <h1>Theo Dõi Session</h1>
+        <div class="subtitle">
+          Theo dõi session đăng nhập, session game và trạng thái hoạt động trong database.
+          <% if (currentUser) { %>
+            Người xem: <strong><%= currentUser.full_name || currentUser.username %></strong>
+          <% } %>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="live-badge" id="liveStatusBadge">
+          <span class="live-dot"></span>
+          <span id="liveStatusText">Realtime SSE</span>
+        </div>
+        <a class="btn" href="/admin">Về Dashboard</a>
+        <a class="btn" href="/admin/user-sessions">Làm mới</a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Tổng session</div>
+        <div class="stat-value"><%= stats.total %></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Đang hoạt động</div>
+        <div class="stat-value" style="color: var(--green);"><%= stats.activeCount %></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Đã logout</div>
+        <div class="stat-value" style="color: var(--red);"><%= stats.loggedOutCount %></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Đã xác thực</div>
+        <div class="stat-value" style="color: var(--blue);"><%= stats.authCount %></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Session game</div>
+        <div class="stat-value" style="color: var(--amber);"><%= stats.gameCount %></div>
+      </div>
+    </div>
+
+    <form class="panel filters" method="get" action="/admin/user-sessions">
+      <div class="filter-grid">
+        <div class="field">
+          <label>Tìm kiếm</label>
+          <input class="input" type="text" name="q" value="<%= filters.q %>" placeholder="session id, username, mã phiên, IP, user-agent">
+        </div>
+        <div class="field">
+          <label>Trạng thái</label>
+          <select class="select" name="status">
+            <option value="">Tất cả</option>
+            <option value="active" <%= filters.status === 'active' ? 'selected' : '' %>>active</option>
+            <option value="logged_out" <%= filters.status === 'logged_out' ? 'selected' : '' %>>logged_out</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Loại session</label>
+          <select class="select" name="session_type">
+            <option value="">Tất cả</option>
+            <option value="admin" <%= filters.sessionType === 'admin' ? 'selected' : '' %>>admin</option>
+            <option value="authenticated" <%= filters.sessionType === 'authenticated' ? 'selected' : '' %>>authenticated</option>
+            <option value="game" <%= filters.sessionType === 'game' ? 'selected' : '' %>>game</option>
+            <option value="guest" <%= filters.sessionType === 'guest' ? 'selected' : '' %>>guest</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Số dòng</label>
+          <select class="select" name="limit">
+            <option value="30" <%= Number(filters.limit) === 30 ? 'selected' : '' %>>30</option>
+            <option value="50" <%= Number(filters.limit) === 50 ? 'selected' : '' %>>50</option>
+            <option value="100" <%= Number(filters.limit) === 100 ? 'selected' : '' %>>100</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Chỉ login</label>
+          <label class="checkbox-wrap">
+            <input type="checkbox" name="auth_only" value="1" <%= filters.authOnly ? 'checked' : '' %>>
+            Chỉ session đã xác thực
+          </label>
+        </div>
+      </div>
+      <div class="actions" style="margin-top: 14px;">
+        <button class="btn" type="submit">Lọc dữ liệu</button>
+        <a class="btn" href="/admin/user-sessions">Xóa bộ lọc</a>
+      </div>
+    </form>
+
+    <div class="panel table-wrap">
+      <% if (!rows || rows.length === 0) { %>
+        <div class="empty">Chưa có session nào phù hợp bộ lọc hiện tại.</div>
+      <% } else { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Session ID</th>
+              <th>Tài khoản</th>
+              <th>Loại</th>
+              <th>Game Session</th>
+              <th>IP / UA</th>
+              <th>Login</th>
+              <th>Last Seen</th>
+              <th>Logout</th>
+              <th>Path cuối</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% rows.forEach((row) => { %>
+              <tr>
+                <td class="mono small">
+                  <div><strong><%= row.session_id || '-' %></strong></div>
+                  <div class="muted">DB ID: <%= row.id %></div>
+                </td>
+                <td class="small">
+                  <div><strong><%= row.username || 'Ẩn danh' %></strong></div>
+                  <div class="muted">Role: <%= row.role || '-' %></div>
+                  <div class="muted">User ID: <%= row.user_id || '-' %></div>
+                  <% if (row.remember_token_used) { %>
+                    <div class="chip authenticated" style="margin-top:6px;">remember token</div>
+                  <% } %>
+                </td>
+                <td class="small">
+                  <div class="chip <%= row.status || '' %>"><%= row.status || 'active' %></div>
+                  <div style="height:8px;"></div>
+                  <div class="chip <%= row.session_type || 'guest' %>"><%= row.session_type || 'guest' %></div>
+                  <div class="muted" style="margin-top:8px;">Auth: <%= row.is_authenticated ? 'Có' : 'Không' %></div>
+                </td>
+                <td class="small mono">
+                  <%= row.game_session_code || '-' %>
+                </td>
+                <td class="small">
+                  <div class="mono"><%= row.ip_address || '-' %></div>
+                  <div class="muted" style="margin-top:6px; max-width: 320px; word-break: break-word;">
+                    <%= row.user_agent || '-' %>
+                  </div>
+                </td>
+                <td class="small"><%= row.login_at ? new Date(row.login_at).toLocaleString('vi-VN') : '-' %></td>
+                <td class="small"><%= row.last_seen_at ? new Date(row.last_seen_at).toLocaleString('vi-VN') : '-' %></td>
+                <td class="small"><%= row.logout_at ? new Date(row.logout_at).toLocaleString('vi-VN') : '-' %></td>
+                <td class="small mono">
+                  <div><%= row.last_path || '-' %></div>
+                  <% if (row.metadata && typeof row.metadata === 'object' && Object.keys(row.metadata).length > 0) { %>
+                    <div class="muted" style="margin-top:8px; max-width: 280px; word-break: break-word;">
+                      <%= JSON.stringify(row.metadata) %>
+                    </div>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <div class="muted">
+            Trang <strong><%= pagination.page %></strong> / <strong><%= pagination.totalPages %></strong>,
+            tổng <strong><%= pagination.total %></strong> session
+          </div>
+          <div class="actions">
+            <% if (pagination.hasPrev) { %>
+              <a class="btn" href="<%= pagination.prevUrl %>">Trang trước</a>
+            <% } %>
+            <% if (pagination.hasNext) { %>
+              <a class="btn" href="<%= pagination.nextUrl %>">Trang sau</a>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  <script>
+    (function initSessionLiveReload() {
+      if (typeof window.EventSource !== 'function') {
+        var badgeFallback = document.getElementById('liveStatusBadge');
+        var textFallback = document.getElementById('liveStatusText');
+        if (badgeFallback) badgeFallback.classList.add('offline');
+        if (textFallback) textFallback.textContent = 'Realtime không hỗ trợ';
+        return;
+      }
+
+      var badge = document.getElementById('liveStatusBadge');
+      var text = document.getElementById('liveStatusText');
+      var reloadTimer = null;
+      var reconnectTimer = null;
+      var stream = null;
+      var scheduleReload = function () {
+        if (reloadTimer) return;
+        if (text) text.textContent = 'Có thay đổi, đang tải lại...';
+        reloadTimer = setTimeout(function () {
+          window.location.reload();
+        }, 900);
+      };
+
+      var setLiveState = function (connected, message) {
+        if (!badge || !text) return;
+        badge.classList.toggle('offline', !connected);
+        text.textContent = message;
+      };
+
+      var connect = function () {
+        if (stream) {
+          try { stream.close(); } catch (_) {}
+        }
+
+        stream = new EventSource('/events');
+        setLiveState(true, 'Realtime SSE');
+
+        stream.addEventListener('system_notification', function (evt) {
+          try {
+            var data = JSON.parse(evt.data || '{}');
+            if (String(data.event || '') === 'user_session_update') {
+              scheduleReload();
+            }
+          } catch (_) {}
+        });
+
+        stream.onerror = function () {
+          setLiveState(false, 'Realtime đang reconnect...');
+          try { stream.close(); } catch (_) {}
+          stream = null;
+          if (reconnectTimer) return;
+          reconnectTimer = setTimeout(function () {
+            reconnectTimer = null;
+            connect();
+          }, 4000);
+        };
+      };
+
+      connect();
+
+      window.addEventListener('beforeunload', function () {
+        if (reloadTimer) clearTimeout(reloadTimer);
+        if (reconnectTimer) clearTimeout(reconnectTimer);
+        if (stream) {
+          try { stream.close(); } catch (_) {}
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

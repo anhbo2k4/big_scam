@@ -1,0 +1,166 @@
+<!-- EXCHANGE PRIZE PAGE -->
+<div id="page-exchange" class="page">
+  <div class="page-content">
+    <button class="back-btn" onclick="goBack()">← Quay lại</button>
+    <div class="page-title-row">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="currentColor" opacity="0.5"/></svg>
+      <h1 class="page-title">Đổi Quà Của Bạn</h1>
+    </div>
+
+    <div id="exchangeContainer">
+      <div class="empty-state">
+        <span class="empty-state-icon">📦</span>
+        <div class="empty-state-title">Chưa có quà để đổi</div>
+        <div class="empty-state-desc">Hãy mở hộp quà trước để nhận phần thưởng!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .exchange-section {
+    margin-top: 50px;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(34, 211, 238, 0.1));
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .exchange-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #a855f7;
+  }
+
+  .exchange-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+
+  .exchange-item {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(34, 211, 238, 0.08));
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .exchange-item:hover {
+    transform: translateY(-4px);
+    border-color: rgba(168, 85, 247, 0.5);
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(34, 211, 238, 0.15));
+    box-shadow: 0 8px 20px rgba(168, 85, 247, 0.2);
+  }
+
+  .exchange-prize-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .exchange-prize-name {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .exchange-prize-detail {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 6px;
+  }
+
+  .exchange-prize-value {
+    color: #22d3ee;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+
+  .exchange-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .btn-exchange-claim {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #22d3ee, #06b6d4);
+    color: #000;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-exchange-claim:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.4);
+  }
+
+  .btn-exchange-convert {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-exchange-convert:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+  }
+
+  .exchange-converted {
+    background: rgba(34, 211, 238, 0.1);
+    border-color: rgba(34, 211, 238, 0.3);
+    opacity: 0.7;
+  }
+
+  .exchange-status-badge {
+    display: inline-block;
+    background: rgba(34, 211, 238, 0.2);
+    color: #22d3ee;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .exchange-section {
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    .exchange-items {
+      grid-template-columns: 1fr;
+    }
+
+    .exchange-header {
+      font-size: 16px;
+    }
+  }
+</style>
+

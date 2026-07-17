@@ -1,0 +1,514 @@
+{
+  "content": {
+    "mainTitle": "Lâm Tao Bao",
+    "mainDescription": "Lâm Tao Bao",
+    "bannerText": "Hhehehe",
+    "bannerVisible": false,
+    "footerText": "",
+    "customText": "",
+    "brandName": "Lâm Tao Bao",
+    "headTitle": "Lâm Tao Bao - Mở Hộp Quà Bí Ẩn",
+    "heroTitle": "",
+    "heroSubtitle": "",
+    "loginTitle": "Nhập mã phiên chơi",
+    "loginPlaceholder": "Nhập mã phiên...",
+    "loginButton": "Bắt đầu chơi",
+    "winPopupTitle": "🎉 Chúc mừng bạn!",
+    "losePopupTitle": "😢 Chúc bạn may mắn lần sau!",
+    "thankyouTitle": "Cảm ơn bạn!",
+    "thankyouMessage": "Cảm ơn bạn đã tham gia. Chúng tôi sẽ liên hệ sớm nhất!",
+    "advancedTexts": {
+      "var p": "document.querySelector(\"#lmbMaintenanceOv p\");",
+      "p.innerHTML": "p.textContent.replace(\"manhlamstore.shop\", '<a href=\"https://manhlamstore.shop\" style=\"color:#3b82f6;text-decoration:none;font-weight:700;border-bottom:2px solid #3b82f6;transition:color 0.2s;padding-bottom:1px;\" onmouseover=\"this.style.color=\\'#60a5fa\\'\" onmouseout=\"this.style.color=\\'#3b82f6\\'\">manhlamstore.shop</a>');"
+    },
+    "heroTitleSize": "28",
+    "heroSubtitleSize": "15"
+  },
+  "features": {
+    "history": true,
+    "chat": true,
+    "twoFA": false,
+    "withdraw": true,
+    "gifts": true,
+    "enableWithdraw": true,
+    "enableGift": true,
+    "enableChat": true,
+    "showUnluckyPopup": true,
+    "allowReopenPopup": true,
+    "showCelebrationEffects": true,
+    "enablePushNotification": true,
+    "enableFloatingNotification": true,
+    "enableOnlineStatus": true,
+    "enableTypingIndicator": true,
+    "enableSoundEffects": true,
+    "enableAutoReply": true,
+    "enableMaintenanceMode": false,
+    "enablePlayerRegistration": true,
+    "enableEmailNotification": false,
+    "enableDailyLimit": false,
+    "dailyPlayLimit": 10,
+    "enableWallet": true,
+    "enableInventory": true,
+    "enableThemePicker": true,
+    "enableVisitorCounter": true,
+    "enableShareButton": true,
+    "enableCountdown": false,
+    "enableTrustScore": true,
+    "enableAnimatedBoxes": true,
+    "enableMultipleBoxOpen": true,
+    "maxBoxesPerSession": 3,
+    "enableBoxPreview": false,
+    "enableHintSystem": false,
+    "enableStreakBonus": false,
+    "streakBonusThreshold": 3,
+    "enableReferral": false,
+    "referralReward": "",
+    "enableLeaderboard": false,
+    "leaderboardSize": 10,
+    "enableAchievements": false,
+    "enableTimerChallenge": false,
+    "timerDuration": 30,
+    "enableBannerSlider": false,
+    "countdownDate": null,
+    "enableRatingSystem": true,
+    "enableConfettiEffect": true,
+    "enableRandomBoxMode": true,
+    "enableGameEventSSE": true,
+    "enableAdminBroadcast": true,
+    "enableGuestPlay": true,
+    "enableIpBan": true,
+    "enableSessionTimeout": true,
+    "sessionTimeoutMinutes": 30,
+    "enablePlayerJoinTracking": true,
+    "enableSessionHistory": true
+  },
+  "scripts": {
+    "css": "",
+    "js": ""
+  },
+  "logo": {
+    "url": "/uploads/1775524071674-photo_2026-03-03_15-00-03.jpg",
+    "height": 160,
+    "maxWidth": 100,
+    "padding": 0,
+    "alignment": "center",
+    "borderRadius": 50,
+    "shadow": "none",
+    "bgColor": "transparent",
+    "border": "none",
+    "altText": "Logo",
+    "linkUrl": "/"
+  },
+  "autoDeleteDays": 15,
+  "floatingNotification": {
+    "enabled": true,
+    "position": "left",
+    "showRecipientName": true,
+    "showPrizeName": true,
+    "displayDuration": 6000,
+    "maxVisible": 3,
+    "customMessages": [
+      {
+        "text": "🎁 {name} vừa nhận được {prize}!",
+        "icon": "",
+        "image": "/uploads/1773738470401-photo_2026-03-03_15-00-03.jpg"
+      },
+      {
+        "text": "🔥 {name} mở hộp quà và trúng {prize}!",
+        "icon": "",
+        "image": "/uploads/1773738473849-photo_2026-03-03_15-00-03.jpg"
+      },
+      {
+        "text": "🏆 Chúc mừng {name} đã săn được {prize}!",
+        "icon": "",
+        "image": "/uploads/1773738473849-photo_2026-03-03_15-00-03.jpg"
+      },
+      {
+        "text": "✨ May mắn đã mỉm cười với {name}: {prize}",
+        "icon": "",
+        "image": "/uploads/1773738473849-photo_2026-03-03_15-00-03.jpg"
+      },
+      {
+        "text": "✨ May mắn đã mỉm cười với {name}: {prize}",
+        "icon": "",
+        "image": "/uploads/1773738473849-photo_2026-03-03_15-00-03.jpg"
+      }
+    ],
+    "bgColor": "rgba(30,27,56,0.95)",
+    "textColor": "#e8e6ff",
+    "borderColor": "rgba(124,58,237,0.3)",
+    "showAvatar": true,
+    "animationType": "slideIn",
+    "showTimestamp": false,
+    "soundUrl": "",
+    "template": "🎁 {name} vừa nhận được {prize}!",
+    "visualMode": "auto",
+    "customImageUrl": "/uploads/1773585524251-photo_2026-03-03_15-00-03.jpg",
+    "customIcon": "🎁",
+    "prizePool": [
+      "Lì xì trị giá 88,888 NDT",
+      "Lì xì trị giá 3,888 USD",
+      "Lì xì trị giá 50,000,000 VND",
+      "1 cây vàng SJC 9999",
+      "Ô tô hạng sang",
+      "Xe máy SH",
+      "Điện thoại iPhone 17 Pro Max",
+      "Voucher mua sắm 20,000,000 VND",
+      "Tai nghe cao cấp",
+      "Đồng hồ thông minh"
+    ],
+    "alwaysOn": true,
+    "minIntervalMs": 1800,
+    "maxIntervalMs": 3200
+  },
+  "pushNotification": {
+    "enabled": true,
+    "title": "1 cây vàng SJC 9999 , ô tô , xe máy,  điện thoại 17 promax",
+    "icon": "1 cây vàng SJC 9999 , ô tô , xe máy,  điện thoại 17 promax",
+    "defaultMessage": "Bạn có thông báo mới!",
+    "soundEnabled": true,
+    "badge": "",
+    "requireInteraction": false,
+    "vibrate": true
+  },
+  "userNotification": {
+    "enabled": true,
+    "welcomeMessage": "Chào mừng bạn đến với Hộp quà trúng thưởng!",
+    "winMessage": "Chúc mừng {name}! Bạn đã nhận được {prize}!",
+    "withdrawMessage": "Yêu cầu rút tiền của bạn đang được xử lý.",
+    "customMessages": []
+  },
+  "appearance": {
+    "primaryColor": "#3b82f6",
+    "accentColor": "#10b981",
+    "darkMode": false,
+    "animationSpeed": "slow",
+    "borderRadius": 12,
+    "fontSize": 12,
+    "fontFamily": "Be Vietnam Pro",
+    "bgType": "aurora",
+    "bgColor1": "#0f0c29",
+    "bgColor2": "#211e3e",
+    "bgColor3": "#343465",
+    "bgImage": "",
+    "bgOverlayOpacity": 58,
+    "cardBg": "rgba(255,255,255,0.08)",
+    "cardBorderColor": "rgba(255,255,255,0.12)",
+    "navStyle": "glass",
+    "buttonStyle": "gradient",
+    "boxStyle": "default",
+    "boxGlowColor": "#fbbf24",
+    "popupStyle": "glass",
+    "navIconBoxColor": "#7c3aed",
+    "homepageTheme": "new_homepage.html",
+    "homepageThemeLabels": {
+      "new_homepage.html": "Giao diện 1",
+      "background_upgraded.html": "Giao diện 2",
+      "background.html": "Giao diện 3",
+      "background-alt.html": "Giao diện 4",
+      "background (1).html": "Giao diện 5",
+      "card_v3_purple.html": "Giao diện 6",
+      "card_v4_cyber.html": "Giao diện 7",
+      "card_v4_cyber (1).html": "Giao diện 8",
+      "card_v5_baroque.html": "Giao diện 9"
+    },
+    "playerCustomCss": "",
+    "playerCustomJs": ""
+  },
+  "chat": {
+    "headerTitle": "CSKH Mạnh Lâm TaoBao",
+    "headerSubtitle": "Helloo guys",
+    "placeholder": "Nhập tin nhắn...",
+    "welcomeText": "Xin chào! Bạn cần hỗ trợ gì?",
+    "offlineText": "Hiện tại không có nhân viên trực. Vui lòng để lại tin nhắn.",
+    "position": "right",
+    "bubbleColor": "#000000",
+    "bubbleIcon": "💬",
+    "autoGreeting": true,
+    "autoGreetingDelay": 3000,
+    "adminAvatar": "/uploads/1779980764045-avt.jpg",
+    "adminName": "CSKH Mạnh Lâm TaoBao",
+    "headerBgColor": "#0400fa",
+    "headerTextColor": "#ffffff",
+    "enableFileUpload": true,
+    "enableImageUpload": true,
+    "enableEmoji": true,
+    "maxFileSize": 5,
+    "enableReadReceipts": true,
+    "enableQuickReplies": true,
+    "quickReplies": [],
+    "iconLibrary": [
+      "💬",
+      "🎧",
+      "🛟",
+      "📞",
+      "🧑‍💻",
+      "🤝",
+      "📨",
+      "🧠",
+      "✨",
+      "🎁"
+    ],
+    "adminToastGroupEnabled": true,
+    "adminToastGroupWindowMs": 2000,
+    "adminToastSwipeDismissEnabled": true,
+    "textColor": "#ffffff",
+    "cskhBgColor": "#000000",
+    "formName": "required",
+    "formPhone": "required",
+    "formEmail": "hidden",
+    "formGameCode": "optional",
+    "filterEnabled": false,
+    "forbiddenWords": [],
+    "filterReplacement": "[Nội dung bị lọc]",
+    "scheduleEnabled": false,
+    "scheduleOpen": "08:00",
+    "scheduleClose": "22:00",
+    "scheduleTimezone": "Asia/Ho_Chi_Minh",
+    "scheduleWorkdays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "soundEnabled": true,
+    "soundSend": true,
+    "soundType": "chime",
+    "soundCustomUrl": "",
+    "widgetTheme": "light",
+    "widgetWidth": 360,
+    "widgetRadius": 16,
+    "widgetCustomCss": "",
+    "adminChatTextColor": "#f1f5f9",
+    "adminChatBgColor": "#0f172a",
+    "adminBubbleCustomerColor": "#1f2937",
+    "adminBubbleAdminColor": "#2563eb",
+    "adminTextCustomerColor": "#e2e8f0",
+    "adminTextAdminColor": "#ffffff",
+    "adminChatBgPattern": "grid",
+    "adminChatThemeKey": "messenger"
+  },
+  "seo": {
+    "pageTitle": "Mở Hộp Quà Bí Ẩn - Nhận Thưởng Hấp Dẫn",
+    "metaDescription": "Tham gia mở hộp quà bí ẩn để nhận những phần thưởng hấp dẫn. Thử vận may ngay!",
+    "favicon": "/uploads/1775524071674-photo_2026-03-03_15-00-03.jpg",
+    "ogImage": "",
+    "keywords": "hộp quà, trúng thưởng, may mắn, game"
+  },
+  "popup": {
+    "winBgColor": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    "loseBgColor": "linear-gradient(135deg, #434343 0%, #000000 100%)",
+    "showConfetti": true,
+    "confettiDuration": 3000,
+    "showPrizeImage": true,
+    "autoClose": false,
+    "autoCloseDelay": 10000,
+    "showClaimButton": true,
+    "showShareButton": false,
+    "customWinHtml": "",
+    "customLoseHtml": ""
+  },
+  "boxSettings": {
+    "totalBoxes": 3,
+    "boxSize": "medium",
+    "boxOpenAnimation": "fade",
+    "boxOpenDuration": 2000,
+    "showBoxNumber": false,
+    "boxColors": [
+      "#fbbf24",
+      "#f472b6",
+      "#34d399"
+    ],
+    "boxIcon": "🎁",
+    "openedBoxIcon": "📦",
+    "boxGlowColor": "#ff0000",
+    "enable3d": false,
+    "enableDragDrop": false,
+    "templateHtml": "",
+    "templateCss": "",
+    "templateJs": "",
+    "partLayout": {
+      "lid": {
+        "x": 0,
+        "y": 0,
+        "rotate": 0,
+        "scale": 1
+      },
+      "body": {
+        "x": 0,
+        "y": 0,
+        "rotate": 0,
+        "scale": 1
+      },
+      "ribbon": {
+        "x": 0,
+        "y": 0,
+        "rotate": 0,
+        "scale": 1
+      }
+    },
+    "partPresetLibrary": [],
+    "extraAnimations": [
+      "shake",
+      "flip",
+      "bounce",
+      "explode",
+      "fade"
+    ]
+  },
+  "security": {
+    "maxLoginAttempts": 5,
+    "lockoutDuration": 15,
+    "sessionTimeout": 60,
+    "enableCaptcha": false,
+    "enableRateLimit": true,
+    "rateLimit": 100,
+    "rateLimitWindow": 15,
+    "enableIPBlock": false,
+    "blockedIPs": [],
+    "allowedOrigins": [
+      "*"
+    ],
+    "minTrustScoreForWithdrawal": 100
+  },
+  "exchangeRates": {
+    "USD": 26000,
+    "NDT": 3800
+  },
+  "email": {
+    "enabled": false,
+    "smtpHost": "",
+    "smtpPort": 587,
+    "smtpUser": "",
+    "smtpPass": "",
+    "fromName": "Hộp Quà Trúng Thưởng",
+    "fromEmail": "",
+    "winTemplate": "",
+    "withdrawTemplate": ""
+  },
+  "social": {
+    "facebook": "",
+    "zalo": "",
+    "telegram": "",
+    "phone": "1231231213",
+    "email": "123123121312312312131231231213",
+    "website": "",
+    "showInFooter": false,
+    "showInChat": false
+  },
+  "watermark": {
+    "enabled": false,
+    "text": "ManhLamStore",
+    "imageUrl": "",
+    "type": "text",
+    "position": "bottom-right",
+    "opacity": 30,
+    "fontSize": 12,
+    "imageSize": 60,
+    "imageOpacity": 30
+  },
+  "maintenance": {
+    "enabled": false,
+    "message": "Hệ thống đã được chuyển giao sang tên miền mới là manhlamstore.shop, quý khách vui lòng truy cập đúng tên miền để mở phần quà của mình.",
+    "estimatedTime": "",
+    "allowAdmin": true
+  },
+  "modalEditor": {
+    "winPopup": {
+      "bgGradient": "",
+      "badgeText": "",
+      "thanksText": "",
+      "customCss": "",
+      "customHtml": ""
+    },
+    "celebrate": {
+      "customCss": "",
+      "customHtml": ""
+    },
+    "withdrawal": {
+      "customCss": "",
+      "customHtml": ""
+    },
+    "approvalWait": {
+      "customCss": "",
+      "customHtml": ""
+    },
+    "thankYou": {
+      "customCss": "",
+      "customHtml": ""
+    },
+    "hub": {
+      "customCss": "",
+      "customHtml": ""
+    },
+    "sessionDetail": {
+      "customCss": "",
+      "customHtml": ""
+    },
+    "claimModal": {
+      "customCss": "",
+      "customHtml": ""
+    },
+    "chatPreForm": {
+      "customCss": "",
+      "customHtml": ""
+    },
+    "lightbox": {
+      "customCss": ""
+    }
+  },
+  "i18n": {
+    "defaultLang": "vi",
+    "enableAutoDetect": true,
+    "enableLangSwitcher": true,
+    "customTranslations": {}
+  },
+  "animationPresets": {
+    "presets": [
+      {
+        "name": "shake",
+        "label": "Rung lắc",
+        "duration": 600,
+        "css": ""
+      },
+      {
+        "name": "flip",
+        "label": "Lật",
+        "duration": 800,
+        "css": ""
+      },
+      {
+        "name": "bounce",
+        "label": "Nhảy",
+        "duration": 700,
+        "css": ""
+      },
+      {
+        "name": "explode",
+        "label": "Nổ",
+        "duration": 1000,
+        "css": ""
+      },
+      {
+        "name": "fade",
+        "label": "Mờ dần",
+        "duration": 600,
+        "css": ""
+      },
+      {
+        "name": "spin3d",
+        "label": "Xoay 3D",
+        "duration": 900,
+        "css": ""
+      },
+      {
+        "name": "warp",
+        "label": "Biến dạng",
+        "duration": 800,
+        "css": ""
+      }
+    ]
+  },
+  "boxTemplateLibrary": []
+}

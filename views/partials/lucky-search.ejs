@@ -1,0 +1,29 @@
+<!-- SEARCH PAGE -->
+<div id="page-search" class="page">
+  <div class="page-content">
+    <button class="back-btn" onclick="goBack()">← Quay lại</button>
+    <div class="page-title-row">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="url(#s1)" stroke-width="2"/><path d="M21 21L16.65 16.65" stroke="url(#s1)" stroke-width="2" stroke-linecap="round"/><defs><linearGradient id="s1" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs></svg>
+      <h1 class="page-title">Tra cứu phiên chơi</h1>
+    </div>
+
+    <div class="search-box">
+      <div class="search-input-row">
+        <input type="text" class="session-input" id="searchInput" placeholder="Nhập mã phiên (VD: ABC123)" style="flex:1" />
+        <button class="btn-search" onclick="searchSession()">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/><path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Tra cứu
+        </button>
+      </div>
+      <div class="search-hint">💡 Gợi ý: Thử mã <span onclick="document.getElementById('searchInput').value='ABC123'">ABC123</span> hoặc <span onclick="document.getElementById('searchInput').value='XYZ789'">XYZ789</span></div>
+    </div>
+
+    <div id="searchResult">
+      <div class="empty-state" style="padding:60px 20px">
+        <span class="empty-state-icon" style="font-size:56px">🔍</span>
+        <div class="empty-state-title">Nhập mã phiên để tra cứu</div>
+        <div class="empty-state-desc">Bạn có thể xem lại thông tin và lịch sử của các phiên chơi trước đây</div>
+      </div>
+    </div>
+  </div>
+</div>
