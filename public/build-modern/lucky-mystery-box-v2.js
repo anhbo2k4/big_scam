@@ -9788,6 +9788,9 @@ async function initCustomerChatUI() {
     state.chat.sessionCode = localStorage.getItem(getChatSessionStorageKey()) || '';
   }
 
+  // Existing session means profile form already completed; do not show it again.
+  if (state.chat.sessionCode) state.chat.profileCompleted = true;
+
   if (!state.chat.sessionCode) {
     // Keep pre-chat form visible and wait for explicit customer submit.
     setChatReadyUI(false);
@@ -9833,10 +9836,8 @@ async function initCustomerChatUI() {
   try {
     await fetchChatMessages();
   } catch (_) {
-    setChatReadyUI(false);
-    state.chat.sessionCode = '';
-    localStorage.removeItem(getChatSessionStorageKey());
-    localStorage.removeItem(getChatUnreadStorageKey());
+    // Chat session already started; keep composer visible when message fetch fails transiently.
+    setChatReadyUI(true);
   }
   startChatSSE();
 }

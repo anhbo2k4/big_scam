@@ -10184,7 +10184,19 @@ document.getElementById('btnSaveEdit').addEventListener('click', /*#__PURE__*/_a
         closeEditModal();
         location.reload();_context2.n = 9;break;case 7:_context2.n = 8;return (
 
-          response.json());case 8:error = _context2.v;
+          response.text().then(function (text) {
+            var contentType = response.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+              try { return JSON.parse(text); } catch (_) {}
+            }
+            if (response.status === 401 || response.status === 403) {
+              return { message: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.' };
+            }
+            if (/^\s*<!DOCTYPE|^\s*<html/i.test(text)) {
+              return { message: 'Máy chủ trả về lỗi ' + response.status + '. Vui lòng thử lại.' };
+            }
+            return { message: text || 'Không thể cập nhật phiên' };
+          }));case 8:error = _context2.v;
         showNotification('Lỗi', '❌ Lỗi: ' + (error.message || 'Không thể cập nhật phiên'), 'error');case 9:_context2.n = 11;break;case 10:_context2.p = 10;_t2 = _context2.v;
 
 
@@ -11094,6 +11106,7 @@ AdminSSEManager = /*#__PURE__*/function () {"use strict";
     this._reconnectTimer = null;
     this._errorTimer = null; // delayed-banner timer
     this._streamUrl = '/api/chat/events/admin';
+    this._clientId = 'admin-tab-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
     this._fallbackTried = false;
     // Online player map: sessionCode -> { online, lastSeen }
     this.onlinePlayers = new Map();
@@ -11122,9 +11135,8 @@ AdminSSEManager = /*#__PURE__*/function () {"use strict";
       }
       try {
         var separator = this._streamUrl.includes('?') ? '&' : '?';
-        var streamUrl = this.lastEventId > 0 ? "".concat(
-          this._streamUrl).concat(separator, "lastEventId=").concat(this.lastEventId) :
-        this._streamUrl;
+        var streamUrl = "".concat(this._streamUrl).concat(separator, "clientId=").concat(encodeURIComponent(this._clientId));
+        if (this.lastEventId > 0) streamUrl += "&lastEventId=".concat(this.lastEventId);
         this.es = new EventSource(streamUrl);
 
         var withLastEventId = function withLastEventId(handler) {return function (e) {

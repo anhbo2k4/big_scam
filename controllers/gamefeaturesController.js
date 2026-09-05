@@ -87,7 +87,7 @@ async function createGameSession(req, res) {
       box_count,
       player_token: crypto.randomBytes(32).toString('hex'),
       server_random_boxes: generateServerRandomBoxes(box_count),
-      server_random_seed: crypto.randomBytes(128).toString('hex'),
+      server_random_seed: crypto.randomBytes(64).toString('hex'),
       result_hash: crypto.createHash('sha256').update(Date.now().toString()).digest('hex'),
       mystery_enabled: game_type === GAME_TYPES.MYSTERY,
       mystery_categories: mystery_categories || [],

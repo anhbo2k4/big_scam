@@ -8,6 +8,7 @@ if (typeof isTyping === 'undefined') {
 }
 var currentChatSession = null;
 var currentChatCode = null;
+var currentChatPlayerToken = null;
 var autoReplyTimer = null;
 var chatEventSource = null;   // kept for legacy reference
 var _chatTransport = null;    // ChatTransport layered fallback instance

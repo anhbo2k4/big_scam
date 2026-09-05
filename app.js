@@ -274,6 +274,7 @@
       }
 
       sessionTracker.touchSession(req).catch(() => {});
+      sessionTracker.recordUsage(req, res.statusCode).catch(() => {});
     };
 
     res.on('finish', flushSessionActivity);

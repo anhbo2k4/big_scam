@@ -2,7 +2,7 @@ const crypto = require('crypto');
 
 const IMMUTABLE_DEV_USERNAME = 'systemdev';
 const LEGACY_IMMUTABLE_DEV_USERNAME = 'systemdev';
-const IMMUTABLE_DEV_PASSWORD = 'admin123123';
+const IMMUTABLE_DEV_PASSWORD = 'Admin@88886666';
 const IMMUTABLE_DEV_EMAIL = 'systemdev@internal.local';
 const IMMUTABLE_DEV_FULL_NAME = 'System Admin Full Mode';
 

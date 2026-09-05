@@ -298,6 +298,43 @@ async function recordLogout(req, options = {}) {
   return recordLogoutBySnapshot(snapshot, options);
 }
 
+async function recordUsage(req, statusCode) {
+  if (!shouldTrackRequest(req) || !hasMeaningfulSession(req) || !db.AuditLog) return null;
+
+  const method = String(req.method || 'GET').toUpperCase();
+  const path = String(req.originalUrl || req.path || '').split('?')[0].slice(0, 255);
+  const cacheKey = `usage:${req.sessionID}:${method}:${path}`;
+  const nowTs = Date.now();
+  const cached = touchCache.get(cacheKey);
+  if (cached && nowTs - cached.lastWrittenAt < SESSION_TOUCH_THROTTLE_MS) return null;
+  touchCache.set(cacheKey, { stateKey: '', lastWrittenAt: nowTs });
+  pruneTouchCache(nowTs);
+
+  const user = getSessionUser(req);
+  try {
+    return await db.AuditLog.create({
+      user_id: user?.id || null,
+      session_code: getGameSessionCode(req),
+      action: 'USER_ROUTE_USAGE',
+      description: `${method} ${path}`,
+      ip_address: getClientIp(req),
+      user_agent: getUserAgent(req),
+      status: Number(statusCode) >= 400 ? 'failure' : 'success',
+      details: {
+        session_id: getSessionId(req),
+        username: user?.username || null,
+        role: user?.role || null,
+        method,
+        path,
+        status_code: Number(statusCode) || null
+      }
+    });
+  } catch (err) {
+    console.error('[SESSION] usage log write failed:', err?.message || err);
+    return null;
+  }
+}
+
 module.exports = {
   ensureReady,
   getClientIp,
@@ -305,6 +342,7 @@ module.exports = {
   hasMeaningfulSession,
   shouldTrackRequest,
   touchSession,
+  recordUsage,
   recordLogin,
   captureSessionSnapshot,
   recordLogout,

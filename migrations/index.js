@@ -651,6 +651,28 @@ const runMigrations = async () => {
                 console.error('Migration 049 error:', msg);
             }
         }
+        // Migration 050 — permission scopes and chat assignment metadata
+        try {
+            const migration050 = require('./050_permission_scopes_and_chat_assignment');
+            await migration050.up(db.sequelize.getQueryInterface(), db.Sequelize);
+            console.log('✅ Migration 050 completed: permission scopes and chat assignment');
+        } catch (m050Error) {
+            const msg = String(m050Error && m050Error.message || '');
+            if (!msg.includes('already exists') && !msg.includes('Duplicate') && !msg.includes('ER_DUP')) {
+                console.error('Migration 050 error:', msg);
+            }
+        }
+        // Migration 051 — permission definitions
+        try {
+            const migration051 = require('./051_seed_chat_permissions');
+            await migration051.up(db.sequelize.getQueryInterface(), db.Sequelize);
+            console.log('✅ Migration 051 completed: chat permissions');
+        } catch (m051Error) {
+            const msg = String(m051Error && m051Error.message || '');
+            if (!msg.includes('already exists') && !msg.includes('Duplicate') && !msg.includes('ER_DUP')) {
+                console.error('Migration 051 error:', msg);
+            }
+        }
     } catch (error) {
         console.error('Migration error:', error);
     }

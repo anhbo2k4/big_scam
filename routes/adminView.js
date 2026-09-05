@@ -147,7 +147,7 @@ router.get('/admin/user-sessions', authMiddleware.isAdmin, async (req, res) => {
       ];
     }
 
-    const [rows, total, activeCount, loggedOutCount, authCount, gameCount] = await Promise.all([
+    const [rows, total, activeCount, loggedOutCount, authCount, gameCount, usageRows] = await Promise.all([
       db.UserSession.findAll({
         where,
         order: [
@@ -162,7 +162,13 @@ router.get('/admin/user-sessions', authMiddleware.isAdmin, async (req, res) => {
       db.UserSession.count({ where: { ...where, status: 'active' } }),
       db.UserSession.count({ where: { ...where, status: 'logged_out' } }),
       db.UserSession.count({ where: { ...where, is_authenticated: true } }),
-      db.UserSession.count({ where: { ...where, session_type: 'game' } })
+      db.UserSession.count({ where: { ...where, session_type: 'game' } }),
+      db.AuditLog.findAll({
+        where: { action: 'USER_ROUTE_USAGE' },
+        order: [['created_at', 'DESC']],
+        limit: 100,
+        raw: true
+      })
     ]);
 
     const totalPages = Math.max(1, Math.ceil(total / limit));
@@ -181,6 +187,7 @@ router.get('/admin/user-sessions', authMiddleware.isAdmin, async (req, res) => {
       title: 'Theo Dõi Session',
       currentUser: req.session.user || null,
       rows,
+      usageRows,
       stats: {
         total,
         activeCount,
@@ -212,6 +219,7 @@ router.get('/admin/user-sessions', authMiddleware.isAdmin, async (req, res) => {
       title: 'Theo Dõi Session',
       currentUser: req.session.user || null,
       rows: [],
+      usageRows: [],
       stats: {
         total: 0,
         activeCount: 0,

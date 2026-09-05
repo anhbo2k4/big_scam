@@ -29,6 +29,35 @@ function isPrizePatchPayload(payload = {}) {
   return Object.keys(payload).some((key) => /^prize_[1-3](?:_|$)/.test(String(key || '')))
 }
 
+function sanitizeSessionUpdatePayload(body = {}) {
+  const {
+    id,
+    session_code,
+    server_random_boxes,
+    player_token,
+    server_random_seed,
+    result_hash,
+    created_at,
+    updated_at,
+    createdAt,
+    updatedAt,
+    ...payload
+  } = body
+
+  if (payload.status !== undefined) {
+    const status = String(payload.status).trim().toLowerCase()
+    if (!['active', 'inactive', 'paused'].includes(status)) {
+      const error = new Error('Trạng thái phiên không hợp lệ')
+      error.statusCode = 400
+      throw error
+    }
+    payload.status = status === 'active' ? 'active' : 'paused'
+    payload.is_active = status === 'active'
+  }
+
+  return payload
+}
+
 // Helper: Generate secure random token
 function generateSecureToken(length = 64) {
   return crypto.randomBytes(length / 2).toString('hex')
@@ -188,7 +217,7 @@ async function create(req, res) {
     payload.player_token = generateSecureToken()
     
     // ✅ NEW: Generate seed and hash for verification
-    payload.server_random_seed = generateSecureToken(256)
+    payload.server_random_seed = generateSecureToken(128)
     payload.result_hash = calculateHash(payload.server_random_seed)
 
     // Track which admin created this session
@@ -248,8 +277,8 @@ async function update(req, res) {
     const session = await GameSession.findOne({ where: { session_code: req.params.code } })
     if (!session) return res.status(404).json({ success: false, message: 'Not found' })
     
-    // Don't allow updating security fields from client
-    const { server_random_boxes, player_token, server_random_seed, result_hash, ...safePayload } = req.body
+    // Session code and server security fields are immutable after creation.
+    const safePayload = sanitizeSessionUpdatePayload(req.body)
     
     // Validate currency if provided
     if (safePayload.currency) {
@@ -294,6 +323,8 @@ async function update(req, res) {
         const sessionPrizeDescription = session[`prize_${i}_description`] || null
         const sessionPrizeIcon = session[`prize_${i}_icon`] || '🎁'
         const sessionPrizeStatus = String(session[`prize_${i}_status`] || 'NORMAL').toUpperCase()
+        // Game-session status and inventory rarity use different value sets.
+        const inventoryRarity = sessionPrizeStatus === 'VIP' ? 'legendary' : 'common'
         const sessionPrizeIsSpecial = parseBooleanLike(session[`prize_${i}_is_special`], false)
         const sessionPrizeIsCash = parseBooleanLike(session[`prize_${i}_cash`], false)
         const sessionPrizeValue = Math.max(0, Math.round(Number(session[`prize_${i}_cash_amount`] || 0)))
@@ -306,7 +337,7 @@ async function update(req, res) {
           is_special: sessionPrizeIsSpecial,
           is_cash: sessionPrizeIsCash,
           prize_value: sessionPrizeValue,
-          rarity: sessionPrizeStatus,
+          rarity: inventoryRarity,
           prize_image: sessionPrizeImage
         }
 
@@ -357,7 +388,12 @@ async function update(req, res) {
     res.json({ success: true, data: sessionData })
   } catch (err) {
     console.error(err)
-    res.status(500).json({ success: false })
+    const statusCode = err.statusCode || 500
+    res.status(statusCode).json({
+      success: false,
+      message: statusCode === 400 ? err.message : 'Update failed',
+      error: err.message
+    })
   }
 }
 
@@ -1249,7 +1285,7 @@ async function cloneSession(req, res) {
 
     cloneData.server_random_boxes = generateServerRandomBoxes(boxCount);
     cloneData.player_token = generateSecureToken();
-    cloneData.server_random_seed = generateSecureToken(256);
+    cloneData.server_random_seed = generateSecureToken(128);
     cloneData.result_hash = calculateHash(cloneData.server_random_seed);
 
     const cloned = await GameSession.create(cloneData);
@@ -1278,4 +1314,4 @@ async function cloneSession(req, res) {
   }
 }
 
-module.exports = { list, getByCode, create, update, remove, removeAll, completeSession, paginated, updateSessionWallet, approveSpecialPrize, rejectSpecialPrize, openRandomBox, updateOpeningMode, cloneSession }
+module.exports = { list, getByCode, create, update, remove, removeAll, completeSession, paginated, updateSessionWallet, approveSpecialPrize, rejectSpecialPrize, openRandomBox, updateOpeningMode, cloneSession, sanitizeSessionUpdatePayload }

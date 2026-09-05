@@ -467,6 +467,33 @@
         </div>
       <% } %>
     </div>
+
+    <div class="panel" style="margin-top:18px;">
+      <div style="padding:16px; border-bottom:1px solid var(--line);">
+        <strong>Chức năng đã dùng</strong>
+        <div class="muted small" style="margin-top:4px;">100 lượt dùng gần nhất. Không lưu mật khẩu, cookie hoặc nội dung biểu mẫu.</div>
+      </div>
+      <div class="table-wrap">
+        <% if (!usageRows || usageRows.length === 0) { %>
+          <div class="empty">Chưa có hoạt động mới.</div>
+        <% } else { %>
+          <table style="min-width:850px;">
+            <thead><tr><th>Thời gian</th><th>Người dùng</th><th>Chức năng / URL</th><th>Kết quả</th><th>IP</th></tr></thead>
+            <tbody>
+              <% usageRows.forEach((item) => { const detail = item.details || {}; %>
+                <tr>
+                  <td class="small"><%= item.created_at ? new Date(item.created_at).toLocaleString('vi-VN') : '-' %></td>
+                  <td class="small"><strong><%= detail.username || ('User #' + (item.user_id || '-')) %></strong><div class="muted"><%= detail.role || '-' %></div></td>
+                  <td class="small mono"><%= detail.method || '-' %> <%= detail.path || item.description || '-' %></td>
+                  <td class="small"><span class="chip <%= item.status === 'success' ? 'active' : 'logged_out' %>"><%= detail.status_code || item.status %></span></td>
+                  <td class="small mono"><%= item.ip_address || '-' %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </div>
   </div>
   <script>
     (function initSessionLiveReload() {

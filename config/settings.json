@@ -75,10 +75,10 @@
     "enableRandomBoxMode": true,
     "enableGameEventSSE": true,
     "enableAdminBroadcast": true,
-    "enableGuestPlay": true,
+    "enableGuestPlay": false,
     "enableIpBan": true,
     "enableSessionTimeout": true,
-    "sessionTimeoutMinutes": 30,
+    "sessionTimeoutMinutes": 10,
     "enablePlayerJoinTracking": true,
     "enableSessionHistory": true
   },
@@ -99,7 +99,7 @@
     "altText": "Logo",
     "linkUrl": "/"
   },
-  "autoDeleteDays": 15,
+  "autoDeleteDays": 10,
   "floatingNotification": {
     "enabled": true,
     "position": "left",
@@ -156,10 +156,7 @@
       "Voucher mua sắm 20,000,000 VND",
       "Tai nghe cao cấp",
       "Đồng hồ thông minh"
-    ],
-    "alwaysOn": true,
-    "minIntervalMs": 1800,
-    "maxIntervalMs": 3200
+    ]
   },
   "pushNotification": {
     "enabled": true,
@@ -322,40 +319,7 @@
     ],
     "boxIcon": "🎁",
     "openedBoxIcon": "📦",
-    "boxGlowColor": "#ff0000",
-    "enable3d": false,
-    "enableDragDrop": false,
-    "templateHtml": "",
-    "templateCss": "",
-    "templateJs": "",
-    "partLayout": {
-      "lid": {
-        "x": 0,
-        "y": 0,
-        "rotate": 0,
-        "scale": 1
-      },
-      "body": {
-        "x": 0,
-        "y": 0,
-        "rotate": 0,
-        "scale": 1
-      },
-      "ribbon": {
-        "x": 0,
-        "y": 0,
-        "rotate": 0,
-        "scale": 1
-      }
-    },
-    "partPresetLibrary": [],
-    "extraAnimations": [
-      "shake",
-      "flip",
-      "bounce",
-      "explode",
-      "fade"
-    ]
+    "boxGlowColor": "#ff0000"
   },
   "security": {
     "maxLoginAttempts": 5,
@@ -369,8 +333,7 @@
     "blockedIPs": [],
     "allowedOrigins": [
       "*"
-    ],
-    "minTrustScoreForWithdrawal": 100
+    ]
   },
   "exchangeRates": {
     "USD": 26000,
